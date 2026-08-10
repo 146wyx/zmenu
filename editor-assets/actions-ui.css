@@ -1,0 +1,471 @@
+/* ============================================================
+ * zMenu 菜单编辑器 — Actions UI 增强样式
+ * 参考 minecraft-inventory-builder.com 的视觉风格
+ * 主色：蓝紫渐变（#5865F2 → #7C3AED）、圆角卡片、柔和阴影
+ * ============================================================ */
+
+/* ---------- 1. Actions 标题 + 添加按钮 ---------- */
+.zm-actions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0 12px 0;
+  padding: 2px 2px;
+  gap: 12px;
+}
+
+.zm-actions-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 !important;
+}
+
+.zm-actions-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #5865F2 0%, #7C3AED 100%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.zm-actions-doc {
+  color: #64748b;
+  opacity: 0.8;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transition: all .18s ease;
+}
+.zm-actions-doc:hover { color: #5865F2; opacity: 1; transform: translateY(-1px); }
+
+/* "+ ADD AN ACTION" 蓝色渐变按钮 —— 参考网站风格 */
+.zm-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  background: linear-gradient(135deg, #5865F2 0%, #7C3AED 100%);
+  box-shadow: 0 2px 6px rgba(90, 79, 242, 0.3), 0 1px 2px rgba(124, 58, 237, 0.2);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  user-select: none;
+}
+.zm-add-btn:hover {
+  filter: brightness(1.06);
+  transform: none;
+  box-shadow: 0 5px 14px rgba(90, 79, 242, 0.4), 0 2px 4px rgba(124, 58, 237, 0.25);
+}
+.zm-add-btn:active { transform: none; filter: brightness(0.98); }
+.zm-add-btn:focus-visible {
+  outline: 3px solid rgba(124, 58, 237, 0.35);
+  outline-offset: 2px;
+}
+.zm-add-plus {
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  margin-top: -1px;
+  display: inline-block;
+}
+.zm-add-text { white-space: nowrap; }
+
+/* ---------- 2. TypePicker 模态/弹层 ---------- */
+.zm-popup-mask {
+  position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: zm-fadein .15s ease;
+}
+
+.zm-picker {
+  width: 100%;
+  max-width: 720px;
+  max-height: 80vh;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35), 0 2px 8px rgba(15, 23, 42, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: zm-pop .18s cubic-bezier(.2,.9,.3,1.2);
+}
+
+.zm-picker-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #5865F2 0%, #7C3AED 100%);
+  color: #fff;
+  flex-shrink: 0;
+}
+.zm-picker-title {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 15px; font-weight: 600;
+}
+.zm-picker-title-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(255,255,255,0.18);
+  font-size: 15px; font-weight: 700; line-height: 1;
+}
+.zm-picker-close {
+  background: transparent; color: #fff; border: none; cursor: pointer;
+  width: 28px; height: 28px; border-radius: 6px;
+  font-size: 22px; line-height: 1; padding: 0;
+  transition: background .15s ease;
+}
+.zm-picker-close:hover { background: rgba(255,255,255,0.18); }
+
+.zm-picker-search {
+  display: flex; align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+.zm-picker-search svg { color: #64748b; flex-shrink: 0; }
+.zm-picker-search input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  color: #1e293b;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.zm-picker-search input::placeholder { color: #94a3b8; }
+.zm-picker-search input:focus {
+  border-color: #5865F2;
+  box-shadow: 0 0 0 3px rgba(88, 101, 242, 0.18);
+}
+
+.zm-picker-grid {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 18px 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(208px, 1fr));
+  gap: 10px 12px;
+}
+.zm-picker-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 10px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.zm-picker-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px 11px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all .15s ease;
+}
+.zm-picker-card:hover,
+.zm-picker-card:focus-visible {
+  border-color: #5865F2;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(88, 101, 242, 0.18);
+  outline: none;
+}
+.zm-picker-card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 6px;
+}
+.zm-picker-card-doc {
+  color: #94a3b8;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  transition: all .15s ease;
+}
+.zm-picker-card-doc:hover { color: #5865F2; background: #eef2ff; }
+.zm-picker-card-desc {
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.5;
+  min-height: 36px;
+}
+
+.zm-picker-footer {
+  padding: 9px 18px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex; align-items: center; justify-content: flex-end;
+  flex-shrink: 0;
+}
+.zm-picker-hint { color: #64748b; font-size: 12px; }
+.zm-picker-hint b { color: #5865F2; font-weight: 700; }
+
+/* ---------- 3. 彩色 Type Pill ---------- */
+.zm-type-pill {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12), inset 0 -1px 0 rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+
+/* ---------- 4. 单条 Action 卡片增强 ---------- */
+.zm-card-enhanced {
+  position: relative;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 0 !important;
+  margin: 0 0 10px 0 !important;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.zm-card-enhanced:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.10);
+}
+.zm-card-enhanced::after { /* 清除 padding 冲突：实际内容放 side+inner */ }
+
+.zm-card-side {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: #5865F2;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+.zm-card-enhanced .zm-card-header {
+  padding: 10px 12px 8px 14px !important; /* 含 4px side + 10px padding */
+  margin: 0 !important;
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  border-bottom: 1px solid #f1f5f9;
+  gap: 8px;
+}
+
+.zm-card-collapse,
+.zm-card-collapse:hover,
+.zm-card-collapse:focus,
+.zm-card-collapse:active {
+  background: #ecfeff !important;
+  border: 1px solid #a5f3fc !important;
+  cursor: pointer;
+  color: #0891b2 !important;
+  width: 22px; height: 22px;
+  border-radius: 5px;
+  padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: all .15s ease;
+  order: -1;
+  flex-shrink: 0;
+  box-shadow: none !important;
+}
+.zm-card-collapse::before {
+  content: "⌄" !important;
+  display: block !important;
+  color: currentColor !important;
+  font: 700 22px/14px Arial, sans-serif !important;
+  line-height: 14px !important;
+  transform: translateY(-1px) rotate(0deg);
+  transform-origin: center;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), filter .2s ease;
+}
+.zm-collapse-arrow {
+  display: none !important;
+}
+.zm-card-collapse:hover::before {
+  filter: drop-shadow(0 1px 2px rgba(8, 145, 178, .35));
+}
+.zm-card-collapsed .zm-card-collapse {
+  background: #cffafe !important;
+  color: #0e7490 !important;
+  box-shadow: 0 0 0 2px rgba(165, 243, 252, .45) !important;
+}
+.zm-card-collapsed .zm-collapse-arrow {
+  display: inline-block !important;
+  visibility: visible !important;
+  color: currentColor !important;
+  transform: translateY(-1px) rotate(-90deg) scale(1.15) !important;
+  filter: drop-shadow(0 1px 2px rgba(8, 145, 178, .45));
+}
+/* 原卡片头部也可能带有 mb-* 类；折叠时必须保留展开入口。 */
+.zm-card-collapsed .zm-card-header {
+  display: flex !important;
+}
+.zm-card-collapsed .zm-card-collapse {
+  display: inline-flex !important;
+}
+.zm-card-collapsed > :not(.zm-card-side):not(.zm-card-header):not([class*="d-flex"]) {
+  display: none !important;
+}
+.zm-card-collapsed > small,
+.zm-card-collapsed > div:not(.zm-card-header),
+.zm-card-collapsed > input,
+.zm-card-collapsed > textarea,
+.zm-card-collapsed > label,
+.zm-card-collapsed .mb-1,
+.zm-card-collapsed .mb-2,
+.zm-card-collapsed .mb-3,
+.zm-card-collapsed .form-text,
+.zm-card-collapsed [class*="-input-"],
+.zm-card-collapsed small.text-muted {
+  display: none !important;
+}
+.zm-card-collapsed .zm-card-header,
+.zm-card-collapsed .zm-card-header.mb-1,
+.zm-card-collapsed .zm-card-header.mb-2,
+.zm-card-collapsed .zm-card-header.mb-3 {
+  display: flex !important;
+}
+.zm-card-collapsed .zm-card-header .zm-card-collapse {
+  display: inline-flex !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.zm-card-toolbar {
+  display: inline-flex; align-items: center; gap: 2px;
+}
+.zm-card-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  color: #64748b;
+  transition: all .15s ease;
+  padding: 0;
+}
+.zm-card-btn:hover {
+  background: #eef2ff;
+  color: #5865F2;
+  border-color: #e0e7ff;
+}
+.zm-card-btn.zm-del,
+.zm-card-btn.zm-del:hover,
+.zm-card-btn.zm-del:focus,
+.zm-card-btn.zm-del:active {
+  background: #ecfeff !important;
+  color: #0891b2 !important;
+  border-color: #a5f3fc !important;
+  box-shadow: none !important;
+}
+.zm-card-btn.zm-copy:hover {
+  background: #ecfeff;
+  color: #0891b2;
+  border-color: #a5f3fc;
+}
+.zm-card-btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+/* 卡片内部：原 description small 作为说明横幅 */
+.zm-card-enhanced small.form-text.text-muted {
+  display: block !important;
+  margin: 0 !important;
+  padding: 8px 14px 8px 16px;
+  background: #f8fafc;
+  color: #64748b !important;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 12px !important;
+}
+.zm-card-enhanced > :not(.zm-card-side):not(.zm-card-header):not(small.form-text) {
+  padding: 0 14px 14px 16px;
+}
+
+/* 字段 label 稍微放大 */
+.zm-card-enhanced label {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+}
+.zm-card-enhanced input[type="text"],
+.zm-card-enhanced input[type="number"],
+.zm-card-enhanced textarea,
+.zm-card-enhanced select {
+  border-radius: 7px;
+}
+
+/* ---------- 5. 全局 Toast ---------- */
+.zm-global-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%) translateY(20px);
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 12.5px;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: all .25s ease;
+  z-index: 99999;
+  max-width: 90vw;
+}
+.zm-global-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ---------- 6. Animation ---------- */
+@keyframes zm-fadein {
+  from { opacity: 0; } to { opacity: 1; }
+}
+@keyframes zm-pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---------- 7. 深色模式适配（如果用户系统是 dark）---------- */
+@media (prefers-color-scheme: dark) {
+  .zm-actions-title { color: #e2e8f0; }
+  .zm-picker { background: #0f172a; box-shadow: 0 20px 50px rgba(0,0,0,0.55); }
+  .zm-picker-search { background: #0b1220; border-bottom-color: #1e293b; }
+  .zm-picker-search input { background: #0b1220; border-color: #334155; color: #e2e8f0; }
+  .zm-picker-footer { background: #0b1220; border-top-color: #1e293b; }
+  .zm-picker-card { background: #0f172a; border-color: #334155; }
+  .zm-picker-card:hover, .zm-picker-card:focus-visible { border-color: #a78bfa; box-shadow: 0 8px 20px rgba(167, 139, 250, 0.25); }
+  .zm-picker-card-desc { color: #cbd5e1; }
+  .zm-card-enhanced { background: #0f172a; border-color: #334155 !important; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+  .zm-card-enhanced:hover { border-color: #6366f1 !important; }
+  .zm-card-enhanced .zm-card-header { background: linear-gradient(180deg, #0b1220 0%, #0f172a 100%); border-bottom-color: #1e293b; }
+  .zm-card-enhanced small.form-text.text-muted { background: #0b1220; color: #94a3b8 !important; border-bottom-color: #1e293b; }
+  .zm-card-btn { color: #cbd5e1; }
+}

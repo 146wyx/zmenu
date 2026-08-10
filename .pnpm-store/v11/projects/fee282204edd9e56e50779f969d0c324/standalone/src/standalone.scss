@@ -1,0 +1,23 @@
+@import "../../resources/sass/app.scss";
+
+html,
+body,
+#builder {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    background: #13132a;
+    color: #fff;
+}
+
+#builder {
+    padding: 1rem;
+}
+
+@media (max-width: 700px) {
+    #builder {
+        padding: 0.5rem;
+    }
+}

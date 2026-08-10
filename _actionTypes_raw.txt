@@ -1,0 +1,64 @@
+[{id:1,name:"COMMAND",description:"以玩家身份执行命令。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"command",data_type:"textarea",description:"要执行的命令（每行一条）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"command_in_chat",data_type:"bool",description:"是否通过玩家聊天栏发送命令（假命令需启用）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:2,name:"CONSOLE_COMMAND",description:"以控制台身份执行命令。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"command",data_type:"textarea",description:"要执行的命令（每行一条）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:3,name:"MESSAGE",description:"向玩家发送消息。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"message",data_type:"textarea",description:"要发送的消息（每行一条）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"mini_message",data_type:"bool",description:"是否启用 MiniMessage 格式（默认 true）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:4,name:"BROADCAST",description:"向所有玩家广播消息。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"message",data_type:"textarea",description:"要广播的消息（每行一条）。可用占位符 %sender%、%receiver%。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"mini_message",data_type:"bool",description:"是否启用 MiniMessage 格式（默认 true）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:5,name:"CLOSE",description:"关闭当前菜单。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[]}
+{id:6,name:"SOUND",description:"播放声音。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"sound",data_type:"string",description:"声音名称（XSound）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"volume",data_type:"float",description:"音量（默认 1.0）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"pitch",data_type:"float",description:"音调（0-2，默认 1.0）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:7,name:"TELEPORT",description:"传送玩家到指定位置。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"world",data_type:"string",description:"世界名称。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"x",data_type:"float",description:"X 坐标。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"y",data_type:"float",description:"Y 坐标。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"z",data_type:"float",description:"Z 坐标。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"yaw",data_type:"float",description:"水平旋转角度（yaw）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"pitch",data_type:"float",description:"垂直俯仰角度（pitch）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:8,name:"OPEN_URL",description:"打开一个 URL 链接。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"url",data_type:"string",description:"要打开的 URL。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:9,name:"RANDOM_PLAYER_COMMAND",description:"从列表中随机以玩家身份执行命令（zMenu+）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"command",data_type:"textarea",description:"候选命令池（每行一条，随机抽取）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"amount",data_type:"integer",description:"每次随机抽取的数量（默认 1）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"command_in_chat",data_type:"bool",description:"是否通过聊天栏发送命令。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:10,name:"RANDOM_CONSOLE_COMMAND",description:"从列表中随机以控制台身份执行命令（zMenu+）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"command",data_type:"textarea",description:"候选命令池（每行一条，随机抽取）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"amount",data_type:"integer",description:"每次随机抽取的数量（默认 1）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:11,name:"PLAYER_COMMAND_AS_OP",description:"以 OP 管理员身份为玩家执行命令。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"command",data_type:"textarea",description:"要执行的命令（每行一条）。⚠️ 请谨慎使用。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:12,name:"CHAT",description:"以玩家名义发送聊天消息。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"message",data_type:"textarea",description:"要发送的聊天内容（每行一条）。支持占位符与颜色。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"mini_message",data_type:"bool",description:"是否启用 MiniMessage 格式（默认 true）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:13,name:"INVENTORY",description:"打开另一个菜单。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"inventory",data_type:"string",description:"要打开的菜单名称（文件名不含 .yml）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"plugin",data_type:"string",description:"菜单所属的插件名（跨插件打开时填写）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"page",data_type:"integer",description:"打开菜单的目标页码（默认 1）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"arguments",data_type:"textarea",description:"传递给目标菜单的参数列表，每行一个。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:14,name:"CONNECT",description:"将玩家传送到 BungeeCord/Velocity 子服。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"server",data_type:"string",description:"目标子服务器名称。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:15,name:"BROADCAST_SOUND",description:"向所有在线玩家播放声音。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"sound",data_type:"string",description:"声音名称（XSound）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"volume",data_type:"float",description:"音量（默认 1.0）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"pitch",data_type:"float",description:"音调（0-2，默认 1.0）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:16,name:"DATA",description:"更新玩家持久化数据（Player Data）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"action",data_type:"string",description:"数据操作类型：SET / REMOVE / ADD / SUBTRACT。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"key",data_type:"string",description:"数据键名（用于 %zmenu_data_<key>% 占位符）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"value",data_type:"string",description:"数据值（ADD/SUBTRACT 时 math=true 可写表达式）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"seconds",data_type:"integer",description:"过期时间（秒，0 为永久，默认 0）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"math",data_type:"bool",description:"ADD/SUBTRACT 时是否启用数学表达式（默认 false）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:17,name:"REFRESH",description:"刷新当前按钮（仅在点击需求中有效）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[]}
+{id:18,name:"REFRESH_INVENTORY",description:"刷新整个当前打开的菜单。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[]}
+{id:19,name:"BACK",description:"返回到上一个菜单。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[]}
+{id:20,name:"SHOPKEEPER",description:"打开 Shopkeepers 插件的交易界面。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"name",data_type:"string",description:"Shopkeeper 商人名称。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:21,name:"BOOK",description:"给玩家打开一本可翻页的成书。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"author",data_type:"string",description:"书本作者名称。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"title",data_type:"string",description:"书本标题。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"lines",data_type:"textarea",description:"书本内容（JSON 格式，按页码：{\"1\":[\"line1\",\"line2\"],\"2\":[...]}）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:22,name:"ACTIONBAR",description:"向玩家发送 ActionBar 动作栏消息。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"message",data_type:"string",description:"ActionBar 消息内容（支持占位符/颜色/MiniMessage）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"minimessage",data_type:"bool",description:"是否启用 MiniMessage 格式（默认 true）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:23,name:"WITHDRAW",description:"从玩家账户扣除货币（经济）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"amount",data_type:"float",description:"扣除金额。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"currency",data_type:"string",description:"货币名称（多货币插件需要）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"economy",data_type:"string",description:"经济插件标识（zEssentials/CoinsEngine/EcoBits 需填写）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:24,name:"DEPOSIT",description:"向玩家账户存入货币（经济）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"amount",data_type:"float",description:"存入金额。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"currency",data_type:"string",description:"货币名称（多货币插件需要）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"economy",data_type:"string",description:"经济插件标识（zEssentials/CoinsEngine/EcoBits 需填写）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:25,name:"TITLE",description:"向玩家发送大标题/副标题。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"title",data_type:"string",description:"主标题内容。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"subtitle",data_type:"string",description:"副标题内容。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"start",data_type:"integer",description:"淡入时长（毫秒，默认 500）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"duration",data_type:"integer",description:"持续时长（毫秒，默认 3500）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"end",data_type:"integer",description:"淡出时长（毫秒，默认 500）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}
+{id:26,name:"DISCORD",description:"发送 Discord Webhook 消息。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",contents:[{key:"webhook",data_type:"string",description:"Discord Webhook URL。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"message",data_type:"textarea",description:"纯文本消息内容。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"username",data_type:"string",description:"可选：自定义发送者用户名。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"avatar",data_type:"string",description:"可选：自定义头像 URL。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}
+{key:"embeds",data_type:"textarea",description:"可选：Embed JSON 数组（复杂嵌入）。",documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/actions"}]}]
