@@ -1,0 +1,11 @@
+# pnpm 包缓存（不作为项目内容提交）
+.pnpm-store/
+node_modules/
+
+# 备份文件
+editor-assets/*.backup_*
+images/*.backup_*
+
+# 系统文件
+.DS_Store
+Thumbs.db

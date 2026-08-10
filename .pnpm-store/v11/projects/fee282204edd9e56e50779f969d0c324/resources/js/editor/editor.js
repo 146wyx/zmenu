@@ -1,5 +1,0 @@
-import './sceditor'
-import './bbcode'
-import './material'
-import './fr'
-import './undo'
