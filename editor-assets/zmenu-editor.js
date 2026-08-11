@@ -46056,6 +46056,13 @@ ${s.comment}`:s.comment
       }
     }
   },
+  zmenuUniqueItems=i=>{
+    const r=new Set;
+    return i.filter(s=>{
+      const c=String(s.material||s.css||s.name||"").trim().toUpperCase();
+      return!!c&&!r.has(c)&&(r.add(c),!0)
+    })
+  },
   dT=async()=>Wg||Ug||(Ug=fetch("./new/items.txt").then(i=>i.ok?i.json():null).then(i=>{
     const r=lT.length>0?lT:RO.map(s=>`icon-minecraft-${s.toLowerCase().replaceAll("_","-")}`),
     s=new Map(r.map((c,
@@ -46063,8 +46070,8 @@ ${s.comment}`:s.comment
     DO(c,
     d)])),
     c=Array.isArray(i==null?void 0:i.items)?i.items.filter(d=>s.delete(d.css)):[];
-    return Wg=c.length?[...c,
-    ...s.values()]:r.map(DO)
+    return Wg=zmenuUniqueItems(c.length?[...c,
+    ...s.values()]:r.map(DO))
   }).catch(()=>Wg=(lT.length>0?lT:RO.map(r=>`icon-minecraft-${r.toLowerCase().replaceAll("_","-")}`)).map(DO)),
   Ug),
   Ak=i=>({
@@ -55479,10 +55486,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     },
     S=()=>{
       if(m==null||m.length===0)return d!==""?s.filter(T=>T.version.minecraft_version<=d):s;
-      const x=s.filter(T=>T.name.toLowerCase().includes(m.toLowerCase())||(T.chinese_name&&T.chinese_name.includes(m)));
-      return x.sort((T,
-      O)=>T.name.localeCompare(O.name)),
-      d!==""?x.filter(T=>T.version.minecraft_version<=d):x
+      const x=m.trim().toLowerCase().replace(/[-_\s:]+/g,""),
+      T=s.filter(O=>[O.name,O.chinese_name,O.material,O.old_material,O.minecraft_id,O.css,O.material&&`minecraft:${O.material.toLowerCase()}`].some(P=>String(P??"").toLowerCase().replace(/[-_\s:]+/g,"").includes(x)));
+      return d!==""?T.filter(O=>O.version.minecraft_version<=d):T
     };
     return R.jsxs("div",
     {

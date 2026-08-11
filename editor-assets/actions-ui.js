@@ -279,6 +279,11 @@
   function buildActionsHeader(count, origSelect, origAddBtn, actionNames) {
     const header = document.createElement('div');
     header.className = 'zm-actions-header';
+    const refreshAddedActionCards = () => {
+      [0, 120, 420].forEach(delay => setTimeout(() => {
+        document.dispatchEvent(new CustomEvent('zmenu-actions-refresh'));
+      }, delay));
+    };
 
     const pickAction = (typeName) => {
       // 1) 在原 select 中选择对应 value（用 React 受控组件兼容方案）
@@ -313,11 +318,13 @@
               origAddBtn.removeAttribute('aria-disabled');
               origAddBtn.click();
               origAddBtn.disabled = saveDisabled;
+              refreshAddedActionCards();
             } catch (e) {}
           }
           return;
         }
         origAddBtn.click();
+        refreshAddedActionCards();
       };
       setTimeout(tryClick, 20);
     };
@@ -345,11 +352,11 @@
 
   // ---------- 改造单个 action 卡片 ----------
   function enhanceActionCard(card, index, allCards) {
-    if (card.classList.contains('zm-card-enhanced')) return;
     card.classList.add('zm-card-enhanced');
 
     const strong = $('strong', card);
-    const typeName = strong ? strong.textContent.trim() : ('ACTION_' + (index+1));
+    const existingPill = $('.zm-type-pill', card);
+    const typeName = strong ? strong.textContent.trim() : (existingPill ? existingPill.textContent.trim() : ('ACTION_' + (index+1)));
     const color = colorOf(typeName);
 
     // 原有的删除按钮
@@ -366,21 +373,26 @@
         pill.style.background = color;
         pill.textContent = typeName;
         strong.replaceWith(pill);
+      }
 
+      // 折叠按钮可能在 React 重渲染时被替换，需要按需重新挂回。
+      if (!header.querySelector('.zm-card-collapse')) {
         // 折叠按钮
         const collapse = document.createElement('button');
         collapse.type = 'button';
         collapse.className = 'zm-card-collapse';
-        collapse.title = '折叠/展开';
-        collapse.setAttribute('aria-label', '折叠/展开');
-        collapse.setAttribute('aria-expanded', 'true');
-        collapse.innerHTML = `<span class="zm-collapse-arrow" aria-hidden="true">⌄</span>`;
+        collapse.innerHTML = '';
+        const setCollapsed = (collapsed) => {
+          card.classList.toggle('zm-card-collapsed', collapsed);
+          collapse.title = collapsed ? '展开操作' : '折叠操作';
+          collapse.setAttribute('aria-label', collapse.title);
+          collapse.setAttribute('aria-expanded', String(!collapsed));
+        };
+        setCollapsed(card.classList.contains('zm-card-collapsed'));
         collapse.addEventListener('click', (event) => {
           event.preventDefault();
           event.stopPropagation();
-          const collapsed = card.classList.toggle('zm-card-collapsed');
-          collapse.classList.toggle('zm-card-collapsed', collapsed);
-          collapse.setAttribute('aria-expanded', String(!collapsed));
+          setCollapsed(!card.classList.contains('zm-card-collapsed'));
         });
         header.insertBefore(collapse, header.firstChild);
       }
@@ -582,6 +594,8 @@
       }, 60);
     }
     refreshCards();
+    const onActionsRefresh = () => refreshCards();
+    document.addEventListener('zmenu-actions-refresh', onActionsRefresh);
 
     // 全局接 zm-pick-action（duplicateCard 派发）
     const onPickAction = (e) => {
@@ -600,16 +614,20 @@
     };
     document.addEventListener('zm-pick-action', onPickAction);
 
-    // 观察子节点变化（添加/删除 action 后再做 refresh）
-    // 仅观察 cardContainer 直接 children，不做 subtree，避免 enhance/renderHeader 内部改动再次触发
+    // 观察 Action 卡片内部的 React 重渲染。增强逻辑是幂等的，只会补回缺失控件。
     let _moTimer = null;
-    const mo = new MutationObserver(() => {
+    const mo = new MutationObserver((records) => {
+      const needsRefresh = records.some(record => Array.from(record.addedNodes).concat(Array.from(record.removedNodes)).some(node => {
+        if (node.nodeType !== 1) return false;
+        return node.matches('strong, .zm-card-collapse, .zm-card-toolbar')
+          || Boolean(node.querySelector('strong, .zm-card-collapse, .zm-card-toolbar'));
+      }));
+      if (!needsRefresh) return;
       if (_moTimer) clearTimeout(_moTimer);
       _moTimer = setTimeout(() => { _moTimer = null; refreshCards(); }, 80);
     });
     const cardContainer = getCardContainer();
-    try { mo.observe(cardContainer, { childList: true, subtree: false }); } catch(e) {}
-    // 不再对外层 actionsContainer 做 subtree:true 观察，避免 renderHeader 造成无限循环。
+    try { mo.observe(cardContainer, { childList: true, subtree: true }); } catch(e) {}
 
     // 观察：当选中某个按钮切换，整页的右侧面板会重建（actionsContainer 失效），需要再接管。
     // 用轮询检查（每 350ms），比 subtree:true 的 MutationObserver 更安全，不会因高频 DOM 改动而卡死。
@@ -620,8 +638,13 @@
         _pollStopped = true;
         mo.disconnect();
         document.removeEventListener('zm-pick-action', onPickAction);
+        document.removeEventListener('zmenu-actions-refresh', onActionsRefresh);
         setTimeout(main, 300);
         return;
+      }
+      const cards = getCardContainer().querySelectorAll(':scope > div.border');
+      if (Array.from(cards).some(card => !card.querySelector('.zm-card-collapse, .zm-card-toolbar'))) {
+        refreshCards();
       }
       setTimeout(pollContainer, 350);
     }
