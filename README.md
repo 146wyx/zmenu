@@ -55,6 +55,18 @@ python -m http.server 8765
 npx http-server -p 8765
 ```
 
+## Android 浏览器
+
+界面已针对窄屏与触控操作适配。手机访问时请通过 HTTP 或 HTTPS 提供页面，不建议直接使用 `file://` 打开。
+
+在与电脑同一局域网时，可在电脑上执行：
+
+```powershell
+python -m http.server 8765 --bind 0.0.0.0
+```
+
+然后在 Android 浏览器中访问 `http://<电脑局域网 IP>:8765/index.html`。首次访问时请允许 Windows 防火墙放行该端口；部署到网站时建议使用 HTTPS。
+
 ## 物品数据来源
 
 - 物品排序与版本信息来自 `new/items.txt`
