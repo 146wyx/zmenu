@@ -441,31 +441,22 @@
     });
   }
 
-  // 移动卡片（模拟 DOM 重排，并通过删除+重新添加的方式让 React 感知？实际上更安全的是保持 DOM 顺序，并通过复制 values 再依次 remove/add 模拟 React state 重排。
-  // 由于我们无法直接操作 React state，这里仅做视觉上的 DOM 重排；但导出时会依赖 React 内部 state。
-  // 更稳妥的方案：在 moveCard/duplicateCard 中不改变 React state，只改视觉（也方便用户预览），然后提供一个提示。
+  // 排序与复制必须由 React 状态层完成，避免显示顺序和 YAML 导出顺序分离。
   function moveCard(index, delta) {
     const cards = $$('.zm-card-enhanced');
     const newIdx = index + delta;
     if (newIdx < 0 || newIdx >= cards.length) return;
-    const a = cards[index], b = cards[newIdx];
-    const parent = a.parentNode;
-    if (delta < 0) parent.insertBefore(a, b);
-    else parent.insertBefore(b, a);
-    // 提示：视觉已重排，最终顺序以 React 内部 state 为准（删除按钮关联的是内部 state 下标，视觉顺序与内部 state 不再一一对应，但大多数情况导出时顺序会按内部 state。由于不能直接改 state，我们在页面底部放一个说明）
+    document.dispatchEvent(new CustomEvent('zmenu-actions-change', {
+      detail: { operation: 'move', index, toIndex: newIdx }
+    }));
     showToastReflow();
   }
 
   function duplicateCard(card, index) {
-    // 从卡片的表单里读出当前类型和所有字段值
-    const pill = $('.zm-type-pill', card);
-    const type = pill ? pill.textContent : '';
-    if (!type) return;
-    // 通过 picker 添加一次（相同类型）
-    const origSelect = $('.zm-original-select-ref');
-    if (!origSelect) return;
-    const pickEvent = new CustomEvent('zm-pick-action', { detail: { type } });
-    document.dispatchEvent(pickEvent);
+    document.dispatchEvent(new CustomEvent('zmenu-actions-change', {
+      detail: { operation: 'duplicate', index }
+    }));
+    showToastReflow();
   }
 
   let toastTimer = null;
@@ -474,7 +465,7 @@
     if (!t) {
       t = document.createElement('div');
       t.className = 'zm-global-toast';
-      t.textContent = '提示：顺序 / 复制已更新视觉显示。最终导出顺序与内容仍由编辑器内部状态管理（删除按钮会按内部状态正确删除）。';
+      t.textContent = '操作已更新，导出 YAML 将使用当前显示的顺序和内容。';
       document.body.appendChild(t);
     }
     t.classList.add('show');
@@ -593,7 +584,7 @@
     refreshCards();
 
     // 全局接 zm-pick-action（duplicateCard 派发）
-    document.addEventListener('zm-pick-action', (e) => {
+    const onPickAction = (e) => {
       const type = (e.detail || {}).type;
       if (!type) return;
       setReactSelect(selectEl, type);
@@ -606,7 +597,8 @@
         } catch (err) {}
       };
       setTimeout(tryClick, 20);
-    });
+    };
+    document.addEventListener('zm-pick-action', onPickAction);
 
     // 观察子节点变化（添加/删除 action 后再做 refresh）
     // 仅观察 cardContainer 直接 children，不做 subtree，避免 enhance/renderHeader 内部改动再次触发
@@ -625,6 +617,9 @@
     function pollContainer() {
       if (_pollStopped) return;
       if (!document.body.contains(actionsContainer) || !document.body.contains(selectEl)) {
+        _pollStopped = true;
+        mo.disconnect();
+        document.removeEventListener('zm-pick-action', onPickAction);
         setTimeout(main, 300);
         return;
       }
