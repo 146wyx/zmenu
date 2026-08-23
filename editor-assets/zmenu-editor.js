@@ -63372,7 +63372,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           }),
           R.jsx("div",
           {
-            className:"resizer-x"
+            className:"bv2-right-panel__resize"
           }),
           R.jsx(sB,
           {
