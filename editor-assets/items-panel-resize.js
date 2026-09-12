@@ -2,11 +2,12 @@
 (() => {
   "use strict";
 
-  const STORAGE_KEY = "zmenu-items-panel-width";
+  const STORAGE_KEY = "zmenu-items-panel-width-v2";
   const COLLAPSED_STORAGE_KEY = "zmenu-items-panel-collapsed";
-  const MIN_WIDTH = 220;
-  const MAX_WIDTH = 520;
-  const MIN_EDITOR_WIDTH = 360;
+  const DEFAULT_WIDTH = 450;
+  const MIN_WIDTH = 180;
+  const MAX_WIDTH = 450;
+  const MIN_EDITOR_WIDTH = 470;
   const desktopMedia = window.matchMedia("(min-width: 721px)");
 
   const readSavedWidth = () => {
@@ -68,31 +69,41 @@
     handle.setAttribute("aria-label", "Resize item panel");
     handle.setAttribute("aria-orientation", "vertical");
     handle.tabIndex = 0;
-    panel.insertAdjacentElement("afterend", handle);
+    // Keep the resize handle over the panel edge so it does not consume a
+    // separate flex column between the item picker and the editor stage.
+    panel.append(handle);
     panel.dataset.resizeReady = "true";
 
     const collapseButton = document.createElement("button");
     collapseButton.type = "button";
     collapseButton.className = "workspace-collapse-btn workspace-collapse-btn-left";
-    collapseButton.setAttribute("aria-controls", "zmenu-items-panel");
     panel.id = "zmenu-items-panel";
-    handle.append(collapseButton);
+    collapseButton.setAttribute("aria-controls", panel.id);
+    editor.prepend(collapseButton);
 
     const setCollapsed = (collapsed, persist = true) => {
       const isCollapsed = Boolean(collapsed) && desktopMedia.matches;
       container.classList.toggle("bv2-items-panel-collapsed", isCollapsed);
+      collapseButton.classList.toggle("is-collapsed", isCollapsed);
       collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
-      collapseButton.setAttribute("aria-label", isCollapsed ? "Show item panel" : "Hide item panel");
-      collapseButton.title = isCollapsed ? "Show item panel" : "Hide item panel";
+      const label = isCollapsed ? "Open items panel" : "Close items panel";
+      collapseButton.setAttribute("aria-label", label);
+      collapseButton.title = label;
       collapseButton.innerHTML = isCollapsed
-        ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>'
-        : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m10 3-5 5 5 5"/></svg>';
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       if (persist) saveCollapsed(isCollapsed);
     };
 
-    const savedWidth = readSavedWidth();
-    if (savedWidth !== null && desktopMedia.matches) {
-      applyWidth(panel, container, savedWidth);
+    if (desktopMedia.matches) {
+      applyWidth(panel, container, readSavedWidth() ?? DEFAULT_WIDTH);
+      // The editor is rendered dynamically. Re-apply after its flex layout
+      // settles so the first measurement cannot clamp the panel to 180px.
+      window.requestAnimationFrame(() => {
+        if (desktopMedia.matches) {
+          applyWidth(panel, container, readSavedWidth() ?? DEFAULT_WIDTH);
+        }
+      });
     }
     setCollapsed(readCollapsed(), false);
 
@@ -120,10 +131,6 @@
       startWidth = panel.getBoundingClientRect().width;
       handle.setPointerCapture(pointerId);
       document.body.classList.add("bv2-items-resizing");
-    });
-
-    collapseButton.addEventListener("pointerdown", event => {
-      event.stopPropagation();
     });
 
     collapseButton.addEventListener("click", event => {
@@ -162,7 +169,7 @@
 
     desktopMedia.addEventListener("change", event => {
       if (event.matches) {
-        applyWidth(panel, container, readSavedWidth() ?? panel.getBoundingClientRect().width);
+        applyWidth(panel, container, readSavedWidth() ?? DEFAULT_WIDTH);
         setCollapsed(readCollapsed(), false);
       } else {
         panel.style.removeProperty("flex-basis");

@@ -40958,122 +40958,94 @@ ${s.comment}`:s.comment
     minecraft_version:i,
     version:i
   })),
-  Lk=[{
-    id:1,
-    name:"NONE",
-    description:"默认 zMenu 按钮，不附带任何特殊跳转行为。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/none",
-    contents:[]
-  },
-  {
-    id:2,
-    name:"COMMAND",
-    description:"点击后以玩家身份执行按钮绑定的命令（传统模式）。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons#commands",
-    contents:[]
-  },
-  {
-    id:3,
-    name:"CONSOLE_COMMAND",
-    description:"点击后以控制台身份执行按钮绑定的命令（传统模式）。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons#consolecommands",
-    contents:[]
-  },
-  {
-    id:4,
-    name:"INVENTORY",
-    description:"点击后打开另一个 zMenu 菜单。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/inventory",
-    contents:[{
-      key:"inventory",
-      data_type:"string",
-      description:"目标菜单的文件名（不含 .yml）。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/inventory"
-    },
-    {
-      key:"plugin",
-      data_type:"string",
-      description:"跨插件打开时指定插件名称。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/inventory"
-    },
-    {
-      key:"arguments",
-      data_type:"textarea",
-      description:"传给目标菜单的参数占位符列表，每行一个。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/inventory"
-    },
-    {
-      key:"to_page",
-      data_type:"integer",
-      description:"直接打开到目标菜单的某一页。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/inventory"
-    }]
-  },
-  {
-    id:5,
-    name:"BACK",
-    description:"返回到上一次打开的菜单。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/back",
-    contents:[]
-  },
-  {
-    id:6,
-    name:"HOME",
-    description:"直接返回到第一个打开的主菜单（mainMenu 配置）。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/home",
-    contents:[]
-  },
-  {
-    id:7,
-    name:"NEXT",
-    description:"在分页菜单中前往下一页。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/next",
-    contents:[]
-  },
-  {
-    id:8,
-    name:"PREVIOUS",
-    description:"在分页菜单中返回上一页。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/previous",
-    contents:[]
-  },
-  {
-    id:9,
-    name:"MAINMENU",
-    description:"跳转到配置的主菜单（MAIN_MENU 别名）。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/mainmenu",
-    contents:[]
-  },
-  {
-    id:10,
-    name:"JUMP",
-    description:"跳转到当前菜单指定的页码。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/jump",
-    contents:[{
-      key:"to_page",
-      data_type:"integer",
-      description:"要跳转的目标页码。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/jump"
-    }]
-  },
-  {
-    id:11,
-    name:"SWITCH",
-    description:"根据占位符结果切换显示不同按钮状态。",
-    documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/switch",
-    contents:[{
-      key:"cases",
-      data_type:"textarea",
-      description:"分支映射 JSON：{\"占位符值\":{\"material\":\"\",\"name\":\"\"},...}。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/switch"
-    },
-    {
-      key:"placeholder",
-      data_type:"string",
-      description:"用于判断的占位符表达式。",
-      documentation_url:"https://docs.groupez.dev/zmenu/configurations/buttons/types/switch"
-    }]
-  }],
+  zmenuButtonTypeRows=[
+    [1,"None","zMenu","default button",[],[],["default"]],
+    [2,"Inventory","zMenu","Opens a new inventory",[["plugin","string","Name of the plugin from where the inventory comes from."],["inventory","string","Name of the inventory you want to open."],["to_page","number","Number of the page you want to open. Default will be 1."],["arguments","array","List of arguments you can add.","tags"]],[],["default"]],
+    [3,"Back","zMenu","Allows you to return to the previous inventory.",[],[],["default"]],
+    [4,"Home","zMenu","Allows you to return to the main inventory, the one that was opened first.",[],[],["default"]],
+    [5,"Next","zMenu","Allows you to go to the next page if it exists. You can use the else element to display another button if there is no next page.",[],[],["default"]],
+    [6,"Previous","zMenu","Allows you to go to the previous page if it exists. You can use the else element to display another button if there is no previous page.",[],[],["default"]],
+    [7,"MainMenu","zMenu","Allows you to returns to the main inventory you chose in the config.json",[],[],["default"]],
+    [8,"Jump","zMenu","Allows to change page, to a predefined page.",[["to_page","number","Target page number."]],[],["default"]],
+    [9,"Switch","zMenu","Displays a different button depending on a placeholder value (key + buttons map).",[],[],["default"]],
+    [10,"Pagination","zMenu","Displays static paginated content across pages (slots + elements). zMenu+.",[],[],["default"]],
+    [11,"Dynamic_Pagination","zMenu","Displays dynamically generated paginated content from a source. zMenu+.",[],[],["default"]],
+    [12,"Input","zMenu","Captures chat input from the player (inputType, conditions, success/error actions). zMenu+.",[],[],["default"]],
+    [13,"ZAUCTIONHOUSE_ADMIN_EXPIRED_ITEMS","zAuctionHouse","Admin Expired Items button provided by zAuctionHouse V4.",[],[],["loaded"]],
+    [14,"ZAUCTIONHOUSE_ADMIN_HISTORY_EXPIRED","zAuctionHouse","Admin History Expired button provided by zAuctionHouse V4.",[],[["target","Selected target player","Player"],["expired-items","Expired item count","0"]],["default"]],
+    [15,"ZAUCTIONHOUSE_ADMIN_HISTORY_LOGS","zAuctionHouse","Admin History Logs button provided by zAuctionHouse V4.",[],[["target","Selected target player","Player"]],["default"]],
+    [16,"ZAUCTIONHOUSE_ADMIN_HISTORY_MAIN","zAuctionHouse","Admin History Main button provided by zAuctionHouse V4.",[],[["target","Selected target player","Player"]],["default"]],
+    [17,"ZAUCTIONHOUSE_ADMIN_HISTORY_PURCHASED","zAuctionHouse","Admin History Purchased button provided by zAuctionHouse V4.",[],[["target","Selected target player","Player"],["purchased-items","Purchased item count","0"]],["default"]],
+    [18,"ZAUCTIONHOUSE_ADMIN_HISTORY_SELLING","zAuctionHouse","Admin History Selling button provided by zAuctionHouse V4.",[],[["target","Selected target player","Player"],["selling-items","Selling item count","0"]],["default"]],
+    [19,"ZAUCTIONHOUSE_ADMIN_HISTORY_TRANSACTIONS","zAuctionHouse","Admin History Transactions button provided by zAuctionHouse V4.",[],[["target","Selected target player","Player"]],["default"]],
+    [20,"ZAUCTIONHOUSE_ADMIN_LOGS","zAuctionHouse","Admin Logs button provided by zAuctionHouse V4.",[["loading-slot","integer","Loading indicator slot"]],[["type","Log type","Sale"],["player","Actor","Player"],["target","Target player","N/A"],["price","Formatted price","0"],["date","Log date","Now"],["item_id","Auction item id","0"]],["loading","loaded"]],
+    [21,"ZAUCTIONHOUSE_ADMIN_LOGS_FILTER_DATE","zAuctionHouse","Admin Logs Filter Date button provided by zAuctionHouse V4.",[["enable-text","string","Selected date format"],["disable-text","string","Unselected date format"],["filters","array","Allowed values","multi-select"],["filter-names","map","Display name overrides","map"]],[["{date_filter}","One placeholder for every configured date filter",""]],["default"]],
+    [22,"ZAUCTIONHOUSE_ADMIN_LOGS_FILTER_TYPE","zAuctionHouse","Admin Logs Filter Type button provided by zAuctionHouse V4.",[["enable-text","string","Selected type format"],["disable-text","string","Unselected type format"],["all-types-name","string","Display name for the unfiltered state"],["types","array","Allowed values","multi-select"],["type-names","map","Display name overrides","map"]],[["ALL","All log types state","All"],["{log_type}","One placeholder per log type",""]],["default"]],
+    [23,"ZAUCTIONHOUSE_ADMIN_PURCHASED_ITEMS","zAuctionHouse","Admin Purchased Items button provided by zAuctionHouse V4.",[],[],["loaded"]],
+    [24,"ZAUCTIONHOUSE_ADMIN_SELLING_ITEMS","zAuctionHouse","Admin Selling Items button provided by zAuctionHouse V4.",[],[],["loaded"]],
+    [25,"ZAUCTIONHOUSE_ADMIN_TRANSACTIONS","zAuctionHouse","Admin Transactions button provided by zAuctionHouse V4.",[["loading-slot","integer","Loading indicator slot"]],[],["loading","loaded"]],
+    [26,"ZAUCTIONHOUSE_ADMIN_TRANSACTIONS_FILTER_DATE","zAuctionHouse","Admin Transactions Filter Date button provided by zAuctionHouse V4.",[["enable-text","string","Selected date format"],["disable-text","string","Unselected date format"],["filters","array","Allowed values","multi-select"],["filter-names","map","Display name overrides","map"]],[["{date_filter}","One placeholder for every configured date filter",""]],["default"]],
+    [27,"ZAUCTIONHOUSE_ADMIN_TRANSACTIONS_FILTER_STATUS","zAuctionHouse","Admin Transactions Filter Status button provided by zAuctionHouse V4.",[["enable-text","string","Selected status format"],["disable-text","string","Unselected status format"],["all-statuses-name","string","Display name for the unfiltered state"],["statuses","array","Allowed values","multi-select"],["status-names","map","Display name overrides","map"]],[["ALL","All statuses state","All"],["{status}","One placeholder per status",""]],["default"]],
+    [28,"ZAUCTIONHOUSE_CATEGORY","zAuctionHouse","Category button provided by zAuctionHouse V4.",[["category","string","Category identifier"]],[],["default"]],
+    [29,"ZAUCTIONHOUSE_CATEGORY_SWITCHER","zAuctionHouse","Category Switcher button provided by zAuctionHouse V4.",[["enable-text","string","Selected category format"],["disable-text","string","Unselected category format"],["categories","array","Categories to cycle through","tags"]],[["category","Selected category","All"],["{category}","Dynamic placeholder named after each configured category","Category"]],["default"]],
+    [30,"ZAUCTIONHOUSE_CHANGE_SORT","zAuctionHouse","Change Sort button provided by zAuctionHouse V4.",[["enable-text","string","Selected sort format"],["disable-text","string","Unselected sort format"],["sorts","array","Available sort modes","multi-select"],["loading-item","object","Item displayed while sorting","item-stack"]],[["{sort}","One placeholder for every configured sort enum",""]],["default","loading"]],
+    [31,"ZAUCTIONHOUSE_CLAIM","zAuctionHouse","Claim button provided by zAuctionHouse V4.",[["loading-item","object","Item displayed while pending money is loaded","item-stack"]],[["pending_{economy}","Pending amount for an economy","0"],["pending_total","Total pending amount","0"],["has_pending","Whether money can be claimed","false"]],["default","loading"]],
+    [32,"ZAUCTIONHOUSE_CLEAR_SEARCH","zAuctionHouse","Clear Search button provided by zAuctionHouse V4.",[],[["search_query","Current search query",""]],["default"]],
+    [33,"ZAUCTIONHOUSE_COMBINED_ITEMS","zAuctionHouse","Combined Items button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"],["include-selling","bool","Include currently listed items","toggle"],["include-expired","bool","Include expired items","toggle"],["include-purchased","bool","Include purchased items","toggle"]],[],["empty","loaded"]],
+    [34,"ZAUCTIONHOUSE_CONFIRM_PURCHASE","zAuctionHouse","Confirm Purchase button provided by zAuctionHouse V4.",[],[],["default"]],
+    [35,"ZAUCTIONHOUSE_CONFIRM_REMOVE_LISTED","zAuctionHouse","Confirm Remove Listed button provided by zAuctionHouse V4.",[],[],["default"]],
+    [36,"ZAUCTIONHOUSE_EXPIRED_INVENTORY","zAuctionHouse","Expired Inventory button provided by zAuctionHouse V4.",[],[["expired-items","Expired item count","0"],["s","Plural suffix",""]],["default"]],
+    [37,"ZAUCTIONHOUSE_EXPIRED_ITEMS","zAuctionHouse","Expired Items button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"]],[],["empty","loaded"]],
+    [38,"ZAUCTIONHOUSE_HISTORY_INVENTORY","zAuctionHouse","History Inventory button provided by zAuctionHouse V4.",[],[],["default"]],
+    [39,"ZAUCTIONHOUSE_HISTORY_ITEMS","zAuctionHouse","History Items button provided by zAuctionHouse V4.",[["loading-slot","integer","Loading indicator slot"]],[["buyer","Buyer name","Player"],["seller","Seller name","Player"],["price","Formatted price","0"],["date","Transaction date","Now"]],["loading","loaded"]],
+    [40,"ZAUCTIONHOUSE_HISTORY_SORT","zAuctionHouse","History Sort button provided by zAuctionHouse V4.",[["enable-text","string","Selected sort format"],["disable-text","string","Unselected sort format"],["sorts","array","History sort modes","multi-select"],["sort-names","map","Display name overrides","map"]],[["{sort}","One placeholder for every configured sort enum",""]],["default"]],
+    [41,"ZAUCTIONHOUSE_ITEM_CONTENT","zAuctionHouse","Item Content button provided by zAuctionHouse V4.",[],[],["loaded"]],
+    [42,"ZAUCTIONHOUSE_LISTED_ITEMS","zAuctionHouse","Listed Items button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"]],[],["empty","loaded"]],
+    [43,"ZAUCTIONHOUSE_OPTION_TOGGLE","zAuctionHouse","Option Toggle button provided by zAuctionHouse V4.",[["option-name","string","Option storage key"],["enable-text","string","Enabled display value"],["disable-text","string","Disabled display value"]],[["option_status","Formatted option state","Disabled"],["option_value","Raw option value","false"],["option_name","Option key","option"]],["default"]],
+    [44,"ZAUCTIONHOUSE_PURCHASED_INVENTORY","zAuctionHouse","Purchased Inventory button provided by zAuctionHouse V4.",[],[["purchased-items","Purchased item count","0"],["s","Plural suffix",""]],["default"]],
+    [45,"ZAUCTIONHOUSE_PURCHASED_ITEMS","zAuctionHouse","Purchased Items button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"]],[],["empty","loaded"]],
+    [46,"ZAUCTIONHOUSE_REFRESH","zAuctionHouse","Refresh button provided by zAuctionHouse V4.",[["loading-item","object","Item displayed while auctions are refreshed","item-stack"]],[],["default","loading"]],
+    [47,"ZAUCTIONHOUSE_REMOVE_ALL_EXPIRED","zAuctionHouse","Remove All Expired button provided by zAuctionHouse V4.",[],[],["default"]],
+    [48,"ZAUCTIONHOUSE_REMOVE_ALL_PURCHASED","zAuctionHouse","Remove All Purchased button provided by zAuctionHouse V4.",[],[],["default"]],
+    [49,"ZAUCTIONHOUSE_REMOVE_ALL_SELLING","zAuctionHouse","Remove All Selling button provided by zAuctionHouse V4.",[],[],["default"]],
+    [50,"ZAUCTIONHOUSE_SEARCH","zAuctionHouse","Search button provided by zAuctionHouse V4.",[["none-value","string","Value displayed without a query"],["active-value","string","Active state value"],["inactive-value","string","Inactive state value"]],[["search_query","Current search query","None"],["search_active","Whether a search is active","false"]],["default"]],
+    [51,"ZAUCTIONHOUSE_SELL_CANCEL","zAuctionHouse","Sell Cancel button provided by zAuctionHouse V4.",[],[],["default"]],
+    [52,"ZAUCTIONHOUSE_SELL_CONFIRM","zAuctionHouse","Sell Confirm button provided by zAuctionHouse V4.",[],[["price","Formatted sale price","0"],["economy","Economy display name","Vault"],["economy_name","Economy identifier","vault"],["item_count","Number of item stacks","1"],["total_amount","Total item amount","1"]],["default"]],
+    [53,"ZAUCTIONHOUSE_SELL_ECONOMY","zAuctionHouse","Sell Economy button provided by zAuctionHouse V4.",[],[["economy","Economy display name","Vault"],["economy_name","Economy identifier","vault"],["price","Formatted price","0"]],["default"]],
+    [54,"ZAUCTIONHOUSE_SELL_LIMIT","zAuctionHouse","Sell Limit button provided by zAuctionHouse V4.",[["types","array","Listing types included in the limit","multi-select"]],[],["default"]],
+    [55,"ZAUCTIONHOUSE_SELL_PRICE","zAuctionHouse","Sell Price button provided by zAuctionHouse V4.",[["amounts","object","Amounts by click type"]],[["price","Current formatted price","0"],["economy","Economy display name","Vault"],["left_click_amount","Left click delta","100"],["right_click_amount","Right click delta","-100"],["shift_left_click_amount","Shift-left delta","1000"],["shift_right_click_amount","Shift-right delta","-1000"]],["default"]],
+    [56,"ZAUCTIONHOUSE_SELL_SHOW_ITEM","zAuctionHouse","Sell Show Item button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"]],[],["empty","loaded"]],
+    [57,"ZAUCTIONHOUSE_SELLING_INVENTORY","zAuctionHouse","Selling Inventory button provided by zAuctionHouse V4.",[],[["selling-items","Selling item count","0"],["s","Plural suffix",""]],["default"]],
+    [58,"ZAUCTIONHOUSE_SELLING_ITEMS","zAuctionHouse","Selling Items button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"]],[],["empty","loaded"]],
+    [59,"ZAUCTIONHOUSE_SHOW","zAuctionHouse","Show button provided by zAuctionHouse V4.",[],[],["fallback","source"]],
+    [60,"ZAUCTIONHOUSE_SHULKER_CONTENT","zAuctionHouse","Shulker Content button provided by zAuctionHouse V4.",[["empty-slot","integer","Empty fallback slot"]],[],["empty","loaded"]],
+    [61,"ZAUCTIONHOUSE_SHULKER_INFO","zAuctionHouse","Shulker Info button provided by zAuctionHouse V4.",[],[["shulker-current","Current container index","1"],["shulker-total","Container count","1"]],["fallback","source"]],
+    [62,"ZAUCTIONHOUSE_SHULKER_NAVIGATION","zAuctionHouse","Shulker Navigation button provided by zAuctionHouse V4.",[["direction","string","Navigation direction","select"]],[],["default"]],
+    [63,"ZAUCTIONHOUSE_SHULKER_OPEN","zAuctionHouse","Shulker Open button provided by zAuctionHouse V4.",[],[],["default"]]
+  ],
+  Lk=zmenuButtonTypeRows.map(([id,name,plugin,description,fields,placeholders,states])=>{
+    const pluginId=plugin==="zMenu"?1:869;
+    return{
+      id,
+      name,
+      description,
+      documentation_url:plugin==="zMenu"?"":"https://docs.groupez.dev/zauctionhouse/introduction",
+      plugin_id:pluginId,
+      plugin:{id:pluginId,name:plugin},
+      supportsFallback:!0,
+      contents:fields.map(([key,data_type,fieldDescription,widget])=>({
+        key,
+        data_type,
+        widget:widget||"",
+        description:fieldDescription||"",
+        documentation_url:""
+      })),
+      placeholders:placeholders.map(([name,description,defaultValue])=>({name,description,defaultValue})),
+      placeholder_schema:{entries:placeholders.map(([name,description,defaultValue])=>({name,description,defaultValue}))},
+      states,
+      render_schema:{defaultState:states[0]||"default",states:Object.fromEntries(states.map(state=>[state,{}]))}
+    }
+  }),
   EO=["BLOCK_NOTE_BLOCK_PLING",
   "ENTITY_PLAYER_LEVELUP",
   "ENTITY_EXPERIENCE_ORB_PICKUP",
@@ -41909,6 +41881,44 @@ ${s.comment}`:s.comment
 `):typeof i=="string"?i:"",
   Hg=i=>Array.isArray(i)?i.map(String):typeof i=="string"&&i.length>0?i.split(`
 `):[],
+  zmenuButtonTypeYamlValue=(i,r)=>{
+    if(r===undefined||r===null||r==="")return r;
+    if(i.data_type==="array")return Hg(r);
+    if(i.data_type==="bool")return r===!0||r==="true"||r===1||r==="1";
+    if(i.data_type==="integer"||i.data_type==="number"||i.data_type==="float"){
+      const s=Number(r);
+      return Number.isFinite(s)?s:r
+    }
+    if(i.data_type==="object"||i.widget==="map"||i.widget==="item-stack"){
+      if(typeof r!=="string")return r;
+      try{return wO(r)}catch{return r}
+    }
+    return r
+  },
+  zmenuButtonTypeEditorValue=(i,r)=>{
+    if(i.data_type==="array")return Array.isArray(r)?r.map(String).join(`
+`):typeof r==="string"?r:"";
+    if(i.data_type==="object"||i.widget==="map"||i.widget==="item-stack")return r&&typeof r==="object"?JSON.stringify(r,null,2):r??"";
+    return r??""
+  },
+  zmenuButtonTypeYamlKey=i=>String(i==null?"":i.key??i).replaceAll("_","-"),
+  zmenuButtonTypeYamlName=i=>{
+    const r=String(i??"").trim();
+    return r===""?"NONE":r.replace(/([a-z])([A-Z])/g,"$1_$2").replaceAll("-","_").toUpperCase()
+  },
+  zmenuButtonTypeYamlValueFrom=(i,r)=>{
+    const s=String(i==null?"":i.key??i),c=zmenuButtonTypeYamlKey(i),d=s.replace(/[-_]([a-z])/g,(_,h)=>h.toUpperCase());
+    if(Object.prototype.hasOwnProperty.call(r,s))return r[s];
+    if(Object.prototype.hasOwnProperty.call(r,c))return r[c];
+    if(Object.prototype.hasOwnProperty.call(r,d))return r[d];
+    return undefined
+  },
+  zmenuButtonTypeHasValue=i=>{
+    if(i===undefined||i===null||i===!1)return!1;
+    if(typeof i==="string"&&i.trim()==="")return!1;
+    if(Array.isArray(i))return i.length>0;
+    return typeof i==="object"?Object.keys(i).length>0:!0
+  },
   zmenuActionSchemas={
     COMMAND:{yamlType:"player-command",exportKeys:{command:"commands",command_in_chat:"command-in-chat"},listKeys:["command"]},
     CONSOLE_COMMAND:{yamlType:"console-command",exportKeys:{command:"commands"},listKeys:["command"]},
@@ -44281,6 +44291,7 @@ ${s.comment}`:s.comment
     commands:null,
     console_commands:null,
     name:`btn-${i}`,
+    comment:"",
     volume:1,
     pitch:1,
     sound:"",
@@ -44385,7 +44396,8 @@ ${s.comment}`:s.comment
     var s;
     if(!i)return 1;
     const r=String(i).trim().toUpperCase();
-    return((s=Lk.find(c=>c.name===r))==null?void 0:s.id)||1
+    const c=r.replaceAll("-","").replaceAll("_","");
+    return((s=Lk.find(d=>String(d.name).toUpperCase().replaceAll("-","").replaceAll("_","")===c))==null?void 0:s.id)||1
   },
   pT=i=>({
     id:`local-${i}`,
@@ -44429,6 +44441,248 @@ ${s.comment}`:s.comment
     0)),
     Ci(r.glow)&&(s.glow=!0),
     s
+  },
+  zmenuSerializeActions=i=>Array.isArray(i)?i.map(a=>{
+    const e={
+      type:zmenuActionTypeToYaml(a.type)
+    };
+    a.values&&Object.entries(a.values).forEach(([t,n])=>{
+      if(n!==""&&n!==null&&n!==undefined){
+        const zmenuKey=zmenuActionExportKey(a.type,t);
+        e[zmenuKey]=zmenuActionIsList(a.type,t)?Hg(n):n
+      }
+    });
+    return e
+  }).filter(a=>Object.keys(a).length>1||Object.keys(a).includes("type")):[],
+  zmenuDeserializeActions=i=>Array.isArray(i)?i.filter(a=>a&&typeof a==="object"&&!Array.isArray(a)).map(a=>{
+    const zmenuType=zmenuActionTypeFromYaml(a.type),
+    e={};
+    Object.entries(a).forEach(([t,n])=>{
+      if(t!=="type"){
+        const zmenuKey=zmenuActionImportKey(zmenuType,t);
+        e[zmenuKey]=zmenuActionIsList(zmenuType,zmenuKey)?$g(n):n
+      }
+    });
+    return{
+      id:Date.now()+Math.random(),
+      type:zmenuType||"COMMAND",
+      values:e
+    }
+  }):[],
+  zmenuParseRawButtonYaml=i=>{
+    if(i&&typeof i==="object")return i;
+    if(!i||String(i).trim()==="")return null;
+    try{
+      const r=wO(String(i));
+      return r&&typeof r==="object"&&!Array.isArray(r)?r:null
+    }
+    catch{
+      return null
+    }
+  },
+  zmenuRequirementTypeMeta=[
+    {
+      value:"permission",
+      label:"Permission (zMenu)",
+      shortLabel:"Permission",
+      fields:[
+        {key:"permission",yamlKey:"permission",label:"Permission *",kind:"text",required:!0}
+      ]
+    },
+    {
+      value:"placeholder",
+      label:"Placeholder (zMenu)",
+      shortLabel:"Placeholder",
+      fields:[
+        {key:"placeholder",yamlKey:"placeholder",label:"Placeholder *",kind:"text",required:!0},
+        {key:"action",yamlKey:"action",label:"Operator",kind:"select",options:["","EQUAL_TO","SUPERIOR","SUPERIOR_OR_EQUAL","LOWER","LOWER_OR_EQUAL","EQUALS_STRING","DIFFERENT_STRING","EQUALSIGNORECASE_STRING","CONTAINS_STRING","BOOLEAN"]},
+        {key:"value",yamlKey:"value",label:"Value",kind:"text"},
+        {key:"target",yamlKey:"target",label:"Target (optional)",kind:"text"},
+        {key:"math",yamlKey:"math",label:"Math expressions",kind:"boolean"}
+      ]
+    },
+    {
+      value:"money",
+      label:"Money (zMenu)",
+      shortLabel:"Money",
+      fields:[
+        {key:"amount",yamlKey:"amount",label:"Amount *",kind:"text",required:!0,placeholder:"Number or %variable%"},
+        {key:"economy",yamlKey:"economy",label:"Economy (optional)",kind:"text"},
+        {key:"currency",yamlKey:"currency",label:"Currency (optional)",kind:"text"}
+      ]
+    },
+    {
+      value:"item",
+      label:"Item (zMenu)",
+      shortLabel:"Item",
+      fields:[
+        {key:"material",yamlKey:"material",label:"Material *",kind:"text",required:!0},
+        {key:"name",yamlKey:"name",label:"Name (optional)",kind:"text"},
+        {key:"amount",yamlKey:"amount",label:"Amount",kind:"text",placeholder:"Number or %variable%"},
+        {key:"verification",yamlKey:"verification",label:"Verification",kind:"select",options:["","SIMILAR","EXACT","MATERIAL","AIR","AMOUNT"]}
+      ]
+    },
+    {
+      value:"job",
+      label:"Job (Jobs Reborn) (zMenu)",
+      shortLabel:"Job",
+      fields:[
+        {key:"job",yamlKey:"job",label:"Job *",kind:"text",required:!0}
+      ]
+    },
+    {
+      value:"luckperm",
+      label:"LuckPerms group (zMenu)",
+      shortLabel:"LuckPerms group",
+      fields:[
+        {key:"group",yamlKey:"group",label:"Group *",kind:"text",required:!0}
+      ]
+    },
+    {
+      value:"regex",
+      label:"Regex (zMenu)",
+      shortLabel:"Regex",
+      fields:[
+        {key:"input",yamlKey:"input",label:"Input *",kind:"text",required:!0},
+        {key:"regex",yamlKey:"regex",label:"Pattern *",kind:"text",required:!0}
+      ]
+    },
+    {
+      value:"player-name",
+      label:"Player name (zMenu)",
+      shortLabel:"Player name",
+      fields:[
+        {key:"player-name",yamlKey:"player-name",label:"Player name *",kind:"text",required:!0}
+      ]
+    },
+    {
+      value:"cuboid",
+      label:"Cuboid (zMenu)",
+      shortLabel:"Cuboid",
+      fields:[
+        {key:"cuboids",yamlKey:"cuboids",label:"Cuboids *",kind:"textarea-list",required:!0}
+      ]
+    },
+    {
+      value:"and",
+      label:"AND (all must pass) (zMenu)",
+      shortLabel:"AND"
+    },
+    {
+      value:"or",
+      label:"OR (minimum must pass) (zMenu)",
+      shortLabel:"OR",
+      fields:[
+        {key:"minimum",yamlKey:"minimum",label:"Minimum to pass",kind:"text",defaultValue:"1",placeholder:"Number or %variable%"},
+        {key:"random",yamlKey:"random",label:"Random order",kind:"boolean"}
+      ]
+    }
+  ],
+  zmenuRequirementTypeMap=Object.fromEntries(zmenuRequirementTypeMeta.map(i=>[i.value,i])),
+  zmenuRequirementYamlType=i=>i==="player-name"?"playername":i,
+  zmenuRequirementTypeFromYaml=i=>{
+    const r=String(i||"").trim().toLowerCase();
+    return r==="playername"||r==="player_name"?"player-name":r||"permission"
+  },
+  zmenuRequirementMeta=i=>zmenuRequirementTypeMap[zmenuRequirementTypeFromYaml(i)]||{
+    value:zmenuRequirementTypeFromYaml(i),
+    label:`${zmenuRequirementTypeFromYaml(i)} (custom)`,
+    shortLabel:zmenuRequirementTypeFromYaml(i),
+    fields:[]
+  },
+  zmenuNewRequirement=i=>{
+    const r=zmenuRequirementTypeFromYaml(i),s=zmenuRequirementMeta(r),c={};
+    (s.fields||[]).forEach(d=>{
+      if(d.defaultValue!==undefined)c[d.key]=d.defaultValue
+    });
+    return{
+      id:Date.now()+Math.random(),
+      type:r,
+      values:c,
+      requirements:[]
+    }
+  },
+  zmenuDeserializeRequirement=i=>{
+    if(!i||typeof i!=="object"||Array.isArray(i))return null;
+    const r=zmenuRequirementTypeFromYaml(i.type),s=zmenuRequirementMeta(r),c={},d=new Set(["type","requirements","success","deny"]);
+    (s.fields||[]).forEach(h=>{
+      const m=h.yamlKey||h.key;
+      if(Object.prototype.hasOwnProperty.call(i,m))c[h.key]=h.kind==="textarea-list"?$g(i[m]):i[m],d.add(m)
+    });
+    const x={};
+    Object.entries(i).forEach(([h,m])=>{
+      d.has(h)||(x[h]=m)
+    });
+    return{
+      id:Date.now()+Math.random(),
+      type:r,
+      values:c,
+      requirements:Array.isArray(i.requirements)?i.requirements.map(zmenuDeserializeRequirement).filter(Boolean):[],
+      success:Array.isArray(i.success)?zmenuDeserializeActions(i.success):[],
+      deny:Array.isArray(i.deny)?zmenuDeserializeActions(i.deny):[],
+      extra:x
+    }
+  },
+  zmenuDeserializeRequirements=i=>Array.isArray(i)?i.map(zmenuDeserializeRequirement).filter(Boolean):[],
+  zmenuSerializeRequirement=i=>{
+    const r=zmenuRequirementTypeFromYaml(i==null?void 0:i.type),s=zmenuRequirementMeta(r),c={
+      ...((i==null?void 0:i.extra)&&typeof i.extra==="object"?i.extra:{}),
+      type:zmenuRequirementYamlType(r)
+    },d=i&&i.values&&typeof i.values==="object"?i.values:{};
+    (s.fields||[]).forEach(h=>{
+      const m=d[h.key],k=h.yamlKey||h.key;
+      if(h.kind==="boolean")m===!0&&(c[k]=!0);
+      else if(h.kind==="textarea-list"){
+        const x=Hg(m);
+        x.length>0&&(c[k]=x)
+      }
+      else if(m!==""&&m!==null&&m!==undefined)c[k]=m
+    });
+    const x=zmenuSerializeRequirements(i&&i.requirements);
+    x.length>0&&(c.requirements=x);
+    const h=zmenuSerializeActions(i&&i.success);
+    h.length>0&&(c.success=h);
+    const m=zmenuSerializeActions(i&&i.deny);
+    return m.length>0&&(c.deny=m),c
+  },
+  zmenuSerializeRequirements=i=>Array.isArray(i)?i.map(zmenuSerializeRequirement):[],
+  zmenuSerializeRequirementsBlock=i=>{
+    const r=zmenuParseRawButtonYaml(i==null?void 0:i.view_yaml),s={
+      ...(r&&typeof r==="object"?r:{}),
+    },c=Array.isArray(i==null?void 0:i.view),d=zmenuSerializeRequirements(c?i.view:[]);
+    c&&(s.requirements=d),i!=null&&i.view_minimum!==undefined&&i.view_minimum!==""&&(s["minimum-requirement"]=i.view_minimum);
+    Array.isArray(i==null?void 0:i.success)&&(s.success=zmenuSerializeActions(i.success));
+    Array.isArray(i==null?void 0:i.deny)&&(s.deny=zmenuSerializeActions(i.deny));
+    return Object.keys(s).length>0?s:null
+  },
+  zmenuDeserializeClickGroups=i=>{
+    if(!i||typeof i!=="object"||Array.isArray(i))return[];
+    return Object.entries(i).map(([r,s])=>{
+      if(!s||typeof s!=="object"||Array.isArray(s))return null;
+      const c=new Set(["clicks","requirements","success","deny"]),d={};
+      Object.entries(s).forEach(([h,m])=>c.has(h)||(d[h]=m));
+      return{
+        id:Date.now()+Math.random(),
+        name:String(r),
+        clicks:Array.isArray(s.clicks)?s.clicks.map(String):typeof s.clicks==="string"?[s.clicks]:[],
+        requirements:zmenuDeserializeRequirements(s.requirements),
+        success:zmenuDeserializeActions(s.success),
+        deny:zmenuDeserializeActions(s.deny),
+        extra:d
+      }
+    }).filter(Boolean)
+  },
+  zmenuSerializeClickGroups=i=>{
+    if(!Array.isArray(i))return{};
+    const r={};
+    i.forEach((s,c)=>{
+      const d=s&&typeof s.extra==="object"?{...s.extra}:{},h=String(s&&s.name||`group-${c+1}`).trim()||`group-${c+1}`;
+      Array.isArray(s==null?void 0:s.clicks)&&s.clicks.length>0&&(d.clicks=s.clicks.map(String));
+      d.requirements=zmenuSerializeRequirements(s==null?void 0:s.requirements);
+      const m=zmenuSerializeActions(s==null?void 0:s.success),k=zmenuSerializeActions(s==null?void 0:s.deny);
+      m.length>0&&(d.success=m),k.length>0&&(d.deny=k),r[h]=d
+    });
+    return r
   },
   MO=({
     inventory:i,
@@ -44479,7 +44733,7 @@ ${s.comment}`:s.comment
       1)!==1&&(k.page=Sr(m.page,
       1));
       const _=s.find(P=>P.id===m.type_id);
-      _&&_.id!==1&&(k.type=_.name.toUpperCase()),
+      _&&_.id!==1&&(k.type=zmenuButtonTypeYamlName(_.name)),
       Ci(m.is_permanent)&&(k.isPermanent=!0),
       Ci(m.close_inventory)&&(k.closeInventory=!0),
       Ci(m.refresh_on_click)&&(k.refreshOnClick=!0),
@@ -44495,19 +44749,8 @@ ${s.comment}`:s.comment
       m.messages&&(k.messages=Hg(m.messages)),
       m.commands&&(k.commands=Hg(m.commands)),
       m.console_commands&&(k.consoleCommands=Hg(m.console_commands)),
-      m.actions&&m.actions.length>0&&(k.actions=m.actions.map(a=>{
-        const e={
-          type:zmenuActionTypeToYaml(a.type)
-        };
-        a.values&&Object.entries(a.values).forEach(([t,
-        n])=>{
-          if(n!==""&&n!==null&&n!==undefined){
-            const zmenuKey=zmenuActionExportKey(a.type,t);
-            e[zmenuKey]=zmenuActionIsList(a.type,t)?Hg(n):n
-          }
-        });
-        return e
-      }).filter(a=>Object.keys(a).length>1||Object.keys(a).includes("type"))),
+      m.comment&&(k.comment=m.comment),
+      m.actions&&m.actions.length>0&&(k.actions=zmenuSerializeActions(m.actions)),
       m.button_data&&(()=>{
         let e;
         try{
@@ -44517,10 +44760,16 @@ ${s.comment}`:s.comment
           e={
           }
         };
+        _&&Array.isArray(_.contents)&&_.contents.forEach(P=>{
+          const j=e[P.key];
+          if(!zmenuButtonTypeHasValue(j))return;
+          const B=zmenuButtonTypeYamlValue(P,j);
+          zmenuButtonTypeHasValue(B)&&(k[zmenuButtonTypeYamlKey(P)]=B)
+        }),
         e.inventory&&(k.inventory=e.inventory),
         e.plugin&&(k.plugin=e.plugin),
         e.arguments&&(k.arguments=Hg(e.arguments)),
-        e.to_page!==undefined&&e.to_page!==""&&Number(e.to_page)&&(k.to_page=Number(e.to_page)),
+        e.to_page!==undefined&&e.to_page!==""&&Number(e.to_page)&&(k["to-page"]=Number(e.to_page)),
         e.cases&&(()=>{
           try{
             k.cases=JSON.parse(e.cases)
@@ -44529,7 +44778,37 @@ ${s.comment}`:s.comment
             k.cases=e.cases
           }
         })(),
-        e.placeholder&&(k.placeholder=e.placeholder)
+        e.placeholder&&(k.placeholder=e.placeholder),
+        e.clicks&&typeof e.clicks==="object"&&(k.clicks=Object.fromEntries(Object.entries(e.clicks).map(([t,n])=>[t,zmenuSerializeActions(n)]).filter(([,n])=>n.length>0))),
+        e.requirements&&typeof e.requirements==="object"&&(()=>{
+          const view=zmenuSerializeRequirementsBlock(e.requirements),
+          click=Array.isArray(e.requirements.click_groups)?zmenuSerializeClickGroups(e.requirements.click_groups):zmenuParseRawButtonYaml(e.requirements.click_yaml);
+          view!=null&&(k["view-requirement"]=view),
+          click!=null&&Object.keys(click).length>0&&(k["click-requirement"]=click)
+        })(),
+        e.advanced&&typeof e.advanced==="object"&&(()=>{
+          const a=e.advanced;
+          a.update_master_button===!0&&(k["update-master-button"]=!0),
+          a.use_cache===!0&&(k["use-cache"]=!0),
+          a.stop_on_empty===!0&&(k["stop-on-empty"]=!0),
+          a.sound&&(k.sound=a.sound),
+          a.messages&&(k.messages=Hg(a.messages)),
+          a.permission&&(k.permission=a.permission),
+          a.or_permission&&(k["or-permission"]=Hg(a.or_permission)),
+          a.placeholder&&(k.placeholder=a.placeholder),
+          a.action&&(k.action=a.action),
+          a.value!==undefined&&a.value!==""&&(k.value=a.value),
+          a.open_link&&(k["open-link"]=a.open_link),
+          (a.error_item_material||a.error_item_name||a.error_item_lore)&&(k["error-item"]={
+            ...(a.error_item_material?{material:a.error_item_material}:{}),
+            ...(a.error_item_name?{name:a.error_item_name}:{}),
+            ...(a.error_item_lore?{lore:Hg(a.error_item_lore)}:{})
+          })
+        })(),
+        e.raw_button_config&&(()=>{
+          const raw=zmenuParseRawButtonYaml(e.raw_button_config);
+          raw&&typeof raw==="object"&&!Array.isArray(raw)&&Object.assign(k,raw)
+        })()
       })();
       const S=((O=m.name)==null?void 0:O.trim())||`btn-${h}`;
       let x=S,
@@ -44616,6 +44895,7 @@ ${s.comment}`:s.comment
           name:String(T),
           slots:B,
           slot_group:B.length>1?`${j}:${T}:${B.join(",")}`:null,
+          comment:P.comment||"",
           type_id:NO(P.type),
           amount:Sr((h=P.item)==null?void 0:h.amount,
           1),
@@ -44638,32 +44918,64 @@ ${s.comment}`:s.comment
           messages:$g(P.messages),
           commands:$g(P.commands),
           console_commands:$g(P.consoleCommands),
-          actions:Array.isArray(P.actions)?P.actions.filter(a=>a&&typeof a=="object"&&!Array.isArray(a)).map(a=>{
-            const zmenuType=zmenuActionTypeFromYaml(a.type),
-            e={
-            };
-            Object.entries(a).forEach(([t,
-            n])=>{
-              if(t!=="type"){
-                const zmenuKey=zmenuActionImportKey(zmenuType,t);
-                e[zmenuKey]=zmenuActionIsList(zmenuType,zmenuKey)?$g(n):n
-              }
-            });
-            return{
-              id:Date.now()+Math.random(),
-              type:zmenuType||"COMMAND",
-              values:e
-            }
-          }):[],
+          actions:zmenuDeserializeActions(P.actions),
           button_data:(()=>{
             const e={
-            };
+            },
+            requirements={},
+            advanced={},
+            typeDefinition=Lk.find(t=>t.id===V.type_id);
+            typeDefinition&&Array.isArray(typeDefinition.contents)&&typeDefinition.contents.forEach(t=>{
+              const n=zmenuButtonTypeYamlValueFrom(t,P);
+              n!==undefined&&(e[t.key]=n)
+            }),
             P.inventory&&(e.inventory=String(P.inventory)),
             P.plugin&&(e.plugin=String(P.plugin)),
             P.arguments&&(e.arguments=$g(P.arguments)),
-            P.to_page!==undefined&&(e.to_page=Number(P.to_page)),
+            (P["to-page"]!==undefined||P.toPage!==undefined||P.to_page!==undefined)&&(()=>{
+              const n=P["to-page"]??P.toPage??P.to_page,s=Number(n);
+              Number.isFinite(s)&&(e.to_page=s)
+            })(),
             P.cases!==undefined&&(e.cases=typeof P.cases=="string"?P.cases:JSON.stringify(P.cases)),
-            P.placeholder&&(e.placeholder=String(P.placeholder));
+            P.placeholder&&(e.placeholder=String(P.placeholder)),
+            P.clicks&&typeof P.clicks==="object"&&(e.clicks=Object.fromEntries(Object.entries(P.clicks).map(([t,n])=>[t,zmenuDeserializeActions(n)]))),
+            P["view-requirement"]!==undefined&&(()=>{
+              const r=P["view-requirement"];
+              if(typeof r==="string")requirements.view_yaml=r;
+              else if(r&&typeof r==="object"&&!Array.isArray(r)){
+                requirements.view=zmenuDeserializeRequirements(r.requirements),
+                r["minimum-requirement"]!==undefined&&(requirements.view_minimum=r["minimum-requirement"]),
+                Array.isArray(r.success)&&(requirements.success=zmenuDeserializeActions(r.success)),
+                Array.isArray(r.deny)&&(requirements.deny=zmenuDeserializeActions(r.deny))
+              }
+            })(),
+            P["click-requirement"]!==undefined&&(()=>{
+              const r=P["click-requirement"];
+              if(typeof r==="string")requirements.click_yaml=r;
+              else if(r&&typeof r==="object"&&!Array.isArray(r))requirements.click_groups=zmenuDeserializeClickGroups(r)
+            })(),
+            Array.isArray(P["success-actions"])&&!Array.isArray(requirements.success)&&(requirements.success=zmenuDeserializeActions(P["success-actions"])),
+            Array.isArray(P["deny-actions"])&&!Array.isArray(requirements.deny)&&(requirements.deny=zmenuDeserializeActions(P["deny-actions"])),
+            (P["view-requirement"]!==undefined||P["click-requirement"]!==undefined||P["success-actions"]!==undefined||P["deny-actions"]!==undefined)&&(e.requirements=requirements),
+            (P["update-master-button"]===!0||P["use-cache"]===!0||P["stop-on-empty"]===!0||P.sound||P.messages||P.permission||P["or-permission"]||P.placeholder||P.action||P.value!==undefined||P["open-link"]||P["error-item"])&&(advanced={
+              ...(P["update-master-button"]===!0?{update_master_button:!0}:{}),
+              ...(P["use-cache"]===!0?{use_cache:!0}:{}),
+              ...(P["stop-on-empty"]===!0?{stop_on_empty:!0}:{}),
+              ...(P.sound?{sound:P.sound}:{}),
+              ...(P.messages?{messages:$g(P.messages)}:{}),
+              ...(P.permission?{permission:P.permission}:{}),
+              ...(P["or-permission"]?{or_permission:$g(P["or-permission"])}:{}),
+              ...(P.placeholder?{placeholder:P.placeholder}:{}),
+              ...(P.action?{action:P.action}:{}),
+              ...(P.value!==undefined?{value:P.value}:{}),
+              ...(P["open-link"]?{open_link:P["open-link"]}:{}),
+              ...(P["error-item"]&&typeof P["error-item"]==="object"?{
+                error_item_material:P["error-item"].material||"",
+                error_item_name:P["error-item"].name||"",
+                error_item_lore:$g(P["error-item"].lore)
+              }:{})
+            }),
+            Object.keys(advanced).length>0&&(e.advanced=advanced);
             return Object.keys(e).length>0?JSON.stringify(e):""
           })()
         };
@@ -53852,9 +54164,9 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
             "aria-label":"Search Minecraft items",
             value:m,
             onChange:H=>k(H.target.value)
-          })]
-        }),
-        R.jsxs("div",
+         })]
+       }),
+       R.jsxs("div",
         {
           className:"bv2-items-panel__filters",
           children:[R.jsxs("select",
@@ -60577,9 +60889,10 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     };
     return R.jsxs("div",
     {
+      className:"inventory-builder-center-configuration-wrap",
       children:[R.jsxs("div",
       {
-        className:"d-flex justify-content-between p-3",
+        className:"inventory-builder-center-pagination d-flex justify-content-between p-3",
         children:[R.jsx("button",
         {
           className:"btn btn-secondary btn-sm",
@@ -61119,14 +61432,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     return R.jsxs("div",
     {
       className:"inventory-builder-center",
-      children:[R.jsx(GM,
-      {
-        needToUpdate:h,
-        saveData:m,
-        onDownload:T,
-        onImport:O
-      }),
-      R.jsx("div",
+      children:[R.jsx("div",
       {
         className:"inventory-builder-center-inventory inventory",
         children:R.jsxs("div",
@@ -61270,161 +61576,128 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       className:"rounded-1"
     })]
   }),
+  bB=({
+    currentSlot:i,
+    handleChange:r,
+    name:s,
+    label:c,
+    description:d,
+    icon:h,
+    doc:m
+  })=>R.jsx("label",
+  {
+    className:"button-behaviour-toggle",
+    children:[R.jsx("i",
+    {
+      className:`button-behaviour-toggle__icon ${h}`,
+      "aria-hidden":"true"
+    }),R.jsxs("span",
+    {
+      className:"button-behaviour-toggle__text",
+      children:[R.jsx("span",
+      {
+        className:"button-behaviour-toggle__label",
+        children:c
+      }),R.jsx("span",
+      {
+        className:"button-behaviour-toggle__desc",
+        children:d
+      })]
+    }),R.jsx("a",
+    {
+      href:m,
+      target:"_blank",
+      rel:"noopener noreferrer",
+      className:"button-behaviour-docs-link",
+      title:`打开文档：${c}`,
+      "aria-label":`打开文档：${c}`,
+      onClick:L=>L.stopPropagation(),
+      children:R.jsx("i",
+      {
+        className:"bi bi-box-arrow-up-right",
+        "aria-hidden":"true"
+      })
+    }),R.jsxs("span",
+    {
+      className:"button-behaviour-switch",
+      children:[R.jsx("input",
+      {
+        type:"checkbox",
+        name:s,
+        onChange:r,
+        checked:i.button?.[s]??!1
+      }),R.jsx("span",
+      {
+        className:"button-behaviour-track",
+        "aria-hidden":"true"
+      })]
+    })]
+  }),
   YM=({
     currentSlot:i,
     handleChange:r
-  })=>{
-    var s;
-    return R.jsxs(Xe.Group,
-    {
-      className:"mb-2 d-flex",
-      children:[R.jsx(Xe.Check,
-      {
-        label:"永久显示",
-        type:"checkbox",
-        name:"is_permanent",
-        onChange:r,
-        checked:((s=i.button)==null?void 0:s.is_permanent)??!1,
-        className:"rounded-1"
-      }),
-      R.jsxs("a",
-      {
-        className:"ms-2",
-        href:"https://docs.groupez.dev/zmenu/configurations/items/item#glow",
-        target:"_blank",
-        children:["(",
-        R.jsx("i",
-        {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
-      })]
-    })
-  },
+  })=>R.jsx(bB,
+  {
+    currentSlot:i,
+    handleChange:r,
+    name:"is_permanent",
+    label:"Is Permanent",
+    description:"Keep this item on every page",
+    icon:"bi bi-pin-angle-fill",
+    doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#is-permanent"
+  }),
   KM=({
     currentSlot:i,
     handleChange:r
-  })=>{
-    var s;
-    return R.jsxs(Xe.Group,
-    {
-      className:"mb-2 d-flex",
-      children:[R.jsx(Xe.Check,
-      {
-        label:"点击后关闭菜单",
-        type:"checkbox",
-        name:"close_inventory",
-        onChange:r,
-        checked:((s=i.button)==null?void 0:s.close_inventory)??!1,
-        className:"rounded-1"
-      }),
-      R.jsxs("a",
-      {
-        className:"ms-2",
-        href:"https://docs.groupez.dev/zmenu/configurations/buttons/button/#close-inventory",
-        target:"_blank",
-        children:["(",
-        R.jsx("i",
-        {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
-      })]
-    })
-  },
+  })=>R.jsx(bB,
+  {
+    currentSlot:i,
+    handleChange:r,
+    name:"close_inventory",
+    label:"Close Inventory",
+    description:"Close the menu when clicked",
+    icon:"bi bi-door-open-fill",
+    doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#close-inventory"
+  }),
   QM=({
     currentSlot:i,
     handleChange:r
-  })=>{
-    var s;
-    return R.jsxs(Xe.Group,
-    {
-      className:"mb-2 d-flex",
-      children:[R.jsx(Xe.Check,
-      {
-        label:"点击后刷新菜单",
-        type:"checkbox",
-        name:"refresh_on_click",
-        onChange:r,
-        checked:((s=i.button)==null?void 0:s.refresh_on_click)??!1,
-        className:"rounded-1"
-      }),
-      R.jsxs("a",
-      {
-        className:"ms-2",
-        href:"https://docs.groupez.dev/zmenu/configurations/buttons/button/#refresh-on-click",
-        target:"_blank",
-        children:["(",
-        R.jsx("i",
-        {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
-      })]
-    })
-  },
+  })=>R.jsx(bB,
+  {
+    currentSlot:i,
+    handleChange:r,
+    name:"refresh_on_click",
+    label:"Refresh on Click",
+    description:"Refresh this button after a click",
+    icon:"bi bi-arrow-repeat",
+    doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#refresh-on-click"
+  }),
   XM=({
     currentSlot:i,
     handleChange:r
-  })=>{
-    var s;
-    return R.jsxs(Xe.Group,
-    {
-      className:"mb-2 d-flex",
-      children:[R.jsx(Xe.Check,
-      {
-        label:"点击后更新按钮",
-        type:"checkbox",
-        name:"update_on_click",
-        onChange:r,
-        checked:((s=i.button)==null?void 0:s.update_on_click)??!1,
-        className:"rounded-1"
-      }),
-      R.jsxs("a",
-      {
-        className:"ms-2",
-        href:"https://docs.groupez.dev/zmenu/configurations/buttons/button/#update-on-click",
-        target:"_blank",
-        children:["(",
-        R.jsx("i",
-        {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
-      })]
-    })
-  },
+  })=>R.jsx(bB,
+  {
+    currentSlot:i,
+    handleChange:r,
+    name:"update_on_click",
+    label:"Update on Click",
+    description:"Update the inventory after a click",
+    icon:"bi bi-arrow-clockwise",
+    doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#update-on-click"
+  }),
   JM=({
     currentSlot:i,
     handleChange:r
-  })=>{
-    var s;
-    return R.jsxs(Xe.Group,
-    {
-      className:"mb-2 d-flex",
-      children:[R.jsx(Xe.Check,
-      {
-        label:"自动更新",
-        type:"checkbox",
-        name:"update",
-        onChange:r,
-        checked:((s=i.button)==null?void 0:s.update)??!1,
-        className:"rounded-1"
-      }),
-      R.jsxs("a",
-      {
-        className:"ms-2",
-        href:"https://docs.groupez.dev/zmenu/configurations/buttons/button/#update",
-        target:"_blank",
-        children:["(",
-        R.jsx("i",
-        {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
-      })]
-    })
-  },
+  })=>R.jsx(bB,
+  {
+    currentSlot:i,
+    handleChange:r,
+    name:"update",
+    label:"Auto Update",
+    description:"Refresh this button on a timer",
+    icon:"bi bi-clock-history",
+    doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#update"
+  }),
   ZM=({
     sounds:i,
     currentSlot:r,
@@ -61912,11 +62185,135 @@ Valid keys: `+JSON.stringify(Object.keys(X),
   _AC=({
     currentSlot:i,
     actionTypes:r,
-    updateActions:s
+    updateActions:s,
+    actions:a,
+    title:o="Actions"
   })=>{
-    const c=i.button.actions||[],
-    [d,
-    h]=U.useState("");
+    const c=Array.isArray(a)?a:Array.isArray(i.button.actions)?i.button.actions:[],
+    [pickerOpen,setPickerOpen]=U.useState(!1),
+    [pickerQuery,setPickerQuery]=U.useState(""),
+    [editingAction,setEditingAction]=U.useState(null),
+    actionPickerCatalog=[
+      {
+        type:"COMMAND",
+        label:"player command",
+        description:"Executes commands as the player. You can also send the command in the player's chat."
+      },
+      {
+        type:"RANDOM_PLAYER_COMMAND",
+        label:"random player command",
+        badge:"zMenu+",
+        description:"Executes random commands as the player. You can also send the command in the player's chat."
+      },
+      {
+        type:"CONSOLE_COMMAND",
+        label:"console command",
+        description:"Executes commands as the console."
+      },
+      {
+        type:"RANDOM_CONSOLE_COMMAND",
+        label:"random console command",
+        badge:"zMenu+",
+        description:"Execute random commands from the list."
+      },
+      {
+        type:"MESSAGE",
+        label:"message",
+        description:"Sends a message to the player. You can use placeholders, color codes, and format codes. The MiniMessage format is enabled by default if your server supports it."
+      },
+      {
+        type:"BROADCAST",
+        label:"broadcast",
+        description:"Sends a message to all online players. You can use placeholders, color codes, and format codes. The MiniMessage format is enabled by default if your server supports it."
+      },
+      {
+        type:"CHAT",
+        label:"chat",
+        description:"Sends messages on behalf of the player. You can use placeholders, color codes, and format codes. MiniMessage format is enabled by default if your server supports it."
+      },
+      {
+        type:"CLOSE",
+        label:"close",
+        description:"Closes the player's inventory."
+      },
+      {
+        type:"INVENTORY",
+        label:"inventory",
+        description:"Opens an inventory."
+      },
+      {
+        type:"CONNECT",
+        label:"connect",
+        description:"Allows sending the player to another server, only works with BungeeCord and Velocity."
+      },
+      {
+        type:"SOUND",
+        label:"sound",
+        description:"Send a sound to a player, you must use XSound for sound."
+      },
+      {
+        type:"BROADCAST_SOUND",
+        label:"broadcast sound",
+        description:"Send a sound to the online players, you must use XSound for sound."
+      },
+      {
+        type:"DATA",
+        label:"data",
+        description:"Update player data."
+      },
+      {
+        type:"REFRESH",
+        label:"refresh",
+        description:"Refresh current button. Works only in click requirement."
+      },
+      {
+        type:"BACK",
+        label:"back",
+        description:"Return to previous inventory."
+      },
+      {
+        type:"SHOPKEEPER",
+        label:"shopkeeper",
+        description:"Open a Shopkeeper trading inventory."
+      },
+      {
+        type:"BOOK",
+        label:"book",
+        description:"Opens a book for the player. You can specify the title, author, and pages of the book."
+      },
+      {
+        type:"ACTIONBAR",
+        label:"actionbar",
+        description:"Allows you to send a message in the action bar of the player. You can use placeholders and color/format codes here. MiniMessage format is enabled by default if your server supports it."
+      },
+      {
+        type:"WITHDRAW",
+        label:"withdraw",
+        description:"Allows you to withdraw money from the player's account. Works with the BeastTokens, Vault, PlayerPoints, ElementalTokens, ElementalGems, Level, Experience, zEssentials, EcoBits, CoinsEngine and VotingPlugin."
+      },
+      {
+        type:"DEPOSIT",
+        label:"deposit",
+        description:"Allows you to deposit money from the player's account. Works with the BeastTokens, Vault, PlayerPoints, ElementalTokens, ElementalGems, Level, Experience, zEssentials, EcoBits, CoinsEngine and VotingPlugin."
+      },
+      {
+        type:"TITLE",
+        label:"title",
+        description:"Send a title. You can use placeholders and color/format codes here. MiniMessage format is enabled by default if your server supports it."
+      },
+      {
+        type:"TELEPORT",
+        label:"teleport",
+        description:"Teleport a player."
+      }
+    ],
+    pickerItems=actionPickerCatalog.map(L=>{
+      const G=r.find(Z=>Z.name===L.type);
+      return G?{
+        ...L,
+        name:G.name
+      }:null
+    }).filter(Boolean);
     U.useEffect(()=>{
       const zmenuActionStateHandler=te=>{
         const ge=(te==null?void 0:te.detail)||{},Me=Number(ge.index);
@@ -61941,22 +62338,31 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       return document.addEventListener("zmenu-actions-change",zmenuActionStateHandler),()=>document.removeEventListener("zmenu-actions-change",zmenuActionStateHandler)
     },[c,s]);
     if(!r||r.length===0)return null;
-    const m=()=>{
-      if(!d)return;
-      const te=r.find(Me=>Me.name===d);
+    const addAction=te=>{
       if(!te)return;
+      const ge=r.find(Me=>Me.name===te);
+      if(!ge)return;
       const me={
         id:Date.now(),
-        type:d,
+        type:te,
         values:{
         }
       };
-      te.contents.forEach(ge=>{
-        me.values[ge.key]=ge.data_type==="bool"?!1:ge.data_type==="float"||ge.data_type==="number"||ge.data_type==="integer"?"":""
+      ge.contents.forEach(Me=>{
+        me.values[Me.key]=Me.data_type==="bool"?!1:Me.data_type==="float"||Me.data_type==="number"||Me.data_type==="integer"?"":""
       }),
+      o==="Actions"?(setEditingAction({
+        index:-1,
+        type:te,
+        isNew:!0,
+        values:{...me.values}
+      }),
+      setPickerOpen(!1),
+      setPickerQuery("")):(
       s([...c,
       me]),
-      h("")
+      setPickerOpen(!1),
+      setPickerQuery(""))
     },
     _=(te,
     ge,
@@ -61974,156 +62380,396 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     k=te=>{
       s(c.filter((ge,
       me)=>me!==te))
+    },
+    moveAction=(te,ge)=>{
+      if(o!=="Actions"||te===ge||te<0||ge<0||te>=c.length||ge>=c.length)return;
+      const Me=[...c],Se=Me.splice(te,1)[0];
+      Se&&Me.splice(ge,0,Se),
+      s(Me)
     };
+    const actionCatalogItem=te=>actionPickerCatalog.find(ge=>ge.type===te),
+    actionDisplayName=te=>{
+      const ge=actionCatalogItem(te),
+      me=ge?ge.label:String(te||"").replace(/_/g," ").toLowerCase();
+      return me.split(/\s+/).map(Se=>Se?Se.charAt(0).toUpperCase()+Se.slice(1):Se).join(" ")
+    },
+    actionDocumentationUrl=(te,ge)=>{
+      const me=ge&&ge.documentation_url||"https://docs.groupez.dev/zmenu/configurations/buttons/actions",
+      Se=actionCatalogItem(te),
+      Ie=String(Se?Se.label:te||"").trim().toLowerCase().replace(/_/g,"-").replace(/\s+/g,"-");
+      return me.includes("#")?me:`${me}#${Ie}`
+    },
+    actionFieldLabel=te=>({
+      command:"COMMANDS",
+      commands:"COMMANDS",
+      command_in_chat:"COMMAND IN CHAT",
+      message:"MESSAGE",
+      mini_message:"MINI MESSAGE"
+    })[te]||String(te||"").replace(/_/g," ").toUpperCase(),
+    actionFieldDescription=te=>({
+      command:"Commands that the player must perform",
+      commands:"Commands that the player must perform",
+      command_in_chat:"Allows to execute commands in chat",
+      message:"Message sent to the player",
+      mini_message:"Enable MiniMessage formatting"
+    })[te.key]||te.description||"",
+    actionFieldValue=(te,ge)=>Object.prototype.hasOwnProperty.call(te||{},ge.key)?te[ge.key]:ge.data_type==="bool"?!1:"",
+    updateEditingAction=(te,ge)=>setEditingAction(Me=>Me?{
+      ...Me,
+      values:{
+        ...(Me.values||{}),
+        [ge.key]:te.target.type==="checkbox"?te.target.checked:te.target.value
+      }
+    }:Me),
+    resetEditingActionField=te=>setEditingAction(ge=>{
+      if(!ge)return ge;
+      const Me={...(ge.values||{})};
+      return delete Me[te.key],{
+        ...ge,
+        values:Me
+      }
+    }),
+    saveEditingAction=()=>{
+      if(!editingAction)return;
+      if(editingAction.isNew){
+        return s([...c,{
+          id:Date.now()+Math.random(),
+          type:editingAction.type,
+          values:{...(editingAction.values||{})}
+        }]),
+        setEditingAction(null)
+      }
+      const te=Number(editingAction.index);
+      if(!Number.isInteger(te)||te<0||te>=c.length)return setEditingAction(null);
+      const ge=[...c];
+      ge[te]={
+        ...ge[te],
+        values:{...(editingAction.values||{})}
+      },
+      s(ge),
+      setEditingAction(null)
+    },
+    renderEditingActionField=(te,ge)=>{
+      const Me=actionFieldValue(te.values,ge),
+      Se=ge.data_type==="textarea"?R.jsx("textarea",{
+        rows:4,
+        value:Me??"",
+        onChange:Ie=>updateEditingAction(Ie,ge)
+      }):ge.data_type==="bool"?R.jsx("label",
+      {
+        className:"bv2-action-config-toggle",
+        children:[R.jsx("input",{
+          type:"checkbox",
+          checked:!!Me,
+          onChange:Ie=>updateEditingAction(Ie,ge)
+        }),R.jsx("span",
+        {
+          className:"bv2-action-config-toggle__track",
+          "aria-hidden":!0
+        })]
+      }):R.jsx("input",
+      {
+        type:ge.data_type==="number"||ge.data_type==="integer"||ge.data_type==="float"?"number":"text",
+        step:ge.data_type==="float"?"0.01":ge.data_type==="integer"?"1":void 0,
+        value:Me??"",
+        onChange:Ie=>updateEditingAction(Ie,ge)
+      });
+      return R.jsxs("div",
+      {
+        className:"bv2-action-config-field",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-action-config-field__header",
+          children:[R.jsx("label",
+          {
+            children:actionFieldLabel(ge.key)
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-action-config-field__default",
+            onClick:()=>resetEditingActionField(ge),
+            children:"Use default"
+          })]
+        }),Se,actionFieldDescription(ge)&&R.jsx("small",
+        {
+          children:actionFieldDescription(ge)
+        })]
+      },ge.key)
+    },
+    editingActionItem=editingAction?(editingAction.isNew?{
+      type:editingAction.type,
+      values:{...(editingAction.values||{})}
+    }:c[editingAction.index]):null,
+    editingActionType=editingActionItem&&r.find(te=>te.name===editingActionItem.type),
+    actionConfigModal=editingActionItem&&editingActionType?R.jsx("div",
+    {
+      className:"bv2-modal-overlay bv2-modal-overlay--action-config",
+      onMouseDown:te=>te.target===te.currentTarget&&setEditingAction(null),
+      children:R.jsxs("div",
+      {
+        className:"bv2-modal bv2-modal--action-config",
+        role:"dialog",
+        "aria-modal":!0,
+        "aria-label":"Configure action",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-modal__header",
+          children:[R.jsx("span",
+          {
+            children:`Configure: ${(actionCatalogItem(editingActionItem.type)||{}).label||String(editingActionItem.type||"").toLowerCase()}`
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-modal__close",
+            "aria-label":"Close",
+            onClick:()=>setEditingAction(null),
+            children:"×"
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-modal__body",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-placeholder-value-hint",
+            children:[R.jsx("span",
+            {
+              children:"Select "
+            }),R.jsx("strong",
+            {
+              children:"Use variable"
+            }),R.jsxs("span",
+            {
+              children:[" next to a value to generate a placeholder such as ",R.jsx("code",
+              {
+                children:"%money%"
+              }),"."]
+            })]
+          }),editingActionType.contents&&editingActionType.contents.length>0?editingActionType.contents.map(te=>renderEditingActionField(editingAction,te)):R.jsx("small",
+          {
+            className:"text-muted",
+            children:"This action has no configurable parameters."
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-modal__footer",
+          children:[R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn",
+            onClick:()=>setEditingAction(null),
+            children:"Cancel"
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn bv2-btn--primary",
+            onClick:saveEditingAction,
+            children:editingAction.isNew?"Add":"Save"
+          })]
+        })]
+      })
+    }):null;
     return R.jsxs("div",
     {
-      className:"mb-3",
-      children:[R.jsx("hr",
+      className:o==="Actions"?"bv2-action-list bv2-action-list--button-actions":"bv2-action-list",
+      children:[R.jsxs("div",
       {
-      }),
-      R.jsxs(Xe.Label,
-      {
-        children:["Actions ",
-        R.jsxs("a",
+        className:"bv2-action-list__head",
+        children:[R.jsxs("span",
         {
-          className:"ms-2",
-          href:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",
-          target:"_blank",
-          children:["(",
-          R.jsx("i",
+          className:"bv2-action-list__title",
+          children:[o.includes("(")?o:`${o} (${c.length})`,o==="Actions"&&R.jsx("a",
           {
-            className:"bi bi-question-lg"
-          }),
-          ")"]
-        })]
-      }),
-      R.jsxs("div",
-      {
-        className:"mb-2",
-        style:{display:"none"},
-        "aria-hidden":!0,
-        children:[R.jsxs(Xe.Select,
+            className:"bv2-docs-link",
+            href:"https://docs.groupez.dev/zmenu/configurations/buttons/actions",
+            target:"_blank",
+            rel:"noopener noreferrer",
+            title:"Open documentation: Actions",
+            "aria-label":"Open documentation: Actions",
+            children:R.jsx("i",
+            {
+              className:"bi bi-box-arrow-up-right",
+              "aria-hidden":!0
+            })
+          })]
+        }),R.jsx("button",
         {
-          value:d,
-          onChange:te=>h(te.target.value),
-          className:"rounded-1 mb-2",
-          children:[R.jsx("option",
-          {
-            value:"",
-            children:"选择操作类型..."
-          }),
-          r.map((te,
-          me)=>R.jsx("option",
-          {
-            value:te.name,
-            children:te.name
+          type:"button",
+          className:"bv2-btn",
+          style:{
+            padding:"3px 8px",
+            fontSize:"0.72rem"
           },
-          me))]
-        }),
-        R.jsx(f_,
-        {
-          variant:"secondary",
-          size:"sm",
-          onClick:m,
-          disabled:!d,
-          children:"添加操作"
+          onClick:()=>setPickerOpen(!0),
+          children:[R.jsx("i",
+          {
+            className:"bi bi-plus-lg",
+            "aria-hidden":!0
+          })," Add"]
         })]
+      }),
+      pickerOpen&&R.jsx("div",
+      {
+        className:"bv2-modal-overlay bv2-modal-overlay--action-picker",
+        onMouseDown:te=>te.target===te.currentTarget&&setPickerOpen(!1),
+        children:R.jsxs("div",
+        {
+          className:"bv2-modal bv2-modal--action-picker",
+          role:"dialog",
+          "aria-modal":!0,
+          "aria-label":"Choose an action",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-modal__header",
+            children:[R.jsx("span",
+            {
+              children:"Add action"
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-modal__close",
+              "aria-label":"Close",
+              onClick:()=>setPickerOpen(!1),
+              children:R.jsx("i",
+              {
+                className:"bi bi-x-lg"
+              })
+            })]
+          }),R.jsx("div",
+          {
+            className:"bv2-modal__body",
+            children:[R.jsx("input",
+            {
+              className:"bv2-action-picker__search",
+              type:"text",
+              value:pickerQuery,
+              placeholder:"Search actions…",
+              onChange:te=>setPickerQuery(te.target.value)
+            }),R.jsx("div",
+            {
+              className:"bv2-action-picker__list",
+              children:pickerItems.filter(te=>!pickerQuery||`${te.label} ${te.name} ${te.description}`.toLowerCase().includes(pickerQuery.toLowerCase())).map((te,
+            me)=>R.jsxs("button",
+            {
+              type:"button",
+              className:"bv2-action-picker__item",
+              onClick:()=>addAction(te.name),
+              children:[R.jsxs("span",
+              {
+                className:"bv2-action-picker__name",
+                children:[te.label,te.badge&&R.jsx("span",
+                {
+                  className:"bv2-action-picker__badge",
+                  children:te.badge
+                })]
+              }),R.jsx("span",
+              {
+                className:"bv2-action-picker__desc",
+                children:te.description
+              })]
+            },
+            me))
+            })]
+          })]
+        })
       }),
       c.length>0&&R.jsx("div",
       {
+        className:"bv2-action-list__items",
         children:c.map((te,
         me)=>{
           const ge=r.find(Me=>Me.name===te.type);
           return ge?R.jsxs("div",
           {
-            className:"border rounded-1 p-2 mb-2",
-            children:[R.jsxs("div",
+            className:"bv2-action-item",
+            draggable:o==="Actions",
+            onDragStart:o==="Actions"?L=>{
+              L.dataTransfer&&(L.dataTransfer.effectAllowed="move",L.dataTransfer.setData("text/plain",String(me)))
+            }:void 0,
+            onDragOver:o==="Actions"?L=>L.preventDefault():void 0,
+            onDrop:o==="Actions"?L=>{
+              L.preventDefault();
+              const G=Number(L.dataTransfer==null?void 0:L.dataTransfer.getData("text/plain"));
+              Number.isInteger(G)&&moveAction(G,me)
+            }:void 0,
+            children:[o==="Actions"&&R.jsx("i",
             {
-              className:"d-flex justify-content-between align-items-center mb-2",
+              className:"bi bi-grip-vertical bv2-action-item__handle",
+              title:"Drag to reorder"
+            }),o==="Actions"?R.jsx("span",
+            {
+              className:"bv2-action-item__name",
+              children:(actionCatalogItem(te.type)||{}).label||String(te.type||"").toLowerCase().replace(/_/g," ")
+            }):R.jsxs("span",
+            {
+              className:"bv2-action-item__name",
               children:[R.jsx("strong",
               {
-                children:te.type
-              }),
-              R.jsx(f_,
+                children:actionDisplayName(te.type)
+              }),ge.documentation_url&&R.jsx("a",
               {
-                variant:"danger",
-                size:"sm",
-                onClick:()=>k(me),
-                children:R.jsx("i",
+                className:"bv2-action-item__docs",
+                href:actionDocumentationUrl(te.type,ge),
+                target:"_blank",
+                rel:"noopener noreferrer",
+                "aria-label":`Open documentation: ${(actionCatalogItem(te.type)||{}).label||actionDisplayName(te.type)}`,
+                children:R.jsx("span",
                 {
-                  className:"bi bi-trash"
+                  "aria-hidden":!0,
+                  children:"↗"
                 })
               })]
-            }),
-            ge.description&&R.jsx("small",
+            }),o==="Actions"&&ge.documentation_url&&R.jsx("a",
             {
-              className:"form-text text-muted d-block mb-2",
-              children:ge.description
-            }),
-            ge.contents.length>0?ge.contents.map(Se=>{
-              const Ie=te.values[Se.key]??"",
-              ke=Le=>_(me,
-              Le,
-              Se);
-              if(Se.data_type=="text")return R.jsx(rB,
+              className:"bv2-docs-link",
+              href:actionDocumentationUrl(te.type,ge),
+              target:"_blank",
+              rel:"noopener noreferrer",
+              title:`Open documentation: ${(actionCatalogItem(te.type)||{}).label||actionDisplayName(te.type)}`,
+              "aria-label":`Open documentation: ${(actionCatalogItem(te.type)||{}).label||actionDisplayName(te.type)}`,
+              children:R.jsx("i",
               {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              if(Se.data_type=="textarea")return R.jsx(aB,
-              {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              if(Se.data_type=="number")return R.jsx(iB,
-              {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              if(Se.data_type=="integer")return R.jsx(_IF,
-              {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              if(Se.data_type=="float")return R.jsx(_FF,
-              {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              if(Se.data_type=="bool")return R.jsx(_BF,
-              {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              if(Se.data_type=="string")return R.jsx(rB,
-              {
-                element:Se,
-                handleChange:ke,
-                defaultValue:Ie
-              },
-              Se.key);
-              return null
-            }):R.jsx("small",
+                className:"bi bi-box-arrow-up-right",
+                "aria-hidden":!0
+              })
+            }),R.jsx("button",
             {
-              className:"text-muted",
-              children:"该操作没有可配置参数。"
+              type:"button",
+              className:"bv2-action-item__btn bv2-action-item__btn--config",
+              title:"Configure",
+              onClick:()=>setEditingAction({
+                index:me,
+                type:te.type,
+                values:{...(te.values||{})}
+              }),
+              children:o==="Actions"?R.jsx("i",
+              {
+                className:"bi bi-sliders2",
+                "aria-hidden":!0
+              }):R.jsx("span",
+              {
+                "aria-hidden":!0,
+                children:"☷"
+              })
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-action-item__btn bv2-action-item__btn--remove",
+              title:"Remove",
+              onClick:()=>k(me),
+              children:o==="Actions"?R.jsx("i",
+              {
+                className:"bi bi-x-lg",
+                "aria-hidden":!0
+              }):R.jsx("span",
+              {
+                "aria-hidden":!0,
+                children:"×"
+              })
             })]
           },
-          te.id):null
+          te.id??`${te.type}-${me}`):null
         })
-      })]
+      }),actionConfigModal]
     })
   },
   oB={
@@ -62146,14 +62792,77 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     selectedSlots:c,
     actionTypes:d
   })=>{
-    var T,
-    O,
-    P,
-    j,
-    B;
     const h=c.length>0?c:[i.currentSlot].filter(L=>L>=0);
     let m=i.currentSlot>=0?i.slots[i.currentSlot]:null;
-    const k=L=>{
+    const tabs=[
+      ["general","General"],
+      ["type","Type"],
+      ["advanced","Advanced"],
+      ["requirements","Requirements"],
+      ["clicks","Clicks"]
+    ],
+    clickKeys=["LEFT","RIGHT","SHIFT_LEFT","SHIFT_RIGHT","MIDDLE","DROP","CONTROL_DROP"],
+    [activeTab,setActiveTab]=U.useState("general"),
+    [typePickerOpen,setTypePickerOpen]=U.useState(!1),
+    [typePickerQuery,setTypePickerQuery]=U.useState(""),
+    [typePickerMode,setTypePickerMode]=U.useState("all"),
+    [typePickerSort,setTypePickerSort]=U.useState("relevance"),
+    [typePickerFilter,setTypePickerFilter]=U.useState("all"),
+    [typePickerPlugin,setTypePickerPlugin]=U.useState("zMenu"),
+    [typePickerPluginQuery,setTypePickerPluginQuery]=U.useState(""),
+    readData=L=>{
+      const G=L==null?void 0:L.button_data;
+      if(G&&typeof G==="object")return G;
+      if(!G||String(G).trim()==="")return{};
+      try{
+        const Z=JSON.parse(G);
+        return Z&&typeof Z==="object"&&!Array.isArray(Z)?Z:{}
+      }
+      catch{
+        return{}
+      }
+    },
+    currentData=readData(m==null?void 0:m.button),
+    [requirementModal,setRequirementModal]=U.useState(null),
+    [groupModal,setGroupModal]=U.useState(null),
+    [groupClickQuery,setGroupClickQuery]=U.useState(""),
+    updateData=L=>{
+      h.forEach(G=>{
+        const Z=i.slots[G].button||{},
+        J=readData(Z),
+        V=typeof L==="function"?L(J):{
+          ...J,
+          ...L
+        };
+        s(G,
+        {
+          ...Z,
+          button_data:JSON.stringify(V)
+        })
+      })
+    },
+    updateAdvanced=(L,G)=>updateData(Z=>({
+      ...Z,
+      advanced:{
+        ...(Z.advanced||{}),
+        [L]:G
+      }
+    })),
+    updateRequirements=L=>updateData(G=>({
+      ...G,
+      requirements:{
+        ...(G.requirements||{}),
+        ...L
+      }
+    })),
+    updateClicks=(L,G)=>updateData(Z=>({
+      ...Z,
+      clicks:{
+        ...(Z.clicks||{}),
+        [L]:G
+      }
+    })),
+    k=L=>{
       var me;
       let{
         name:G,
@@ -62184,7 +62893,6 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     },
     _=(L,
     G)=>{
-      var Se;
       let{
         name:Z,
         value:J,
@@ -62192,229 +62900,1686 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         checked:I
       }
       =L.target,
-      se=(Se=m.button)==null?void 0:Se.button_data;
-      (!se||se.trim()==="")&&(se="{}");
-      let te={
-      };
-      try{
-        te=JSON.parse(se||"{}")
-      }
-      catch(Ge){
-        te={
-        }
-      };
-      let Xe=V==="checkbox"?I:J;
+      Xe=V==="checkbox"?I:J;
       if((G.data_type==="integer"||G.data_type==="float"||G.data_type==="number")&&V!=="checkbox"){
         const pe=parseFloat(Xe);
         Xe=isNaN(pe)?"":pe
       }
-      te[G.key]=Xe;
-      const me=JSON.stringify(te);
-      h.forEach(Ie=>{
-        const Le={
-          ...i.slots[Ie].button,
-          button_data:me
-        };
-        s(Ie,
-        Le)
+      updateData(te=>({
+        ...te,
+        [G.key]:Xe
+      }))
+    },
+    S=L=>currentData[L.key]??"",
+    x=()=>r.find(L=>m.button.type_id==L.id)??r[0]??null,
+    typePickerBestOrder=["None","Back","Dynamic_Pagination","Home","Input","Inventory","Jump","MainMenu","Next","Pagination","Previous","Switch"],
+    typeFieldCount=L=>Array.isArray(L==null?void 0:L.contents)?L.contents.reduce((G,Z)=>{
+      if(Z!=null&&Z.widget==="item-stack")return G+6;
+      if(Z!=null&&Z.key==="amounts"&&Z.data_type==="object")return G+4;
+      return G+1
+    },0):0,
+    typePickerSearchText=L=>[
+      String(L==null?void 0:L.name||""),
+      String(L==null||L.plugin==null?"":L.plugin.name),
+      String(L==null?void 0:L.description||""),
+      ...(Array.isArray(L==null?void 0:L.contents)?L.contents.flatMap(Z=>[Z.key,Z.description,Z.data_type,Z.widget]):[]),
+      ...(Array.isArray(L==null?void 0:L.placeholders)?L.placeholders.flatMap(Z=>[Z.name,Z.description,Z.defaultValue]):[])
+    ].filter(Boolean).join(" ").toLowerCase(),
+    typePickerItems=()=>{
+      const L=String(typePickerQuery||"").trim().toLowerCase();
+      let G=r.filter(Z=>!L||typePickerSearchText(Z).includes(L));
+      typePickerFilter==="configurable"&&(G=G.filter(Z=>Array.isArray(Z.contents)&&Z.contents.length>0)),
+      typePickerFilter==="placeholders"&&(G=G.filter(Z=>Array.isArray(Z.placeholders)&&Z.placeholders.length>0)),
+      typePickerFilter==="fallback"&&(G=G.filter(Z=>Z.supportsFallback!==!1));
+      const Z=L=>{
+        const J=typePickerBestOrder.indexOf(L.name);
+        return J===-1?typePickerBestOrder.length+L.id:J
+      };
+      const typePickerRelevance=V=>{
+        if(!L)return typePickerBestOrder.indexOf(V.name)>-1?1000-typePickerBestOrder.indexOf(V.name):0;
+        const I=[String(V.name||""),String(V.plugin==null?"":V.plugin.name),String(V.description||"")].map(X=>X.toLowerCase()),se=I[0]===L?100:I[0].startsWith(L)?60:I[0].includes(L)?35:0,te=I[1]===L?24:I[1].includes(L)?8:0,me=I[2].includes(L)?12:0;
+        return se+te+me+(typePickerSearchText(V).includes(L)?4:0)+(m.button.type_id===V.id?2:0)
+      };
+      return G.sort((J,V)=>{
+        if(typePickerSort==="name-asc")return String(J.name).localeCompare(String(V.name),"en");
+        if(typePickerSort==="name-desc")return String(V.name).localeCompare(String(J.name),"en");
+        if(typePickerSort==="fields-desc"||typePickerSort==="configurable")return typeFieldCount(V)-typeFieldCount(J)||String(J.name).localeCompare(String(V.name),"en");
+        if(L)return typePickerRelevance(V)-typePickerRelevance(J)||String(J.name).localeCompare(String(V.name),"en");
+        if(typePickerSort==="relevance"){
+          const currentTypeId=m.button.type_id;
+          if(J.id===currentTypeId&&V.id!==currentTypeId)return -1;
+          if(V.id===currentTypeId&&J.id!==currentTypeId)return 1
+        }
+        return Z(J)-Z(V)||String(J.name).localeCompare(String(V.name),"en")
       })
     },
-    S=L=>{
-      var G;
-      try{
-        const Z=(G=m.button)==null?void 0:G.button_data;
-        return!Z||Z.trim()===""?"":JSON.parse(Z)[L.key]??""
-      }
-      catch(Z){
-        return console.error("Failed to parse JSON:",
-        Z),
-        ""
-      }
+    selectButtonType=L=>{
+      k({
+        target:{
+          name:"button_type",
+          value:L.name,
+          type:"text",
+          checked:!1
+        }
+      }),
+      setTypePickerOpen(!1),
+      setTypePickerQuery("")
     },
-    x=()=>r.find(L=>m.button.type_id==L.id)??r[0]??null;
-    return i.currentSlot>=0?R.jsxs("div",
+    typeConfig=(L,G)=>{
+      const Z=zmenuButtonTypeEditorValue(L,S(L)),J=L.widget||"";
+      if(L.data_type==="array"||L.data_type==="object"||J==="tags"||J==="multi-select"||J==="map"||J==="item-stack")return R.jsx(aB,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      if(L.data_type==="text"||L.data_type==="string")return R.jsx(rB,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      if(L.data_type==="textarea")return R.jsx(aB,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      if(L.data_type==="number")return R.jsx(iB,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      if(L.data_type==="integer")return R.jsx(_IF,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      if(L.data_type==="float")return R.jsx(_FF,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      if(L.data_type==="bool")return R.jsx(_BF,
+      {
+        element:L,
+        handleChange:_,
+        defaultValue:Z
+      },
+      G);
+      return null
+    },
+    actionTarget=L=>({
+      ...m,
+      button:{
+        ...m.button,
+        actions:L
+      }
+    }),
+    actionEditor=(L,G,Z)=>R.jsx(_AC,
     {
-      className:"configurations-button",
+      currentSlot:actionTarget(L),
+      actionTypes:d,
+      actions:L,
+      title:G,
+      updateActions:Z
+    }),
+    advanced=currentData.advanced||{},
+    requirements=currentData.requirements||{},
+    viewRequirements=Array.isArray(requirements.view)?requirements.view:[],
+    clickGroups=Array.isArray(requirements.click_groups)?requirements.click_groups:[],
+    clicks=currentData.clicks||{},
+    advancedDoc=L=>`https://docs.groupez.dev/zmenu/configurations/buttons/button#${L}`,
+    fieldLabel=(L,G)=>R.jsxs("div",
+    {
+      className:"bv2-field__label-row",
+      children:[R.jsx("label",
+      {
+        children:L
+      }),G&&R.jsx("a",
+      {
+        className:"bv2-field__docs",
+        href:G,
+        target:"_blank",
+        rel:"noopener noreferrer",
+        title:`Open documentation: ${L}`,
+        "aria-label":`Open documentation: ${L}`,
+        onClick:Z=>Z.stopPropagation(),
+        children:R.jsx("i",
+        {
+          className:"bi bi-box-arrow-up-right"
+        })
+      })]
+    }),
+    field=(L,G,Z="text",J="",V="",I="")=>R.jsxs("div",
+    {
+      className:"bv2-field",
+      children:[fieldLabel(G,I),Z==="textarea"?R.jsx("textarea",
+      {
+        value:advanced[L]??"",
+        placeholder:J,
+        rows:3,
+        onChange:I=>updateAdvanced(L,I.target.value)
+      }):R.jsx("input",
+      {
+        type:Z,
+        value:advanced[L]??"",
+        placeholder:J,
+        onChange:I=>updateAdvanced(L,I.target.value)
+      }),V&&R.jsx("small",
+      {
+        children:V
+      })]
+    }),
+    toggle=(L,G,Z,Q)=>R.jsx("label",
+    {
+      className:"bv2-toggle bv2-pattern-variable-toggle",
+      children:[R.jsxs("span",
+      {
+        className:"bv2-toggle__text",
+        children:[R.jsxs("span",
+        {
+          className:"bv2-toggle__label-row",
+          children:[R.jsx("span",
+          {
+            className:"bv2-toggle__label",
+            children:G
+          }),Q&&R.jsx("a",
+          {
+            className:"bv2-field__docs",
+            href:Q,
+            target:"_blank",
+            rel:"noopener noreferrer",
+            title:`Open documentation: ${G}`,
+            "aria-label":`Open documentation: ${G}`,
+            onClick:I=>I.stopPropagation(),
+            children:R.jsx("i",
+            {
+              className:"bi bi-box-arrow-up-right"
+            })
+          })]
+        }),Z&&R.jsx("span",
+        {
+          className:"bv2-toggle__desc",
+          children:Z
+        })]
+      }),R.jsx("span",
+      {
+        className:"bv2-toggle__switch",
+        children:[R.jsx("input",
+        {
+          type:"checkbox",
+          checked:!!advanced[L],
+          onChange:I=>updateAdvanced(L,I.target.checked)
+        }),R.jsx("span",
+        {
+          className:"bv2-toggle__track",
+          "aria-hidden":"true"
+        })]
+      })]
+    }),
+    patternSource=()=>R.jsxs("div",
+    {
+      className:"bv2-pattern-source-card",
       children:[R.jsxs("div",
       {
-        className:"configurations-button-top p-2",
+        className:"bv2-pattern-source-card__header",
         children:[R.jsx("div",
         {
-          className:"configurations-button-header mb-2",
-          children:"常规设置"
-        }),
-        R.jsxs("div",
+          className:"bv2-pattern-source-card__icon",
+          children:R.jsx("i",
+          {
+            className:"bi bi-puzzle-fill"
+          })
+        }),R.jsxs("div",
         {
-          className:"row mb-3",
+          className:"bv2-pattern-source-card__title",
+          children:[R.jsx("span",
+          {
+            className:"bv2-pattern-source-card__eyebrow",
+            children:"Button source"
+          }),R.jsx("strong",
+          {
+            children:"Use a reusable pattern"
+          }),R.jsx("span",
+          {
+            className:"bv2-pattern-source-card__description",
+            children:"Attach this button to a managed or external zMenu definition."
+          })]
+        }),R.jsx("span",
+        {
+          className:"bv2-pattern-source-card__badge",
+          children:"Optional"
+        })]
+      }),R.jsxs("div",
+      {
+        className:"bv2-pattern-source-card__impact",
+        children:[R.jsxs("span",
+        {
+          className:"bv2-pattern-source-card__impact-item",
+          children:[R.jsx("i",
+          {
+            className:"bi bi-lock-fill"
+          }),"Item locked"]
+        }),R.jsxs("span",
+        {
+          className:"bv2-pattern-source-card__impact-item",
+          children:[R.jsx("i",
+          {
+            className:"bi bi-lightning-charge-fill"
+          }),"Actions inherited"]
+        }),R.jsxs("span",
+        {
+          className:"bv2-pattern-source-card__impact-item",
+          children:[R.jsx("i",
+          {
+            className:"bi bi-sliders2"
+          }),"Variables editable"]
+        })]
+      }),R.jsxs("div",
+      {
+        className:"bv2-pattern-source-card__control",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-pattern-source-card__field",
           children:[R.jsx("div",
           {
-            className:"col-2",
-            children:R.jsxs(Xe.Group,
+            className:"bv2-field__label-row",
+            children:R.jsx("label",
             {
-              children:[R.jsx(Xe.Label,
+              children:"Pattern definition"
+            })
+          }),R.jsx("small",
+          {
+            children:"Selecting a pattern replaces the normal item and behavior configuration."
+          }),R.jsxs("select",
+          {
+            id:"bv2-pattern-choice",
+            value:"",
+            onChange:()=>{},
+            children:[R.jsx("option",
+            {
+              value:"",
+              children:"Choose a pattern..."
+            }),R.jsx("option",
+            {
+              value:"sample",
+              children:"New button pattern - my_button_pattern"
+            }),R.jsx("option",
+            {
+              value:"external",
+              children:"External / manual reference"
+            })]
+          })]
+        }),R.jsx("button",
+        {
+          type:"button",
+          className:"bv2-btn bv2-pattern-source-card__use",
+          disabled:!0,
+          title:"Patterns are not available in the standalone editor",
+          children:[R.jsx("i",
+          {
+            className:"bi bi-link-45deg"
+          })," Use pattern"]
+        })]
+      }),R.jsxs("div",
+      {
+        className:"bv2-pattern-source-card__hint",
+        children:[R.jsx("i",
+        {
+          className:"bi bi-info-circle-fill"
+        }),"Pattern mode opens a full-width variable editor. The change can be undone with Ctrl+Z."]
+      })]
+    }),
+    cloneRequirementValue=L=>L==null?L:JSON.parse(JSON.stringify(L)),
+    updateRequirementDraft=L=>setRequirementModal(G=>{
+      if(!G||!Array.isArray(G.stack)||G.stack.length===0)return G;
+      const Z=[...G.stack],J=Z.length-1,V=Z[J],I=typeof L==="function"?L(V.draft):L;
+      return Z[J]={...V,draft:I},{...G,stack:Z}
+    }),
+    requirementDraft=L=>{
+      const G=requirementModal==null?null:requirementModal.stack;
+      return Array.isArray(G)&&G.length>0?G[G.length-1].draft:null
+    },
+    openRequirementEditor=(L,G,J)=>{
+      const Z=G?cloneRequirementValue(G):zmenuNewRequirement("permission");
+      setRequirementModal({
+        owner:L,
+        rootIndex:J===undefined?null:J,
+        stack:[{draft:Z,slotIndex:null}]
+      })
+    },
+    openNestedRequirementEditor=L=>setRequirementModal(G=>{
+      if(!G||!Array.isArray(G.stack)||G.stack.length===0)return G;
+      const Z=[...G.stack],J=Z[Z.length-1].draft,V=Array.isArray(J.requirements)?J.requirements:[],I=L===null?zmenuNewRequirement("permission"):V[L];
+      return I?{...G,stack:[...Z,{draft:cloneRequirementValue(I),slotIndex:L}]}:G
+    }),
+    setRequirementDraftType=L=>updateRequirementDraft(G=>{
+      const Z=zmenuNewRequirement(L);
+      return{...Z,id:G.id}
+    }),
+    setRequirementDraftValue=(L,G)=>updateRequirementDraft(Z=>({
+      ...Z,
+      values:{
+        ...(Z.values||{}),
+        [L]:G
+      }
+    })),
+    unsetRequirementDraftValue=L=>updateRequirementDraft(G=>{
+      const Z={...(G.values||{})};
+      delete Z[L];
+      return{...G,values:Z}
+    }),
+    updateCurrentRequirementChildren=L=>updateRequirementDraft(G=>({
+      ...G,
+      requirements:Array.isArray(L)?L:[]
+    })),
+    removeCurrentRequirementChild=L=>updateRequirementDraft(G=>({
+      ...G,
+      requirements:(Array.isArray(G.requirements)?G.requirements:[]).filter((Z,J)=>J!==L)
+    })),
+    saveRequirementEditor=()=>{
+      if(!requirementModal||!Array.isArray(requirementModal.stack)||requirementModal.stack.length===0)return;
+      const G=requirementModal.stack;
+      if(G.length>1){
+        const Z=G[G.length-1],J=G[G.length-2],V={...J.draft},I=[...(Array.isArray(V.requirements)?V.requirements:[])];
+        Z.slotIndex===null||Z.slotIndex===undefined?I.push(Z.draft):I[Z.slotIndex]=Z.draft,
+        V.requirements=I,
+        setRequirementModal({...requirementModal,stack:[...G.slice(0,-2),{...J,draft:V}]});
+        return
+      }
+      const Z=G[0].draft;
+      if(requirementModal.owner==="group")setGroupModal(J=>J?{...J,draft:{...J.draft,requirements:(()=>{
+        const V=[...(Array.isArray(J.draft.requirements)?J.draft.requirements:[])];
+        requirementModal.rootIndex===null||requirementModal.rootIndex===undefined?V.push(Z):V[requirementModal.rootIndex]=Z;
+        return V
+      })()}}:J);
+      else{
+        const J=[...viewRequirements];
+        requirementModal.rootIndex===null||requirementModal.rootIndex===undefined?J.push(Z):J[requirementModal.rootIndex]=Z,
+        updateRequirements({view:J,view_yaml:""})
+      }
+      setRequirementModal(null)
+    },
+    requirementTypeField=(L,G)=>{
+      const Z=G&&G.values&&Object.prototype.hasOwnProperty.call(G.values,L.key)?G.values[L.key]:L.defaultValue!==undefined?L.defaultValue:L.kind==="boolean"?!1:"",J=I=>setRequirementDraftValue(L.key,L.kind==="boolean"?I.target.checked:I.target.value),V=L.kind==="select"?R.jsx("select",
+      {
+        value:Z??"",
+        onChange:J,
+        children:L.options.map((I,se)=>R.jsx("option",
+        {
+          value:I,
+          children:I||"Select…"
+        },`${L.key}-${se}`))
+      }):L.kind==="textarea-list"?R.jsx("textarea",
+      {
+        rows:5,
+        value:Z??"",
+        onChange:J
+      }):L.kind==="boolean"?R.jsx("label",
+      {
+        className:"bv2-toggle",
+        children:[R.jsx("span",
+        {
+          className:"bv2-toggle__text",
+          children:R.jsx("span",
+          {
+            className:"bv2-toggle__label",
+            children:L.label.replace(/\s*\*\s*$/g,"")
+          })
+        }),R.jsx("span",
+        {
+          className:"bv2-toggle__switch",
+          children:[R.jsx("input",
+          {
+            type:"checkbox",
+            name:L.key,
+            checked:Z===!0,
+            onChange:J
+          }),R.jsx("span",
+          {
+            className:"bv2-toggle__track",
+            "aria-hidden":"true"
+          })]
+        })]
+      }):R.jsx("input",
+      {
+        type:"text",
+        value:Z??"",
+        placeholder:L.placeholder||"",
+        onChange:J
+      });
+      return R.jsxs("div",
+      {
+        className:"bv2-field bv2-schema-field",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-schema-field__label",
+          children:[R.jsx("label",
+          {
+            children:L.label
+          }),R.jsx("div",
+          {
+            className:"bv2-schema-field__actions",
+            children:R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-schema-field__unset",
+              onClick:()=>unsetRequirementDraftValue(L.key),
+              children:"Use default"
+            })
+          })]
+        }),V]
+      },L.key)
+    },
+    requirementList=(L,G,Z,J,V)=>R.jsxs("div",
+    {
+      className:"bv2-requirement-builder",
+      children:[R.jsxs("div",
+      {
+        className:"bv2-action-list",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-action-list__head",
+          children:[R.jsx("span",
+          {
+            className:"bv2-action-list__title",
+            children:`${G} (${Array.isArray(L)?L.length:0})`
+          }),R.jsx("button",
+          {
+            type:"button",
+          className:"bv2-btn",
+          style:{
+            padding:"3px 8px",
+            fontSize:"0.72rem"
+          },
+          onClick:Z,
+          children:[R.jsx("i",
+          {
+              className:"bi bi-plus-lg"
+            })," Add"]
+          })]
+        }),Array.isArray(L)&&L.length>0?L.map((I,se)=>{
+          const pe=zmenuRequirementMeta(I==null?void 0:I.type);
+          return R.jsxs("div",
+          {
+            className:"bv2-action-item",
+            draggable:!1,
+            children:[R.jsx("span",
+            {
+              className:"bv2-action-item__handle",
+              title:"Requirement",
+              children:"⋮⋮"
+            }),R.jsx("span",
+            {
+              className:"bv2-action-item__name",
+              children:pe.shortLabel
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-action-item__btn bv2-action-item__btn--config",
+              title:"Configure",
+              onClick:()=>J(se),
+              children:"⚙"
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-action-item__btn",
+              title:"Remove",
+              onClick:()=>V(se),
+              children:"×"
+            })]
+          },(I&&I.id)??se)
+        }):null]
+      })]
+    }),
+    requirementActionList=(L,G,Z,J,V)=>requirementList(L,G,Z,J,V).props.children[0],
+    legacyRequirementYaml=(L,G)=>L?R.jsxs("details",
+    {
+      className:"bv2-legacy-config",
+      children:[R.jsx("summary",
+      {
+        children:"Legacy YAML fallback"
+      }),R.jsx("textarea",
+      {
+        className:"bv2-raw-editor",
+        rows:5,
+        spellCheck:!1,
+        value:L,
+        onChange:Z=>updateRequirements({[G]:Z.target.value})
+      }),R.jsx("small",
+      {
+        children:"This legacy block is kept for compatibility with older files."
+      })]
+    }):null,
+    renderRequirementConfiguration=()=>{
+      if(!requirementModal)return null;
+      const L=requirementDraft(),G=zmenuRequirementMeta(L==null?void 0:L.type),Z=(G.fields||[]).filter(J=>J.required).every(J=>String((L&&L.values?L.values[J.key]:void 0)??"").trim()!=="");
+      return R.jsx("div",
+      {
+        className:"bv2-modal-overlay bv2-modal-overlay--requirement-config",
+        onMouseDown:J=>J.target===J.currentTarget&&setRequirementModal(null),
+        children:R.jsxs("div",
+        {
+          className:"bv2-modal bv2-modal--action-config",
+          role:"dialog",
+          "aria-modal":"true",
+          "aria-label":"Configure requirement",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-modal__header",
+            children:[R.jsx("span",
+            {
+              children:"Configure requirement"
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-modal__close",
+              "aria-label":"Close",
+              onClick:()=>setRequirementModal(null),
+              children:"×"
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-modal__body",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-placeholder-value-hint",
+              children:[R.jsx("span",
               {
-                children:"格子"
-              }),
-              R.jsx(Xe.Control,
+                children:"Select "
+              }),R.jsx("strong",
               {
-                disabled:!0,
-                value:i.currentSlot,
-                className:"rounded-1 disabled"
+                children:"Use variable"
+              }),R.jsxs("span",
+              {
+                children:[" next to a value to generate a placeholder such as ",R.jsx("code",
+                {
+                  children:"%money%"
+                }),"."]
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-field",
+              children:[R.jsx("label",
+              {
+                children:"Type"
+              }),R.jsx("select",
+              {
+                value:L.type,
+                onChange:J=>setRequirementDraftType(J.target.value),
+                children:zmenuRequirementTypeMeta.map((J,V)=>R.jsx("option",
+                {
+                  value:J.value,
+                  children:J.label
+                },J.value))
+              }),R.jsxs("div",
+              {
+                className:"bv2-field--inline",
+                children:[R.jsx("small",
+                {
+                  children:"Provided by zMenu"
+                }),R.jsx("a",
+                {
+                  href:"https://docs.groupez.dev/zmenu/configurations/requirements",
+                  target:"_blank",
+                  rel:"noopener noreferrer",
+                  className:"bv2-docs-link",
+                  title:`Open documentation: ${G.shortLabel}`,
+                  children:"↗"
+                })]
+              })]
+            }),(G.fields||[]).map(J=>requirementTypeField(J,L)),(L.type==="and"||L.type==="or")&&R.jsxs(R.Fragment,
+            {
+              children:[R.jsx("div",
+              {
+                className:"bv2-subheading",
+                children:"Sub-requirements"
+              }),requirementList(L.requirements||[],"Requirements",()=>openNestedRequirementEditor(null),J=>openNestedRequirementEditor(J),J=>removeCurrentRequirementChild(J))]
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-modal__footer",
+            children:[R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-btn",
+              onClick:()=>setRequirementModal(null),
+              children:"Cancel"
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-btn bv2-btn--primary",
+              disabled:!Z,
+              onClick:saveRequirementEditor,
+              children:requirementModal.rootIndex===null?"Add":"Save"
+            })]
+          })]
+        })
+      })
+    },
+    updateGroupDraft=L=>setGroupModal(G=>G?{...G,draft:typeof L==="function"?L(G.draft):{...G.draft,...L}}:G),
+    openGroupEditor=L=>{
+      const G=L===null||L===undefined?{
+        id:Date.now()+Math.random(),
+        name:`group-${clickGroups.length+1}`,
+        clicks:[],
+        requirements:[],
+        success:[],
+        deny:[]
+      }:cloneRequirementValue(clickGroups[L]);
+      setGroupClickQuery(""),
+      setGroupModal({index:L===null||L===undefined?null:L,draft:G})
+    },
+    toggleGroupClick=L=>updateGroupDraft(G=>({
+      ...G,
+      clicks:(Array.isArray(G.clicks)?G.clicks:[]).includes(L)?G.clicks.filter(Z=>Z!==L):[...(Array.isArray(G.clicks)?G.clicks:[]),L]
+    })),
+    saveGroupEditor=()=>{
+      if(!groupModal)return;
+      const L=[...clickGroups];
+      groupModal.index===null||groupModal.index===undefined?L.push(groupModal.draft):L[groupModal.index]=groupModal.draft,
+      updateRequirements({click_groups:L,click_yaml:""}),
+      setGroupModal(null)
+    },
+    renderGroupConfiguration=()=>{
+      if(!groupModal)return null;
+      const L=groupModal.draft,G=Array.isArray(L.clicks)?L.clicks:[];
+      return R.jsx("div",
+      {
+        className:"bv2-modal-overlay bv2-modal-overlay--requirement-group",
+        onMouseDown:Z=>Z.target===Z.currentTarget&&setGroupModal(null),
+        children:R.jsxs("div",
+        {
+          className:"bv2-modal bv2-modal--wide",
+          role:"dialog",
+          "aria-modal":"true",
+          "aria-label":"Configure click requirements",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-modal__header",
+            children:[R.jsx("span",
+            {
+              children:"Click requirement group"
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-modal__close",
+              "aria-label":"Close",
+              onClick:()=>setGroupModal(null),
+              children:"×"
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-modal__body",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-field",
+              children:[R.jsx("label",
+              {
+                children:"Group name"
+              }),R.jsx("input",
+              {
+                type:"text",
+                value:L.name??"",
+                placeholder:"group-1",
+                onChange:Z=>updateGroupDraft({name:Z.target.value})
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-field",
+              children:[R.jsx("label",
+              {
+                children:"Applies to clicks"
+              }),R.jsx("div",
+              {
+                className:"bv2-token-select",
+                children:[R.jsx("div",
+                {
+                className:"bv2-token-select__control",
+                  children:[G.map(Z=>R.jsx("button",
+                  {
+                    type:"button",
+                    className:"bv2-token-select__token",
+                    onClick:()=>toggleGroupClick(Z),
+                    children:[Z," ×"]
+                  },Z)),R.jsx("input",
+                  {
+                    type:"text",
+                    value:groupClickQuery,
+                    placeholder:"Type a click type…",
+                    onChange:Z=>setGroupClickQuery(Z.target.value)
+                  })]
+                }),R.jsx("div",
+                {
+                  className:"bv2-token-select__options",
+                  children:clickKeys.filter(Z=>!groupClickQuery||Z.toLowerCase().includes(groupClickQuery.toLowerCase())).map(Z=>R.jsx("button",
+                  {
+                    type:"button",
+                    className:`bv2-token-select__option${G.includes(Z)?" bv2-token-select__option--active":""}`,
+                    onClick:()=>toggleGroupClick(Z),
+                    children:Z
+                  },Z))
+                })]
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-requirement-builder",
+              children:[requirementActionList(L.requirements||[],"Requirements",()=>openRequirementEditor("group",null,null),Z=>openRequirementEditor("group",L.requirements[Z],Z),Z=>updateGroupDraft(G=>({...G,requirements:(G.requirements||[]).filter((J,V)=>V!==Z)}))),R.jsx("div",
+              {
+                className:"bv2-subheading",
+                children:"Success actions"
+              }),actionEditor(L.success||[],"Success",Z=>updateGroupDraft({success:Z})),R.jsx("div",
+              {
+                className:"bv2-subheading",
+                children:"Deny actions"
+              }),actionEditor(L.deny||[],"Deny",Z=>updateGroupDraft({deny:Z}))]
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-modal__footer",
+            children:[R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-btn",
+              onClick:()=>setGroupModal(null),
+              children:"Cancel"
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-btn bv2-btn--primary",
+              disabled:!(String(L.name||"").trim()),
+              onClick:saveGroupEditor,
+              children:groupModal.index===null?"Add":"Save"
+            })]
+          })]
+        })
+      })
+    },
+    renderGeneral=()=>R.jsxs("div",
+    {
+      className:"bv2-config-section",
+      children:[R.jsxs("div",
+      {
+        className:"bv2-field--row",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-field bv2-field--small",
+          children:[R.jsx("label",
+          {
+            children:"Slot"
+          }),R.jsx("input",
+          {
+            type:"text",
+            disabled:!0,
+            value:i.currentSlot
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-field",
+          children:[R.jsx("label",
+          {
+            children:"Button Name"
+          }),R.jsx("input",
+          {
+            type:"text",
+            name:"name",
+            value:m.button.name??"",
+            onChange:k
+          })]
+        })]
+      }),R.jsxs("div",
+      {
+        className:"bv2-field",
+        children:[R.jsx("label",
+        {
+          children:"Note"
+        }),R.jsx("textarea",
+        {
+          name:"comment",
+          rows:2,
+          value:m.button.comment??"",
+          placeholder:"In a few words, what does this button do?",
+          onChange:k
+        }),R.jsx("small",
+        {
+          children:["Exported as a ",R.jsx("code",
+          {
+            children:"#"
+          })," comment above this button."]
+        })]
+      }),R.jsx("div",
+      {
+        className:"bv2-subheading",
+        children:"Behaviour"
+      }),R.jsxs("div",
+      {
+        className:"bv2-toggle-group",
+        children:[R.jsx(YM,
+        {
+          currentSlot:m,
+          handleChange:k
+        }),R.jsx(KM,
+        {
+          currentSlot:m,
+          handleChange:k
+        }),R.jsx(QM,
+        {
+          currentSlot:m,
+          handleChange:k
+        }),R.jsx(XM,
+        {
+          currentSlot:m,
+          handleChange:k
+        }),R.jsx(JM,
+        {
+          currentSlot:m,
+          handleChange:k
+        })]
+      }),actionEditor(m.button.actions||[],"Actions",L=>{
+        h.forEach(G=>s(G,
+        {
+          ...i.slots[G].button,
+          actions:L
+        }))
+      })]
+    }),
+    renderType=()=>{
+      const L=x(),G=typePickerItems(),pluginMap=r.reduce((Z,V)=>{
+        const I=V.plugin==null?"Unknown plugin":V.plugin.name;
+        const se=I.toLowerCase();
+        return Z[se]||(Z[se]={name:I,count:0,icon:V.plugin==null?"":V.plugin.icon_url||V.plugin.icon||""}),Z[se].count++,Z
+      },{}),pluginList=Object.values(pluginMap).sort((Z,V)=>{
+        const I=Z.name.toLowerCase()==="zmenu"?0:V.name.toLowerCase()==="zmenu"?1:0;
+        return I||Z.name.localeCompare(V.name,"en")
+      }),activePlugin=pluginList.find(Z=>Z.name===typePickerPlugin)||pluginList[0]||null,pluginQuery=String(typePickerPluginQuery||"").trim().toLowerCase(),visiblePlugins=pluginList.filter(Z=>!pluginQuery||Z.name.toLowerCase().includes(pluginQuery)),pluginTypes=activePlugin?G.filter(Z=>(Z.plugin==null?"Unknown plugin":Z.plugin.name)===activePlugin.name):[],typeCard=Z=>{
+        const I=m.button.type_id===Z.id,se=typeFieldCount(Z),te=Array.isArray(Z.placeholders)?Z.placeholders.length:0,me=Array.isArray(Z.states)?Z.states.length:0,Le=Z.plugin==null?"Unknown plugin":Z.plugin.name;
+        return R.jsxs("button",
+        {
+          type:"button",
+          className:`bv2-button-type-card${I?" is-selected":""}`,
+          "aria-pressed":I,
+          onClick:()=>selectButtonType(Z),
+          children:[R.jsxs("span",
+          {
+            className:"bv2-button-type-card__mark",
+            "aria-hidden":!0,
+            children:[R.jsx("i",
+            {
+              className:"bi bi-box"
+            }),Z.plugin!=null&&Z.plugin.icon_url&&R.jsx("img",
+            {
+              src:Z.plugin.icon_url,
+              alt:"",
+              onError:Ve=>{
+                Ve.currentTarget.hidden=!0
+              }
+            })]
+          }),R.jsxs("span",
+          {
+            className:"bv2-button-type-card__content",
+            children:[R.jsxs("span",
+            {
+              className:"bv2-button-type-card__heading",
+              children:[R.jsxs("span",
+              {
+                children:[R.jsx("strong",
+                {
+                  children:Z.name
+                }),R.jsx("small",
+                {
+                  children:Le
+                })]
+              }),I&&R.jsxs("span",
+              {
+                className:"bv2-button-type-card__selected",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-check2"
+                })," Selected"]
+              })]
+            }),R.jsx("span",
+            {
+              className:"bv2-button-type-card__description",
+              children:Z.description||"No description is available for this button type."
+            }),R.jsxs("span",
+            {
+              className:"bv2-button-type-card__meta",
+              children:[R.jsxs("span",
+              {
+                title:"Configuration fields",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-sliders"
+                })," ",se," ",se===1?"option":"options"]
+              }),te>0&&R.jsxs("span",
+              {
+                title:"Available placeholders",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-code"
+                })," ",te," placeholders"]
+              }),Z.supportsFallback!==!1&&R.jsxs("span",
+              {
+                title:"Supports an else button",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-diagram-3"
+                })," Fallback"]
+              }),me>1&&R.jsxs("span",
+              {
+                title:"Preview states",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-eye"
+                })," ",me," states"]
+              }),Z.documentation_url&&R.jsxs("span",
+              {
+                title:"Documentation is available",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-book"
+                })," Docs"]
+              })]
+            })]
+          }),R.jsxs("span",
+          {
+            className:"bv2-button-type-card__action",
+            "aria-hidden":!0,
+            children:[I?"Current type":"Choose"," ",R.jsx("i",
+            {
+              className:"bi bi-arrow-right"
+            })]
+          })]
+        },`type-card-${Z.id}`)
+      },emptyPicker=R.jsxs("div",
+      {
+        className:"bv2-button-type-picker__empty",
+        children:[R.jsx("i",
+        {
+          className:"bi bi-search"
+        }),R.jsx("strong",
+        {
+          children:"No matching button types"
+        }),R.jsx("span",
+        {
+          children:"Try a different search or clear your filters."
+        }),R.jsx("button",
+        {
+          type:"button",
+          onClick:()=>{
+            setTypePickerQuery(""),
+            setTypePickerFilter("all")
+          },
+          children:"Clear filters"
+        })]
+      }),pluginBrowser=R.jsxs("div",
+      {
+        className:"bv2-button-plugin-browser",
+        children:[R.jsxs("aside",
+        {
+          className:"bv2-button-plugin-browser__sidebar",
+          "aria-label":"Plugins",
+          children:[R.jsxs("label",
+          {
+            className:"bv2-button-plugin-browser__search",
+            children:[R.jsx("i",
+            {
+              className:"bi bi-search",
+              "aria-hidden":!0
+            }),R.jsx("input",
+            {
+              type:"search",
+              value:typePickerPluginQuery,
+              placeholder:"Search plugins…",
+              "aria-label":"Search plugins",
+              onChange:Ve=>setTypePickerPluginQuery(Ve.target.value)
+            }),typePickerPluginQuery&&R.jsx("button",
+            {
+              type:"button",
+              "aria-label":"Clear plugin search",
+              onClick:()=>setTypePickerPluginQuery(""),
+              children:R.jsx("i",
+              {
+                className:"bi bi-x"
+              })
+            })]
+          }),R.jsx("div",
+          {
+            className:"bv2-button-plugin-browser__list",
+            children:visiblePlugins.length>0?visiblePlugins.map(V=>R.jsxs("button",
+            {
+              type:"button",
+              className:V.name===activePlugin?.name?"is-active":"",
+              "aria-pressed":V.name===activePlugin?.name,
+              onClick:()=>setTypePickerPlugin(V.name),
+              children:[R.jsxs("span",
+              {
+                className:"bv2-button-plugin-browser__plugin-icon",
+                "aria-hidden":!0,
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-box"
+                }),V.icon&&R.jsx("img",
+                {
+                  src:V.icon,
+                  alt:"",
+                  onError:Ve=>{
+                    Ve.currentTarget.hidden=!0
+                  }
+                })]
+              }),R.jsxs("span",
+              {
+                children:[R.jsx("strong",
+                {
+                  children:V.name
+                }),R.jsxs("small",
+                {
+                  children:[V.count," types"]
+                })]
+              }),R.jsx("i",
+              {
+                className:"bi bi-chevron-right",
+                "aria-hidden":!0
+              })]
+            },V.name)):R.jsxs("div",
+            {
+              className:"bv2-button-plugin-browser__no-plugin",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-search"
+              }),R.jsx("strong",
+              {
+                children:"No plugins found"
               })]
             })
-          }),
-          R.jsx("div",
-          {
-            className:"col-10",
-            children:R.jsx(qM,
-            {
-              currentSlot:m,
-              handleChange:k
-            })
           })]
-        }),
-        R.jsx(YM,
+        }),R.jsxs("div",
         {
-          currentSlot:m,
-          handleChange:k
-        }),
-        R.jsx(KM,
-        {
-          currentSlot:m,
-          handleChange:k
-        }),
-        R.jsx(QM,
-        {
-          currentSlot:m,
-          handleChange:k
-        }),
-        R.jsx(XM,
-        {
-          currentSlot:m,
-          handleChange:k
-        }),
-        R.jsx(JM,
-        {
-          currentSlot:m,
-          handleChange:k
-        }),
-        R.jsx(_AC,
-        {
-          currentSlot:m,
-          actionTypes:d,
-          updateActions:te=>{
-            h.forEach(Se=>{
-              const Ie={
-                ...i.slots[Se].button,
-                actions:te
-              };
-              s(Se,
-              Ie)
-            })
-          }
+          className:"bv2-button-plugin-browser__content",
+          children:[activePlugin?R.jsxs("div",
+          {
+            className:"bv2-button-plugin-browser__header",
+            children:[R.jsxs("span",
+            {
+              className:"bv2-button-plugin-browser__hero-icon",
+              "aria-hidden":!0,
+              children:[R.jsx("i",
+              {
+                className:"bi bi-box"
+              }),activePlugin.icon&&R.jsx("img",
+              {
+                src:activePlugin.icon,
+                alt:"",
+                onError:Ve=>{
+                  Ve.currentTarget.hidden=!0
+                }
+              })]
+            }),R.jsxs("span",
+            {
+              children:[R.jsx("strong",
+              {
+                children:activePlugin.name
+              }),R.jsxs("small",
+              {
+                children:[pluginTypes.length," button types available."]
+              })]
+            })]
+          },`plugin-header-${activePlugin.name}`):null,pluginTypes.length>0?R.jsx("div",
+          {
+            className:"bv2-button-type-picker__grid",
+            children:pluginTypes.map(typeCard)
+          }):R.jsxs("div",
+          {
+            className:"bv2-button-plugin-browser__empty",
+            children:[R.jsx("i",
+            {
+              className:"bi bi-box"
+            }),R.jsx("strong",
+            {
+              children:"No button types for this plugin"
+            })]
+          })]
         })]
-      }),
-      R.jsxs("div",
+      }),typePickerModal=typePickerOpen&&R.jsx("div",
       {
-        className:"configurations-button-bottom p-2",
+        className:"bv2-modal-overlay",
+        onMouseDown:Z=>Z.target===Z.currentTarget&&setTypePickerOpen(!1),
+        children:R.jsxs("div",
+        {
+          className:"bv2-modal bv2-modal--button-type-picker",
+          role:"dialog",
+          "aria-modal":!0,
+          "aria-labelledby":"button-type-picker-title",
+          onMouseDown:Z=>Z.stopPropagation(),
+          children:[R.jsxs("div",
+          {
+            className:"bv2-modal__header bv2-button-type-picker__header",
+            children:[R.jsxs("div",
+            {
+              children:[R.jsx("span",
+              {
+                id:"button-type-picker-title",
+                children:"Choose a button type"
+              }),R.jsx("small",
+              {
+                children:"Pick the behaviour that should run when players use this slot."
+              })]
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-modal__close",
+              onClick:()=>setTypePickerOpen(!1),
+              "aria-label":"Close button type picker",
+              children:R.jsx("i",
+              {
+                className:"bi bi-x-lg"
+              })
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-modal__body bv2-button-type-picker",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-button-type-picker__toolbar",
+              children:[R.jsxs("label",
+              {
+                className:"bv2-button-type-picker__search",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-search",
+                  "aria-hidden":!0
+                }),R.jsx("input",
+                {
+                  type:"search",
+                  autoFocus:!0,
+                  value:typePickerQuery,
+                  onChange:Z=>setTypePickerQuery(Z.target.value),
+                  placeholder:"Search by name, purpose or option…",
+                  "aria-label":"Search button types"
+                }),typePickerQuery&&R.jsx("button",
+                {
+                  type:"button",
+                  onClick:()=>setTypePickerQuery(""),
+                  "aria-label":"Clear search",
+                  children:R.jsx("i",
+                  {
+                    className:"bi bi-x"
+                  })
+                })]
+              }),R.jsxs("div",
+              {
+                className:"bv2-button-type-picker__view",
+                role:"group",
+                "aria-label":"Display button types",
+                children:[R.jsxs("button",
+                {
+                  type:"button",
+                  className:typePickerMode==="all"?"is-active":"",
+                  "aria-pressed":typePickerMode==="all",
+                  onClick:()=>setTypePickerMode("all"),
+                  children:[R.jsx("i",
+                  {
+                    className:"bi bi-grid"
+                  })," All"]
+                }),R.jsxs("button",
+                {
+                  type:"button",
+                  className:typePickerMode==="plugin"?"is-active":"",
+                  "aria-pressed":typePickerMode==="plugin",
+                  onClick:()=>{
+                    const Ve=r.find(Ke=>Ke.id===m.button.type_id);
+                    setTypePickerPlugin(Ve==null||Ve.plugin==null?"zMenu":Ve.plugin.name),
+                    setTypePickerMode("plugin")
+                  },
+                  children:[R.jsx("i",
+                  {
+                    className:"bi bi-layers"
+                  })," By plugin"]
+                })]
+              }),R.jsxs("label",
+              {
+                className:"bv2-button-type-picker__sort",
+                children:[R.jsx("span",
+                {
+                  children:"Sort"
+                }),R.jsxs("select",
+                {
+                  value:typePickerSort,
+                  onChange:Z=>setTypePickerSort(Z.target.value),
+                  children:[R.jsx("option",
+                  {
+                    value:"relevance",
+                    children:"Best match"
+                  }),R.jsx("option",
+                  {
+                    value:"name-asc",
+                    children:"Name A–Z"
+                  }),R.jsx("option",
+                  {
+                    value:"name-desc",
+                    children:"Name Z–A"
+                  }),R.jsx("option",
+                  {
+                    value:"fields-desc",
+                    children:"Most configurable"
+                  })]
+                })]
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-button-type-picker__filters",
+              "aria-label":"Filter button types",
+              children:[["all","All types"],["configurable","Configurable"],["placeholders","With placeholders"],["fallback","Supports fallback"]].map(([Z,V])=>R.jsx("button",
+              {
+                type:"button",
+                className:typePickerFilter===Z?"is-active":"",
+                "aria-pressed":typePickerFilter===Z,
+                onClick:()=>setTypePickerFilter(Z),
+                children:V
+              },Z))
+            }),R.jsx("div",
+            {
+              className:"bv2-button-type-picker__result-count",
+              "aria-live":"polite",
+              children:typePickerMode==="plugin"?R.jsxs(R.Fragment,
+              {
+                children:[R.jsx("strong",
+                {
+                  children:pluginTypes.length
+                })," types in ",R.jsx("strong",
+                {
+                  children:activePlugin==null?"Unknown plugin":activePlugin.name
+                })," · ",R.jsx("strong",
+                {
+                  children:pluginList.length
+                })," plugins"]
+              }):R.jsxs(R.Fragment,
+              {
+                children:[R.jsx("strong",
+                {
+                  children:G.length
+                })," types available"]
+              })
+            }),R.jsx("div",
+            {
+              className:"bv2-button-type-picker__results",
+              children:typePickerMode==="plugin"?pluginBrowser:R.jsx("div",
+              {
+                className:"bv2-button-type-picker__grid",
+                children:G.length>0?G.map(typeCard):emptyPicker
+              })
+            })]
+          })]
+        })
+      });
+      return R.jsxs("div",
+      {
+        className:"bv2-config-section bv2-type-section",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-type-current",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-type-current__summary",
+            children:[R.jsx("span",
+            {
+              className:"bv2-type-current__label",
+              children:"BUTTON TYPE"
+            }),R.jsxs("div",
+            {
+              className:"bv2-type-current__name",
+              children:[R.jsx("strong",
+              {
+                children:L==null?"None":L.name
+              }),R.jsx("span",
+              {
+                children:L!=null&&L.plugin!=null?L.plugin.name:"zMenu"
+              })]
+            }),L!=null&&R.jsx("small",
+            {
+              children:L.description||"default button"
+            })]
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn bv2-btn--primary bv2-type-current__change",
+            onClick:()=>setTypePickerOpen(!0),
+            children:"Change"
+          })]
+        }),L!=null&&L.description&&R.jsx("p",
+        {
+          className:"bv2-type-description",
+          children:L.description
+        }),R.jsxs("div",
+        {
+          className:"bv2-type-section-block",
+          children:[R.jsx("div",
+          {
+            className:"bv2-type-section-title",
+            children:"Configuration fields"
+          }),L!=null&&(L.contents==null?void 0:L.contents.length)>0?L.contents.map((Z,J)=>typeConfig(Z,Z.id??J)):R.jsx("div",
+          {
+            className:"bv2-config-section__empty",
+            children:"This button type has no extra options."
+          })]
+        }),L!=null&&Array.isArray(L.placeholders)&&L.placeholders.length>0&&R.jsxs("div",
+        {
+          className:"bv2-type-section-block",
+          children:[R.jsx("div",
+          {
+            className:"bv2-type-section-title",
+            children:"Available placeholders"
+          }),R.jsx("div",
+          {
+            className:"bv2-type-placeholder-list",
+            children:L.placeholders.map((Z,J)=>R.jsxs("div",
+            {
+              className:"bv2-type-placeholder",
+              children:[R.jsx("code",
+              {
+                children:Z.name
+              }),R.jsx("span",
+              {
+                children:Z.description
+              }),Z.defaultValue!==undefined&&R.jsx("small",
+              {
+                children:`Default: ${Z.defaultValue}`
+              })]
+            },Z.name||J))
+          })]
+        }),L!=null&&Array.isArray(L.states)&&L.states.length>1&&R.jsxs("div",
+        {
+          className:"bv2-type-section-block",
+          children:[R.jsx("div",
+          {
+            className:"bv2-type-section-title",
+            children:"Preview states"
+          }),R.jsx("div",
+          {
+            className:"bv2-type-state-list",
+            children:L.states.map((Z,J)=>R.jsx("span",
+            {
+              className:"bv2-type-state",
+              children:Z
+            },Z||J))
+          })]
+        }),typePickerModal]
+      })
+    },
+    renderAdvanced=()=>R.jsxs("div",
+    {
+      className:"bv2-config-section",
+      children:[patternSource(),R.jsx("details",
+      {
+        className:"bv2-config-collapsible",
+        children:[R.jsx("summary",
+        {
+          children:"Advanced behaviour"
+        }),R.jsxs("div",
+        {
+          className:"bv2-config-collapsible__body",
+          children:[toggle("update_master_button","Update master button","Trigger the parent button update (useful for SWITCH buttons).",advancedDoc("update-master-button")),toggle("use_cache","Use cache","Reuse the already-built item instead of rebuilding it (performance).",advancedDoc("use-cache")),toggle("stop_on_empty","Stop on empty","Run only the actions defined here, skipping the default ones.",advancedDoc("stop-on-empty"))]
+        })]
+      }),R.jsx("details",
+      {
+        className:"bv2-config-collapsible",
+        children:[R.jsx("summary",
+        {
+          children:"Click shortcuts"
+        }),R.jsxs("div",
+        {
+          className:"bv2-config-collapsible__body",
+          children:[field("sound","Sound (on click)","text","BLOCK_NOTE_BLOCK_PLING","Quick sound played on click. Prefer a \"sound\" action for pitch/volume control.",advancedDoc("sound")),field("messages","Messages (on click)","textarea","<gray>Hello %player%","Quick messages sent on click (one per line). Prefer a \"message\" action.",advancedDoc("messages"))]
+        })]
+      }),R.jsx("details",
+      {
+        className:"bv2-config-collapsible",
+        children:[R.jsx("summary",
+        {
+          children:"Visibility"
+        }),R.jsxs("div",
+        {
+          className:"bv2-config-collapsible__body",
+          children:[field("permission","Permission","text","menu.button.view","Single permission required to view. Use Requirements for AND / multiple permissions.",advancedDoc("permission")),field("or_permission","Or-permission (any one)","textarea","group.vip","Visible if the player has ANY one of these permissions (one per line).",advancedDoc("or-permission")),field("placeholder","Placeholder condition","text","%player_level%","Checked against the operator + value below to control visibility.",advancedDoc("placeholder")),R.jsxs("div",
+          {
+            className:"bv2-field",
+            children:[fieldLabel("Operator",advancedDoc("action")),R.jsxs("select",
+            {
+              value:advanced.action??"",
+              onChange:L=>updateAdvanced("action",L.target.value),
+              children:["","==","!=",">=",">","<=","<","equals_string","equalsIgnoreCase"].map(G=>R.jsx("option",
+              {
+                value:G,
+                children:G||"-"
+              },
+              G))
+            }),R.jsx("small",
+            {
+              children:"Comparison used with the placeholder condition."
+            })]
+          }),field("value","Compared value","text","10","",advancedDoc("value"))]
+        })]
+      }),R.jsx("details",
+      {
+        className:"bv2-config-collapsible",
+        children:[R.jsx("summary",
+        {
+          children:"Misc"
+        }),R.jsxs("div",
+        {
+          className:"bv2-config-collapsible__body",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-objfield",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-objfield__header",
+              children:[R.jsx("span",
+              {
+                className:"bv2-subheading",
+                children:"Error item"
+              }),R.jsx("span",
+              {
+                className:"bv2-objfield__badge",
+                children:"zMenu+"
+              }),R.jsx("a",
+              {
+                className:"bv2-field__docs",
+                href:advancedDoc("error-item"),
+                target:"_blank",
+                rel:"noopener noreferrer",
+                title:"Open documentation: Error item",
+                "aria-label":"Open documentation: Error item",
+                children:R.jsx("i",
+                {
+                  className:"bi bi-box-arrow-up-right"
+                })
+              })]
+            }),field("error_item_material","Material","text","BARRIER"),field("error_item_name","Name"),field("error_item_lore","Lore","textarea"),R.jsx("small",
+            {
+              className:"bv2-objfield__help",
+              children:"Item displayed when an error occurs while building this button."
+            })]
+          }),field("open_link","Open link (deprecated)","text","https://example.com","Deprecated - prefer a MiniMessage <click:open_url:...> in the name/lore instead.",advancedDoc("open-link"))]
+        })]
+      }),R.jsxs("div",
+      {
+        className:"bv2-field bv2-raw-field",
+        children:[fieldLabel("Raw button config (YAML)"),R.jsx("textarea",
+        {
+          className:"bv2-raw-editor",
+          rows:5,
+          spellCheck:!1,
+          value:currentData.raw_button_config??"",
+          placeholder:"view-requirement:\n  requirements:\n    - type: permission\n      permission: my.permission",
+          onChange:L=>updateData(G=>({
+            ...G,
+            raw_button_config:L.target.value
+          }))
+        }),R.jsx("small",
+        {
+          children:"Merged as-is into the button during export. Use this for keys that are not yet available in the UI."
+        })]
+      })]
+    }),
+    renderRequirements=()=>R.jsxs("div",
+    {
+      className:"bv2-config-section",
+      children:[R.jsxs("div",
+      {
+        className:"bv2-req-card",
         children:[R.jsx("div",
         {
-          className:"configurations-button-header mb-2",
-          children:"Specific configuration"
-        }),
-        R.jsxs("div",
+          className:"bv2-req-card__header",
+          children:"View requirement"
+        }),R.jsxs("div",
         {
-          className:"mb-2",
-          children:[R.jsx(SR,
+          className:"bv2-req-card__body",
+          children:[R.jsxs("div",
           {
-            options:r.map(L=>L.name),
-            handleChange:k,
-            name:"button_type",
-            displayOption:L=>oB[L]??L,
-            allowCustom:!1,
-            defaultValue:((T=x())==null?void 0:T.name)??""
-          },
-          "button_type"),
-          ((O=x())==null?void 0:O.description)&&R.jsx("small",
-          {
-            className:"form-text text-muted",
-            children:(P=x())==null?void 0:P.description
+            className:"bv2-requirement-builder",
+            children:[requirementActionList(viewRequirements,"Requirements",()=>openRequirementEditor("view",null,null),L=>openRequirementEditor("view",viewRequirements[L],L),L=>updateRequirements({view:viewRequirements.filter((G,Z)=>Z!==L),view_yaml:""})),!Array.isArray(requirements.view)&&legacyRequirementYaml(requirements.view_yaml,"view_yaml"),R.jsx("div",
+            {
+              className:"bv2-subheading",
+              children:"Success actions"
+            }),actionEditor(requirements.success||[],"Success",L=>updateRequirements({success:L})),R.jsx("div",
+            {
+              className:"bv2-subheading",
+              children:"Deny actions"
+            }),actionEditor(requirements.deny||[],"Deny",L=>updateRequirements({deny:L}))]
           })]
-        }),
-        (B=(j=x())==null?void 0:j.contents)==null?void 0:B.map((L,
-        G)=>{
-          if(L.data_type=="text")return R.jsx(rB,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id);
-          if(L.data_type=="textarea")return R.jsx(aB,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id);
-          if(L.data_type=="number")return R.jsx(iB,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id);
-          if(L.data_type=="string")return R.jsx(rB,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id);
-          if(L.data_type=="integer")return R.jsx(_IF,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id);
-          if(L.data_type=="float")return R.jsx(_FF,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id);
-          if(L.data_type=="bool")return R.jsx(_BF,
-          {
-            element:L,
-            handleChange:_,
-            defaultValue:S(L)
-          },
-          L.id)
         })]
-      })]
-    }):R.jsxs("div",
+      }),R.jsxs("div",
+      {
+        className:"bv2-req-card",
+        children:[R.jsx("div",
+        {
+          className:"bv2-req-card__header",
+          children:"Click requirement"
+        }),R.jsxs("div",
+        {
+          className:"bv2-req-card__body",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-requirement-builder",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-action-list",
+              children:[R.jsxs("div",
+              {
+                className:"bv2-action-list__head",
+                children:[R.jsx("span",
+                {
+                  className:"bv2-action-list__title",
+                  children:`Click requirements (${clickGroups.length})`
+                }),R.jsx("button",
+                {
+                  type:"button",
+                  className:"bv2-btn",
+                  style:{
+                    padding:"3px 8px",
+                    fontSize:"0.72rem"
+                  },
+                  onClick:()=>openGroupEditor(null),
+                  children:[R.jsx("i",
+                  {
+                    className:"bi bi-plus-lg"
+                  })," Add group"]
+                })]
+              }),clickGroups.length>0?clickGroups.map((L,G)=>R.jsxs("div",
+              {
+                className:"bv2-action-item",
+                children:[R.jsx("span",
+                {
+                  className:"bv2-action-item__handle",
+                  title:"Requirement group",
+                  children:"⋮⋮"
+                }),R.jsxs("span",
+                {
+                  className:"bv2-action-item__name",
+                  children:[L.name||`group-${G+1}`,R.jsx("small",
+                  {
+                    children:Array.isArray(L.clicks)&&L.clicks.length>0?L.clicks.join(", "):"All clicks"
+                  })]
+                }),R.jsx("button",
+                {
+                  type:"button",
+                  className:"bv2-action-item__btn bv2-action-item__btn--config",
+                  title:"Configure",
+                  onClick:()=>openGroupEditor(G),
+                  children:"⚙"
+                }),R.jsx("button",
+                {
+                  type:"button",
+                  className:"bv2-action-item__btn",
+                  title:"Remove",
+                  onClick:()=>updateRequirements({click_groups:clickGroups.filter((Z,J)=>J!==G),click_yaml:""}),
+                  children:"×"
+                })]
+              },L.id??G)):null]
+            })]
+          }),!Array.isArray(requirements.click_groups)&&legacyRequirementYaml(requirements.click_yaml,"click_yaml")]
+        })]
+      }),renderGroupConfiguration(),renderRequirementConfiguration()]
+    }),
+    renderClicks=()=>R.jsx("div",
+    {
+      className:"bv2-config-section",
+      children:clickKeys.map(L=>{
+        const G=Array.isArray(clicks[L])?clicks[L]:[];
+        return R.jsxs("details",
+        {
+          className:"bv2-config-collapsible bv2-config-collapsible--nested",
+          children:[R.jsx("summary",
+          {
+            children:L
+          }),R.jsx("div",
+          {
+            className:"bv2-config-collapsible__body",
+            children:actionEditor(G,`${L} (${G.length})`,J=>updateClicks(L,J))
+          })]
+        },
+        L)
+      })
+    }),
+    renderTab=()=>activeTab==="general"?renderGeneral():activeTab==="type"?renderType():activeTab==="advanced"?renderAdvanced():activeTab==="requirements"?renderRequirements():renderClicks();
+    return i.currentSlot>=0?R.jsx("div",
     {
       className:"configurations-button",
-      children:[R.jsx("div",
+      children:R.jsxs("div",
       {
-        className:"configurations-button-top p-2",
-        children:R.jsx("div",
+        className:"bv2-button-editor",
+        children:[R.jsx("div",
         {
-          className:"d-flex justify-content-center align-items-center h-100",
-          children:"请选择一个物品"
-        })
-      }),
-      R.jsx("div",
+          className:"bv2-tabs",
+          children:tabs.map(L=>R.jsx("button",
+          {
+            type:"button",
+            className:`bv2-tab${activeTab===L[0]?" bv2-tab--active":""}`,
+            onClick:()=>setActiveTab(L[0]),
+            children:L[1]
+          },
+          L[0]))
+        }),renderTab()]
+      })
+    }):R.jsx("div",
+    {
+      className:"configurations-button",
+      children:R.jsx("div",
       {
-        className:"configurations-button-bottom p-2",
-        children:R.jsx("div",
-        {
-          className:"d-flex justify-content-center align-items-center h-100",
-          children:"请选择一个物品"
-        })
-      })]
+        className:"bv2-button-editor bv2-button-editor--empty",
+        children:"请选择一个物品"
+      })
     })
   },
   lB=({
@@ -62874,6 +65039,8 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     T]=U.useState(!1),
     [O,
     P]=U.useState([]),
+    [clipboardSlots,
+    setClipboardSlots]=U.useState([]),
     [j,
     B]=U.useState(1),
     [L,
@@ -62904,6 +65071,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             commands:null,
             console_commands:null,
             name:`btn-${re}`,
+            comment:"",
             volume:1,
             pitch:1,
             sound:"",
@@ -62974,8 +65142,145 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         Ie))
       }
     });
-    const Z=U.useCallback(ee=>{
-      ee=ee||window.event,
+    const cloneSlot=ee=>{
+      if(ee==null)return ee;
+      if(typeof structuredClone==="function")return structuredClone(ee);
+      return JSON.parse(JSON.stringify(ee))
+    },
+    getActionSlots=()=>{
+      const ee=O.length>0?O:[L.currentSlot];
+      return[...new Set(ee.filter(re=>re!=null).map(re=>Number(re)).filter(re=>Number.isInteger(re)&&re>=0&&re<L.slots.length))].sort((re,pe)=>re-pe)
+    },
+    cloneSlotForIndex=(ee,re)=>{
+      const pe=cloneSlot(ee)||po.normalizeSlot(null,re),
+      ge=Math.floor(re/Kf)+1,
+      Me=re%Kf;
+      return{
+        ...pe,
+        id:re,
+        button:{
+          ...pe.button,
+          slot:Me,
+          page:ge
+        }
+      }
+    },
+    copySlots=()=>{
+      const ee=getActionSlots();
+      if(ee.length===0)return;
+      const re=ee[0];
+      setClipboardSlots(ee.map(pe=>({
+        offset:pe-re,
+        slot:cloneSlot(L.slots[pe])
+      })))
+    },
+    resetSlots=()=>{
+      const ee=getActionSlots();
+      if(ee.length===0)return;
+      T(!0),
+      G(re=>{
+        const pe=[...re.slots];
+        ee.forEach(ge=>{
+          pe[ge]=po.normalizeSlot(null,ge)
+        });
+        return{
+          ...re,
+          slots:pe,
+          currentSlot:re.currentSlot>=0?re.currentSlot:ee[0]
+        }
+      })
+    },
+    cutSlots=()=>{
+      const ee=getActionSlots();
+      if(ee.length===0)return;
+      copySlots(),
+      T(!0),
+      G(re=>{
+        const pe=[...re.slots];
+        ee.forEach(ge=>{
+          pe[ge]=po.normalizeSlot(null,ge)
+        });
+        return{
+          ...re,
+          slots:pe,
+          currentSlot:re.currentSlot>=0?re.currentSlot:ee[0]
+        }
+      })
+    },
+    pasteSlots=()=>{
+      if(clipboardSlots.length===0)return;
+      const ee=L.currentSlot>=0?L.currentSlot:getActionSlots()[0];
+      if(!Number.isInteger(ee))return;
+      T(!0),
+      G(re=>{
+        const pe=[...re.slots];
+        let ge=-1;
+        clipboardSlots.forEach(Me=>{
+          const ft=ee+Me.offset;
+          if(ft<0||ft>=pe.length)return;
+          pe[ft]=cloneSlotForIndex(Me.slot,ft),
+          ge===-1&&(ge=ft)
+        });
+        return{
+          ...re,
+          slots:pe,
+          currentSlot:ge===-1?re.currentSlot:ge
+        }
+      })
+    },
+    duplicateSlots=()=>{
+      const ee=getActionSlots();
+      if(ee.length===0)return;
+      const re=Math.max(...ee)+1,
+      pe=ee[0];
+      T(!0),
+      G(ge=>{
+        const Me=[...ge.slots];
+        let ft=-1;
+        ee.forEach(_e=>{
+          const Lt=re+_e-pe;
+          if(Lt<0||Lt>=Me.length)return;
+          Me[Lt]=cloneSlotForIndex(ge.slots[_e],Lt),
+          ft===-1&&(ft=Lt)
+        });
+        return{
+          ...ge,
+          slots:Me,
+          currentSlot:ft===-1?ge.currentSlot:ft
+        }
+      })
+    },
+    hasActionSlot=()=>getActionSlots().length>0,
+    Z=U.useCallback(ee=>{
+      ee=ee||window.event;
+      const re=ee.target,
+      pe=re instanceof Element&&(re.matches("input, textarea, select, [contenteditable='true']")||re.closest("[contenteditable='true']")),
+      ge=ee.ctrlKey||ee.metaKey;
+      if(!pe&&ge&&I(ee,["c","C"],67)&&hasActionSlot()){
+        ee.preventDefault(),
+        copySlots();
+        return
+      }
+      if(!pe&&ge&&I(ee,["x","X"],88)&&hasActionSlot()){
+        ee.preventDefault(),
+        cutSlots();
+        return
+      }
+      if(!pe&&ge&&I(ee,["v","V"],86)&&clipboardSlots.length>0&&L.currentSlot>=0){
+        ee.preventDefault(),
+        pasteSlots();
+        return
+      }
+      if(!pe&&ge&&I(ee,["d","D"],68)&&hasActionSlot()){
+        ee.preventDefault(),
+        duplicateSlots();
+        return
+      }
+      if(!pe&&I(ee,["Delete"],46)&&hasActionSlot()){
+        ee.preventDefault(),
+        resetSlots();
+        return
+      }
       I(ee,
       ["Escape",
       "Esc"],
@@ -63002,7 +65307,9 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     },
     [_,
     d,
-    L]),
+    L,
+    O,
+    clipboardSlots]),
     J=(ee,
     re)=>{
       ee.preventDefault(),
@@ -63307,6 +65614,73 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       P(O.filter((re,
       pe)=>re!=ee))
     };
+    const actionSlots=getActionSlots(),
+    hasActionSlots=actionSlots.length>0,
+    clipButton=(ee,
+    re,
+    pe,
+    ge,
+    Me=!1,
+    ft=null)=>R.jsx("button",
+    {
+      type:"button",
+      className:`bv2-clip-bar__btn${Me?" bv2-clip-bar__btn--danger":""}`,
+      title:re,
+      "aria-label":re,
+      "data-tooltip":re,
+      disabled:ge,
+      onClick:pe,
+      children:R.jsxs("span",
+      {
+        className:"bv2-clip-bar__btn-content",
+        children:[R.jsx("i",
+        {
+          className:ee,
+          "aria-hidden":"true"
+        }),
+        ft!=null&&R.jsx("span",
+        {
+          children:ft
+        })]
+      })
+    },
+    re),
+    clipBar=R.jsxs("div",
+    {
+      className:"bv2-clip-bar",
+      role:"toolbar",
+      "aria-label":"Slot tools",
+      children:[clipButton("bi bi-copy",
+      "Copy",
+      copySlots,
+      !hasActionSlots,
+      !1,
+      null),
+      clipButton("bi bi-scissors",
+      "Cut",
+      cutSlots,
+      !hasActionSlots,
+      !1,
+      null),
+      clipButton("bi bi-clipboard",
+      "Paste",
+      pasteSlots,
+      clipboardSlots.length===0||L.currentSlot<0,
+      !1,
+      null),
+      clipButton("bi bi-files",
+      "Duplicate",
+      duplicateSlots,
+      !hasActionSlots,
+      !1,
+      null),
+      clipButton("bi bi-eraser",
+      "Reset slot (Del)",
+      resetSlots,
+      !hasActionSlots,
+      !0,
+      "Reset slot (Del)")]
+    });
     return R.jsxs("div",
     {
       className:"inventory-builder",
@@ -63328,6 +65702,13 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             className:"visually-hidden"
           })
         })]
+      }),
+      R.jsx(GM,
+      {
+        needToUpdate:x,
+        saveData:F,
+        onDownload:Y,
+        onImport:Re
       }),
       R.jsxs("div",
       {
@@ -63363,26 +65744,31 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         }),
         R.jsxs("div",
         {
-          className:"configurations",
-          children:[R.jsx(pB,
+          className:"configurations bv2-right-panel",
+          children:[clipBar,
+          R.jsxs("div",
           {
-            inventoryContent:L,
-            updateButton:Ve,
-            selectedSlots:O
-          }),
-          R.jsx("div",
-          {
-            className:"bv2-right-panel__resize"
-          }),
-          R.jsx(sB,
-          {
-            inventoryContent:L,
-            updateButton:Ve,
-            selectedSlots:O,
-            buttonTypes:r.buttonTypes,
-            actionTypes:_actionTypes
-          },
-          "configuration-button")]
+            className:"bv2-right-panel__cols",
+            children:[R.jsx(pB,
+            {
+              inventoryContent:L,
+              updateButton:Ve,
+              selectedSlots:O
+            }),
+            R.jsx("div",
+            {
+              className:"bv2-right-panel__resize"
+            }),
+            R.jsx(sB,
+            {
+              inventoryContent:L,
+              updateButton:Ve,
+              selectedSlots:O,
+              buttonTypes:r.buttonTypes,
+              actionTypes:_actionTypes
+            },
+            "configuration-button")]
+          })]
         })]
       })]
     })

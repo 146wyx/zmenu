@@ -8,9 +8,10 @@
 
   const installResizeHandle = () => {
     const panel = document.querySelector("#builder .configurations");
-    const handle = panel?.querySelector(":scope > .bv2-right-panel__resize");
-    const itemColumn = panel?.querySelector(":scope > .configurations-itemstack");
-    const buttonColumn = panel?.querySelector(":scope > .configurations-button");
+    const columns = panel?.querySelector(":scope > .bv2-right-panel__cols") || panel;
+    const handle = columns?.querySelector(":scope > .bv2-right-panel__resize");
+    const itemColumn = columns?.querySelector(":scope > .configurations-itemstack");
+    const buttonColumn = columns?.querySelector(":scope > .configurations-button");
 
     if (!panel || !handle || !itemColumn || !buttonColumn || handle.dataset.resizeReady === "true") {
       return;
