@@ -59,12 +59,14 @@
     const panel = document.querySelector("#builder .sidebar.bv2-items-panel");
     if (!panel || panel.dataset.resizeReady === "true") return;
 
+    panel.classList.add("workspace-pane", "workspace-pane-left");
+
     const container = panel.parentElement;
     const editor = panel.nextElementSibling;
     if (!container || !editor) return;
 
     const handle = document.createElement("div");
-    handle.className = "bv2-items-resize-handle";
+    handle.className = "bv2-items-resize-handle bv2-resize-handle";
     handle.setAttribute("role", "separator");
     handle.setAttribute("aria-label", "Resize item panel");
     handle.setAttribute("aria-orientation", "vertical");

@@ -15,7 +15,27 @@
     ['red', '#ff5555'], ['light_purple', '#ff55ff'], ['yellow', '#ffff55'], ['white', '#ffffff']
   ];
   const SYMBOLS = ['❤', '✔', '✘', '★', '☆', '❄', '✂', 'ℹ', '⚑', '⚠', '⚔', '♪', '♫', '♠', '♯', '♡', '♢', '♣', '♥', '♦', '☯', '☮', '☠', '☑', '▲', '▼', '✉', '☁', '✎', '©', '®', 'Σ', '←', '→', '↑', '↓', '«', '»', '±', '×', '÷', '≠', 'π', '¥', '€', '●', '•', 'Ω', '☀', '◆', '◇', '○', '◎', '■', '□', '◀', '▶'];
-  const SPRITES = ['diamond', 'nether_star', 'emerald', 'gold_ingot', 'iron_ingot', 'redstone', 'lapis_lazuli', 'amethyst_shard', 'experience_bottle', 'ender_pearl', 'blaze_rod', 'book', 'enchanted_book', 'chest', 'barrel', 'anvil', 'beacon', 'crafting_table', 'furnace', 'diamond_sword', 'diamond_pickaxe', 'shield', 'player_head', 'totem_of_undying', 'apple', 'golden_apple', 'cake', 'arrow', 'firework_rocket', 'clock'];
+  const SPRITE_FALLBACK = ['acacia_boat', 'apple', 'arrow', 'anvil', 'beacon', 'book', 'chest', 'diamond', 'diamond_sword', 'emerald', 'enchanted_book', 'gold_ingot', 'iron_ingot', 'nether_star', 'player_head', 'shield', 'totem_of_undying'].map(function (name) {
+    return { name: name, css: 'icon-minecraft-' + name.replace(/_/g, '-') };
+  });
+  const TOOLBAR_CONFIG_KEY = 'mm_toolbar_config';
+  const TOOLBAR_ITEMS = [
+    ['decorations', 'Decorations', 'fa-bold'],
+    ['colors', 'Colors', 'fa-palette'],
+    ['gradient', 'Gradient', 'fa-wand-magic-sparkles'],
+    ['rainbow', 'Rainbow', 'fa-rainbow'],
+    ['pride', 'Pride', 'fa-flag'],
+    ['hover', 'Hover', 'fa-comment-dots'],
+    ['click_url', 'Click URL', 'fa-link'],
+    ['bold_color', 'Bold + Color', 'fa-star'],
+    ['transition', 'Transition', 'fa-sliders'],
+    ['head', 'Player Head', 'fa-user'],
+    ['command', 'Command', 'fa-terminal'],
+    ['custom_tags', 'Custom Tags', 'fa-tags'],
+    ['small_text', 'Small Text', 'fa-text-height'],
+    ['icons', 'Icons', 'fa-icons'],
+    ['sprites', 'Sprites', 'fa-cube']
+  ];
 
   const $ = (selector, root) => (root || document).querySelector(selector);
 
@@ -53,10 +73,120 @@
     localStorage.setItem(CUSTOM_TAGS_KEY, JSON.stringify(tags));
   }
 
+  function getToolbarConfig() {
+    const defaults = TOOLBAR_ITEMS.map(function (item) { return { id: item[0], visible: true }; });
+    try {
+      const stored = JSON.parse(localStorage.getItem(TOOLBAR_CONFIG_KEY) || 'null');
+      if (!Array.isArray(stored)) return defaults;
+      const allowed = new Set(TOOLBAR_ITEMS.map(function (item) { return item[0]; }));
+      const result = stored.filter(function (item) { return item && allowed.has(item.id); }).map(function (item) {
+        return { id: item.id, visible: item.visible !== false };
+      });
+      const present = new Set(result.map(function (item) { return item.id; }));
+      defaults.forEach(function (item) { if (!present.has(item.id)) result.push(item); });
+      return result.length ? result : defaults;
+    } catch (error) {
+      return defaults;
+    }
+  }
+
+  function saveToolbarConfig(config) {
+    localStorage.setItem(TOOLBAR_CONFIG_KEY, JSON.stringify(config));
+  }
+
+  function applyToolbarConfig(toolbar) {
+    const config = getToolbarConfig();
+    const settings = new Map(config.map(function (item, index) {
+      return [item.id, { visible: item.visible !== false, order: index }];
+    }));
+    toolbar.querySelectorAll('[data-toolbar-id]').forEach(function (element) {
+      const setting = settings.get(element.dataset.toolbarId);
+      if (!setting) return;
+      element.hidden = !setting.visible;
+      element.style.order = String(setting.order);
+    });
+  }
+
+  function openToolbarConfig(toolbar) {
+    closeOpenPanels();
+    const overlay = document.createElement('div');
+    overlay.className = 'zmm-modal-overlay zmm-toolbar-config-overlay';
+    const modal = document.createElement('div');
+    modal.className = 'zmm-modal zmm-toolbar-config';
+    modal.innerHTML = '<div class="zmm-modal-title"><strong>Configure Toolbar</strong><button type="button" class="zmm-modal-close" aria-label="Close">&times;</button></div><p class="zmm-toolbar-config-help">Drag to reorder, toggle to show or hide toolbar items.</p><div class="zmm-toolbar-config-list"></div><div class="zmm-modal-actions"><button type="button" class="zmm-toolbar-config-reset">Reset</button><button type="button" class="zmm-confirm">Done</button></div>';
+    const list = $('.zmm-toolbar-config-list', modal);
+    let config = getToolbarConfig();
+    let draggedId = null;
+
+    function renderList() {
+      list.innerHTML = '';
+      config.forEach(function (item) {
+        const definition = TOOLBAR_ITEMS.find(function (entry) { return entry[0] === item.id; });
+        if (!definition) return;
+        const row = document.createElement('div');
+        row.className = 'zmm-toolbar-config-item' + (item.visible ? '' : ' is-hidden');
+        row.draggable = true;
+        row.dataset.toolbarId = item.id;
+        const icon = document.createElement('i');
+        icon.className = 'fa-solid ' + definition[2] + ' zmm-toolbar-config-icon';
+        const label = document.createElement('span');
+        label.className = 'zmm-toolbar-config-label';
+        label.textContent = definition[1];
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'zmm-toolbar-config-toggle';
+        toggle.title = item.visible ? 'Hide' : 'Show';
+        toggle.setAttribute('aria-label', toggle.title + ' ' + definition[1]);
+        toggle.innerHTML = '<i class="fa-solid ' + (item.visible ? 'fa-toggle-on' : 'fa-toggle-off') + '"></i>';
+        toggle.addEventListener('click', function () {
+          item.visible = !item.visible;
+          saveToolbarConfig(config);
+          applyToolbarConfig(toolbar);
+          renderList();
+        });
+        row.addEventListener('dragstart', function () { draggedId = item.id; row.classList.add('is-dragging'); });
+        row.addEventListener('dragend', function () { draggedId = null; row.classList.remove('is-dragging'); });
+        row.addEventListener('dragover', function (event) { event.preventDefault(); row.classList.add('is-drag-over'); });
+        row.addEventListener('dragleave', function () { row.classList.remove('is-drag-over'); });
+        row.addEventListener('drop', function (event) {
+          event.preventDefault();
+          row.classList.remove('is-drag-over');
+          if (!draggedId || draggedId === item.id) return;
+          const from = config.findIndex(function (entry) { return entry.id === draggedId; });
+          const to = config.findIndex(function (entry) { return entry.id === item.id; });
+          if (from < 0 || to < 0) return;
+          const moved = config.splice(from, 1)[0];
+          config.splice(to, 0, moved);
+          saveToolbarConfig(config);
+          applyToolbarConfig(toolbar);
+          renderList();
+        });
+        row.appendChild(icon);
+        row.appendChild(label);
+        row.appendChild(toggle);
+        list.appendChild(row);
+      });
+    }
+
+    const close = function () { overlay.remove(); };
+    $('.zmm-modal-close', modal).addEventListener('click', close);
+    $('.zmm-confirm', modal).addEventListener('click', close);
+    $('.zmm-toolbar-config-reset', modal).addEventListener('click', function () {
+      config = TOOLBAR_ITEMS.map(function (item) { return { id: item[0], visible: true }; });
+      saveToolbarConfig(config);
+      applyToolbarConfig(toolbar);
+      renderList();
+    });
+    overlay.addEventListener('mousedown', function (event) { if (event.target === overlay) close(); });
+    renderList();
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+  }
+
   function createButton(icon, tooltip, onClick, className) {
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'zmm-toolbar-btn' + (className ? ' ' + className : '');
+    button.className = 'mm-toolbar-btn' + (className ? ' ' + className : '');
     button.dataset.tooltip = tooltip;
     button.setAttribute('aria-label', tooltip);
     button.innerHTML = icon;
@@ -65,7 +195,7 @@
   }
 
   function closeOpenPanels(except) {
-    document.querySelectorAll('.zmm-popover, .zmm-modal-overlay').forEach(function (panel) {
+    document.querySelectorAll('.zmm-popover, .zmm-modal-overlay, .mm-sprites-dropdown').forEach(function (panel) {
       if (panel !== except && (!except || !panel.contains(except))) panel.remove();
     });
   }
@@ -202,27 +332,89 @@
     openPopover(button, body);
   }
 
+  function normalizeSpriteItem(item) {
+    if (typeof item === 'string') item = { name: item };
+    if (!item || typeof item !== 'object') return null;
+    const rawName = String(item.name || item.material || item.css || '').trim();
+    const name = rawName.replace(/^minecraft:/i, '').replace(/^icon-minecraft-/i, '').replace(/\s+/g, '_').replace(/-/g, '_').toLowerCase();
+    if (!name) return null;
+    const css = String(item.css || ('icon-minecraft-' + name.replace(/_/g, '-'))).trim();
+    return {
+      name: name,
+      css: css.indexOf('icon-minecraft-') === 0 ? css : 'icon-minecraft-' + css.replace(/^icon-minecraft-/i, ''),
+      label: name.replace(/_/g, ' ')
+    };
+  }
+
+  function loadSpriteItems() {
+    const loader = typeof window.ZMenuEditorItems === 'function'
+      ? Promise.resolve().then(function () { return window.ZMenuEditorItems(); })
+      : fetch('./new/items.txt').then(function (response) { return response.ok ? response.json() : null; }).then(function (payload) {
+        return Array.isArray(payload && payload.items) ? payload.items : [];
+      });
+    return loader.then(function (items) {
+      const unique = new Map();
+      (Array.isArray(items) ? items : []).forEach(function (item) {
+        const normalized = normalizeSpriteItem(item);
+        if (normalized && !unique.has(normalized.name)) unique.set(normalized.name, normalized);
+      });
+      const result = Array.from(unique.values()).sort(function (left, right) { return left.name.localeCompare(right.name); });
+      return result.length ? result : SPRITE_FALLBACK.map(normalizeSpriteItem);
+    }).catch(function () { return SPRITE_FALLBACK.map(normalizeSpriteItem); });
+  }
+
   function createSpritesPicker(editor, button) {
-    const body = document.createElement('div');
-    body.className = 'zmm-sprite-popover';
-    body.innerHTML = '<div class="zmm-popover-label">物品 Sprite</div><input class="zmm-sprite-search" type="search" placeholder="搜索物品..."><div class="zmm-sprites"></div>';
-    const search = $('.zmm-sprite-search', body);
-    const grid = $('.zmm-sprites', body);
+    const picker = button.closest('.mm-sprites-picker');
+    if (!picker) return;
+    const existing = $('.mm-sprites-dropdown', picker);
+    if (existing) {
+      existing.remove();
+      return;
+    }
+    closeOpenPanels();
+    const dropdown = document.createElement('div');
+    dropdown.className = 'mm-sprites-dropdown';
+    dropdown.innerHTML = '<div class="mm-sprites-dropdown-label">Sprites <small>Click to insert</small></div><input class="mm-sprites-search" type="search" placeholder="Search blocks & items..." autocomplete="off"><div class="mm-sprites-grid"></div>';
+    picker.appendChild(dropdown);
+    const search = $('.mm-sprites-search', dropdown);
+    const grid = $('.mm-sprites-grid', dropdown);
+    let items = [];
+
     const render = function () {
       const query = search.value.toLowerCase().trim();
+      const results = items.filter(function (item) { return !query || item.name.indexOf(query) !== -1 || item.label.indexOf(query) !== -1; }).slice(0, 50);
       grid.innerHTML = '';
-      SPRITES.filter(function (sprite) { return !query || sprite.includes(query); }).forEach(function (sprite) {
+      if (!results.length) {
+        const empty = document.createElement('div');
+        empty.className = 'mm-sprites-empty';
+        empty.textContent = 'No sprites found';
+        grid.appendChild(empty);
+        return;
+      }
+      results.forEach(function (item) {
         const cell = document.createElement('button');
         cell.type = 'button';
-        cell.textContent = sprite.replace(/_/g, ' ');
-        cell.title = sprite;
-        cell.addEventListener('click', function () { insertAtCursor(editor, '<sprite:minecraft:' + sprite + '>'); closeOpenPanels(); });
+        cell.className = 'mm-sprites-cell';
+        cell.title = item.label;
+        cell.setAttribute('aria-label', item.label);
+        const icon = document.createElement('span');
+        icon.className = 'icon-minecraft-sm ' + item.css;
+        cell.appendChild(icon);
+        cell.addEventListener('click', function () {
+          insertAtCursor(editor, '<sprite:"minecraft:items":item/' + item.name + '>');
+          dropdown.remove();
+        });
         grid.appendChild(cell);
       });
     };
+
     search.addEventListener('input', render);
     render();
-    openPopover(button, body);
+    loadSpriteItems().then(function (loadedItems) {
+      if (!document.body.contains(dropdown)) return;
+      items = loadedItems;
+      render();
+    });
     requestAnimationFrame(function () { search.focus(); });
   }
 
@@ -235,6 +427,7 @@
     const input = editor.input;
     const list = document.createElement('div');
     list.className = 'zmm-autocomplete';
+    list.hidden = true;
     editor.shell.appendChild(list);
     let matches = [];
     let active = 0;
@@ -288,59 +481,99 @@
 
   function buildToolbar(editor) {
     const toolbar = document.createElement('div');
-    toolbar.className = 'zmm-toolbar';
+    toolbar.className = 'mm-toolbar';
     const left = document.createElement('div');
-    left.className = 'zmm-toolbar-left';
-    const add = function (icon, label, action, extra) { left.appendChild(createButton(icon, label, action, extra)); };
+    left.className = 'mm-toolbar-left';
+    const add = function (icon, label, action, id, order, extra) {
+      const button = createButton(icon, label, action, extra);
+      button.dataset.toolbarId = id;
+      button.style.order = String(order);
+      left.appendChild(button);
+      return button;
+    };
     const wrap = function (tag, sample) { return function () { insertText(editor, '<' + tag + '>', '</' + tag + '>', sample || 'text'); }; };
 
-    add('<i class="bi bi-type-bold"></i>', '加粗 (Ctrl+B)', wrap('bold'));
-    add('<i class="bi bi-type-italic"></i>', '斜体 (Ctrl+I)', wrap('italic'));
-    add('<i class="bi bi-type-underline"></i>', '下划线 (Ctrl+U)', wrap('underlined'));
-    add('<i class="bi bi-type-strikethrough"></i>', '删除线 (Ctrl+S)', wrap('strikethrough'));
-    add('<i class="bi bi-eye-slash"></i>', '混淆 (Ctrl+Shift+O)', wrap('obfuscated'));
-    const colorButton = createButton('<i class="bi bi-palette-fill"></i>', '插入颜色 (Ctrl+Shift+C)', function () { createColorPicker(editor, colorButton); });
-    left.appendChild(colorButton);
-    add('<i class="bi bi-magic"></i>', '渐变 (Ctrl+G)', function () { openDialog('渐变', [{ name: 'from', label: '起始颜色', value: '#288fc3', required: true }, { name: 'to', label: '结束颜色', value: '#10ea64', required: true }], function (values, close) { insertText(editor, '<gradient:' + values.from + ':' + values.to + '>', '</gradient>', 'text'); close(); }); });
-    add('<i class="bi bi-rainbow"></i>', '彩虹 (Ctrl+R)', wrap('rainbow'));
-    add('<i class="bi bi-flag-fill"></i>', 'Pride', wrap('pride:trans'));
-    add('<i class="bi bi-chat-square-text-fill"></i>', '悬停说明 (Ctrl+H)', function () { openDialog('悬停说明', [{ name: 'text', label: '鼠标悬停时显示的文本', value: 'Tooltip here', required: true }], function (values, close) { insertText(editor, "<hover:show_text:'" + values.text.replace(/'/g, "\\'") + "'>", '</hover>', 'Hover me'); close(); }); });
-    add('<i class="bi bi-link-45deg"></i>', '点击链接 (Ctrl+K)', function () { openDialog('点击链接', [{ name: 'url', label: 'URL', value: 'https://example.com', required: true }], function (values, close) { insertText(editor, "<click:open_url:'" + values.url.replace(/'/g, "\\'") + "'>", '</click>', 'Click me'); close(); }); });
-    add('<i class="bi bi-star-fill"></i>', '加粗 + 金色', function () { insertText(editor, '<bold><gold>', '</gold></bold>', 'text'); });
-    add('<i class="bi bi-sliders2"></i>', 'Transition', function () { insertAtCursor(editor, '<transition:#ff0000:#00ff00:#0000ff:0.5/>'); });
-    add('<i class="bi bi-person-circle"></i>', '玩家头颅', function () { openDialog('玩家头颅', [{ name: 'player', label: '玩家名称或 UUID', placeholder: 'Notch', required: true }], function (values, close) { insertAtCursor(editor, '<head:' + values.player + '>'); close(); }); });
-    add('<i class="bi bi-terminal-fill"></i>', '点击命令', function () { openDialog('点击命令', [{ name: 'command', label: '执行命令', value: '/', required: true }, { name: 'text', label: '显示文本', value: 'Click me', required: true }], function (values, close) { const command = values.command.charAt(0) === '/' ? values.command : '/' + values.command; insertText(editor, "<click:run_command:'" + command.replace(/'/g, "\\'") + "'>", '</click>', values.text); close(); }); });
-    add('<i class="bi bi-tags-fill"></i>', '自定义标签', function () { openDialog('自定义标签', [{ name: 'name', label: '标签名称', placeholder: 'example', required: true }, { name: 'value', label: '替换内容', placeholder: '<gold>Example</gold>', required: true, multiline: true }], function (values, close) { if (!/^[a-z0-9_-]+$/i.test(values.name)) return; const tags = getCustomTags().filter(function (tag) { return tag.name !== values.name; }); tags.push(values); setCustomTags(tags); insertAtCursor(editor, '<' + values.name + '>'); close(); }); });
-    add('<i class="bi bi-type-h1"></i>', '小字 (Ctrl+L)', function () { const input = editor.input; const selected = input.value.slice(input.selectionStart, input.selectionEnd); if (selected) replaceSelection(editor, smallText(selected)); });
-    const symbolsButton = createButton('<span class="zmm-sword">⚔</span>', 'Minecraft 符号', function () { createSymbolsPicker(editor, symbolsButton); });
-    left.appendChild(symbolsButton);
-    const spritesButton = createButton('<i class="bi bi-boxes"></i>', 'Sprites', function () { createSpritesPicker(editor, spritesButton); });
-    left.appendChild(spritesButton);
+    add('<i class="fa-solid fa-bold"></i>', 'Bold (Ctrl+B)', wrap('bold'), 'decorations', 0);
+    add('<i class="fa-solid fa-italic"></i>', 'Italic (Ctrl+I)', wrap('italic'), 'decorations', 0);
+    add('<i class="fa-solid fa-underline"></i>', 'Underline (Ctrl+U)', wrap('underlined'), 'decorations', 0);
+    add('<i class="fa-solid fa-strikethrough"></i>', 'Strikethrough (Ctrl+S)', wrap('strikethrough'), 'decorations', 0);
+    add('<i class="fa-solid fa-eye-slash"></i>', 'Obfuscated (Ctrl+Shift+O)', wrap('obfuscated'), 'decorations', 0);
+    const colorButton = createButton('<i class="fa-solid fa-palette"></i>', 'Insert color (Ctrl+Shift+C)', function () { createColorPicker(editor, colorButton); }, 'mm-toolbar-btn--color');
+    const colorPicker = document.createElement('div');
+    colorPicker.className = 'mm-color-picker';
+    colorPicker.dataset.toolbarId = 'colors';
+    colorPicker.style.order = '1';
+    colorPicker.appendChild(colorButton);
+    left.appendChild(colorPicker);
+    add('<i class="fa-solid fa-wand-magic-sparkles"></i>', 'Gradient (Ctrl+G)', function () { openDialog('Gradient', [{ name: 'from', label: 'Start color', value: '#288fc3', required: true }, { name: 'to', label: 'End color', value: '#10ea64', required: true }], function (values, close) { insertText(editor, '<gradient:' + values.from + ':' + values.to + '>', '</gradient>', 'text'); close(); }); }, 'gradient', 2);
+    add('<i class="fa-solid fa-rainbow"></i>', 'Rainbow (Ctrl+R)', wrap('rainbow'), 'rainbow', 3);
+    add('<i class="fa-solid fa-flag"></i>', 'Pride', wrap('pride:trans'), 'pride', 4);
+    add('<i class="fa-solid fa-comment-dots"></i>', 'Hover (Ctrl+H)', function () { openDialog('Hover', [{ name: 'text', label: 'Text shown on hover', value: 'Tooltip here', required: true }], function (values, close) { insertText(editor, "<hover:show_text:'" + values.text.replace(/'/g, "\\'") + "'>", '</hover>', 'Hover me'); close(); }); }, 'hover', 5);
+    add('<i class="fa-solid fa-link"></i>', 'Click URL (Ctrl+K)', function () { openDialog('Click URL', [{ name: 'url', label: 'URL', value: 'https://example.com', required: true }], function (values, close) { insertText(editor, "<click:open_url:'" + values.url.replace(/'/g, "\\'") + "'>", '</click>', 'Click me'); close(); }); }, 'click_url', 6);
+    add('<i class="fa-solid fa-star"></i>', 'Bold + Color', function () { insertText(editor, '<bold><gold>', '</gold></bold>', 'text'); }, 'bold_color', 7);
+    add('<i class="fa-solid fa-sliders"></i>', 'Transition', function () { insertAtCursor(editor, '<transition:#ff0000:#00ff00:#0000ff:0.5/>'); }, 'transition', 8);
+    add('<i class="fa-solid fa-user"></i>', 'Player Head', function () { openDialog('Player Head', [{ name: 'player', label: 'Player name or UUID', placeholder: 'Notch', required: true }], function (values, close) { insertAtCursor(editor, '<head:' + values.player + '>'); close(); }); }, 'head', 9);
+    add('<i class="fa-solid fa-terminal"></i>', 'Click Command', function () { openDialog('Click Command', [{ name: 'command', label: 'Command to run', value: '/', required: true }, { name: 'text', label: 'Display text', value: 'Click me', required: true }], function (values, close) { const command = values.command.charAt(0) === '/' ? values.command : '/' + values.command; insertText(editor, "<click:run_command:'" + command.replace(/'/g, "\\'") + "'>", '</click>', values.text); close(); }); }, 'command', 10);
+    add('<i class="fa-solid fa-tags"></i>', 'Custom Tags', function () { openDialog('Custom Tags', [{ name: 'name', label: 'Tag name', placeholder: 'example', required: true }, { name: 'value', label: 'Replacement value', placeholder: '<gold>Example</gold>', required: true, multiline: true }], function (values, close) { if (!/^[a-z0-9_-]+$/i.test(values.name)) return; const tags = getCustomTags().filter(function (tag) { return tag.name !== values.name; }); tags.push(values); setCustomTags(tags); insertAtCursor(editor, '<' + values.name + '>'); close(); }); }, 'custom_tags', 11);
+    add('<i class="fa-solid fa-text-height"></i>', 'Small Text (Ctrl+L)', function () { const input = editor.input; const selected = input.value.slice(input.selectionStart, input.selectionEnd); if (selected) replaceSelection(editor, smallText(selected)); }, 'small_text', 12);
+    const symbolsButton = createButton('<span class="zmm-sword">⚔</span>', 'Minecraft icons', function () { createSymbolsPicker(editor, symbolsButton); });
+    const iconsPicker = document.createElement('div');
+    iconsPicker.className = 'mm-icons-picker';
+    iconsPicker.dataset.toolbarId = 'icons';
+    iconsPicker.style.order = '13';
+    iconsPicker.appendChild(symbolsButton);
+    left.appendChild(iconsPicker);
+    const spritesButton = createButton('<i class="fa-solid fa-cube"></i>', 'Sprites', function () { createSpritesPicker(editor, spritesButton); });
+    const spritesPicker = document.createElement('div');
+    spritesPicker.className = 'mm-sprites-picker';
+    spritesPicker.dataset.toolbarId = 'sprites';
+    spritesPicker.style.order = '14';
+    spritesPicker.appendChild(spritesButton);
+    left.appendChild(spritesPicker);
+
+    const right = document.createElement('div');
+    right.className = 'mm-toolbar-right';
+    const configureButton = createButton('<i class="fa-solid fa-gear"></i>', 'Configure toolbar', function () { openToolbarConfig(toolbar); });
+    right.appendChild(configureButton);
 
     toolbar.appendChild(left);
+    toolbar.appendChild(right);
+    applyToolbarConfig(toolbar);
     return toolbar;
   }
 
   function attachField(source) {
-    if (source.dataset.zmmBound === 'true') return;
+    const fieldName = source.dataset.zmmField || source.name;
+    const isLore = fieldName === 'lore';
     const group = source.closest('.mb-3') || source.parentElement;
-    if (!group || group.querySelector('.zmm-editor')) return;
+    const existing = group && group.querySelector('.bv2-mm-field[data-zmm-for], .zmm-editor');
+    if (source.dataset.zmmBound === 'true') {
+      if (existing) {
+        if (source.__zmmSync) source.__zmmSync();
+        return;
+      }
+      delete source.dataset.zmmBound;
+    }
+    if (!group || existing) return;
     source.dataset.zmmBound = 'true';
     source.classList.add('zmm-source-field');
     source.setAttribute('aria-hidden', 'true');
 
     const editor = document.createElement('div');
-    editor.className = 'zmm-editor';
+    editor.className = 'bv2-mm-field' + (isLore ? ' bv2-mm-field--lore' : '');
+    editor.dataset.zmmFor = fieldName;
     const shell = document.createElement('div');
-    shell.className = 'zmm-editor-area';
+    shell.className = 'mm-editor-area';
     const highlightLayer = document.createElement('pre');
-    highlightLayer.className = 'zmm-highlight';
+    highlightLayer.className = 'mm-highlight';
     highlightLayer.setAttribute('aria-hidden', 'true');
     const input = document.createElement('textarea');
-    input.className = 'zmm-textarea';
-    input.rows = source.name === 'lore' ? 8 : 2;
+    input.className = 'mm-textarea';
+    input.id = isLore ? 'zmm-item-lore-editor' : 'zmm-item-display-name-editor';
+    input.setAttribute('aria-label', isLore ? 'Lore' : 'Display Name');
+    input.rows = 2;
     input.value = source.value || '';
-    input.placeholder = source.name === 'lore' ? '输入物品描述，使用 MiniMessage 标签...' : '输入显示名称，使用 MiniMessage 标签...';
+    input.placeholder = isLore ? 'Item description...' : '<gold>Custom name...</gold>';
     input.spellcheck = false;
     shell.appendChild(highlightLayer);
     shell.appendChild(input);
@@ -349,7 +582,14 @@
     group.insertBefore(editor, source);
 
     function render(value) { highlightLayer.innerHTML = highlight(value); }
+    function syncFromSource() {
+      const value = source.value || '';
+      if (input.value === value) return;
+      input.value = value;
+      render(value);
+    }
     function update(value) { input.value = value; render(value); setNativeValue(source, value); }
+    source.__zmmSync = syncFromSource;
     render(input.value);
     input.addEventListener('input', function () { update(input.value); });
     input.addEventListener('scroll', function () { highlightLayer.scrollTop = input.scrollTop; highlightLayer.scrollLeft = input.scrollLeft; });
@@ -364,18 +604,18 @@
         return;
       }
       if (key === 'o' && event.shiftKey) { event.preventDefault(); insertText({ input: input, update: update }, '<obfuscated>', '</obfuscated>', 'text'); return; }
-      if (key === 'c' && event.shiftKey) { event.preventDefault(); const first = editor.querySelector('.zmm-toolbar-btn[data-tooltip^="插入颜色"]'); if (first) createColorPicker({ input: input, update: update }, first); return; }
+      if (key === 'c' && event.shiftKey) { event.preventDefault(); const first = editor.querySelector('.mm-toolbar-btn[data-tooltip^="Insert color"]'); if (first) createColorPicker({ input: input, update: update }, first); return; }
       if (shortcut[key] && !event.shiftKey) { event.preventDefault(); insertText({ input: input, update: update }, '<' + shortcut[key][0] + '>', '</' + shortcut[key][0].split(':')[0] + '>', shortcut[key][1]); }
     });
     addAutocomplete({ input: input, shell: shell, update: update });
   }
 
   function enhanceFields() {
-    document.querySelectorAll('input[name="display_name"], textarea[name="lore"]').forEach(attachField);
+    document.querySelectorAll('[data-zmm-field]').forEach(attachField);
   }
 
   document.addEventListener('mousedown', function (event) {
-    if (!event.target.closest('.zmm-popover, .zmm-toolbar-btn')) closeOpenPanels();
+    if (!event.target.closest('.zmm-popover, .zmm-modal-overlay, .mm-sprites-dropdown, .mm-toolbar-btn')) closeOpenPanels();
   });
   const observer = new MutationObserver(function () { enhanceFields(); });
   observer.observe(document.documentElement, { childList: true, subtree: true });

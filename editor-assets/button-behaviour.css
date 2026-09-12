@@ -168,6 +168,13 @@
   color: #8f9bad;
 }
 
+/* The parent column owns scrolling, just like the reference editor. */
+#builder .bv2-right-panel__col-body > .bv2-button-editor {
+  height: auto;
+  min-height: 100%;
+  overflow: visible;
+}
+
 #builder .bv2-tabs {
   position: sticky;
   top: 0;
@@ -2356,7 +2363,7 @@
   }
 }
 
-/* Slot actions copied from the reference builder's right-panel toolbar. */
+/* Slot actions copied from the reference builder's compact right-panel toolbar. */
 #builder .bv2-clip-bar {
   box-sizing: border-box;
   display: flex;
@@ -2365,25 +2372,28 @@
   gap: 4px;
   width: 100%;
   min-width: 0;
-  min-height: 42px;
-  padding: 6px 8px;
-  overflow-x: auto;
+  min-height: 36px;
+  padding: 5px 8px;
+  overflow: visible;
   border-bottom: 1px solid rgba(126, 159, 198, 0.18);
-  background: rgba(25, 42, 64, 0.72);
+  background: #1a1a2e;
 }
 
 #builder .bv2-clip-bar__btn {
+  position: relative;
   display: inline-flex;
-  flex: 0 0 auto;
+  flex: 0 0 28px;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
-  min-height: 30px;
-  padding: 4px 8px;
+  width: 28px;
+  min-width: 28px;
+  height: 26px;
+  min-height: 26px;
+  padding: 0;
   border: 1px solid rgba(126, 159, 198, 0.24);
-  border-radius: 5px;
-  color: #b9cbe0;
-  background: rgba(13, 27, 46, 0.72);
+  border-radius: 3px;
+  color: #8f9bad;
+  background: transparent;
   font: inherit;
   line-height: 1;
   white-space: nowrap;
@@ -2403,9 +2413,9 @@
 
 #builder .bv2-clip-bar__btn:hover:not(:disabled),
 #builder .bv2-clip-bar__btn:focus-visible:not(:disabled) {
-  border-color: rgba(93, 159, 255, 0.72);
-  color: #e6f3ff;
-  background: rgba(49, 92, 142, 0.62);
+  border-color: #45bee9;
+  color: #45bee9;
+  background: rgba(69, 190, 233, 0.08);
 }
 
 #builder .bv2-clip-bar__btn:focus-visible {
@@ -2419,16 +2429,50 @@
 }
 
 #builder .bv2-clip-bar__btn--danger {
-  margin-left: auto;
-  border-color: rgba(231, 102, 112, 0.45);
-  color: #ffb4bb;
+  margin-left: 0;
 }
 
 #builder .bv2-clip-bar__btn--danger:hover:not(:disabled),
 #builder .bv2-clip-bar__btn--danger:focus-visible:not(:disabled) {
-  border-color: rgba(255, 126, 137, 0.86);
-  color: #fff0f1;
-  background: rgba(126, 42, 55, 0.62);
+  border-color: #e76670;
+  color: #e76670;
+  background: rgba(231, 102, 112, 0.12);
+}
+
+#builder .bv2-clip-bar__sep {
+  align-self: stretch;
+  width: 1px;
+  margin: 2px 4px;
+  background: rgba(126, 159, 198, 0.24);
+}
+
+#builder .bv2-clip-bar__btn[data-tooltip]::after {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 520;
+  padding: 4px 8px;
+  border: 1px solid rgba(126, 159, 198, 0.28);
+  border-radius: 5px;
+  color: #e8edf7;
+  background: rgba(19, 19, 42, 0.96);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.38);
+  content: attr(data-tooltip);
+  font-size: 0.72rem;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 140ms ease;
+}
+
+#builder .bv2-clip-bar__btn:last-child[data-tooltip]::after {
+  right: 0;
+  left: auto;
+}
+
+#builder .bv2-clip-bar__btn:hover[data-tooltip]::after,
+#builder .bv2-clip-bar__btn:focus-visible[data-tooltip]::after {
+  opacity: 1;
 }
 
 @media (max-width: 520px) {
@@ -2437,12 +2481,12 @@
   }
 
   #builder .bv2-clip-bar__btn {
-    min-height: 30px;
-    padding-inline: 7px;
+    flex-basis: 28px;
+    min-height: 26px;
   }
 
   #builder .bv2-clip-bar__btn--danger {
-    margin-left: 4px;
+    margin-left: 0;
   }
 }
 
@@ -2816,10 +2860,6 @@
 
 /* The reference editor keeps the desktop button column at a readable width. */
 @media (min-width: 1181px) {
-  #builder .configurations {
-    min-width: 360px;
-  }
-
   #builder .configurations-button .bv2-button-editor {
     padding: 12px;
   }
@@ -3039,5 +3079,159 @@
 
   #builder .bv2-action-item__docs {
     max-width: 26vw;
+  }
+}
+
+/* YAML preview modal mirrors the reference editor's code-preview layout. */
+#builder .bv2-modal--yaml {
+  width: min(900px, calc(100vw - 2rem));
+  height: min(80vh, calc(100vh - 2rem));
+  max-height: calc(100vh - 2rem);
+}
+
+#builder .bv2-yaml-modal__toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.85rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(29, 36, 53, 0.78);
+}
+
+#builder .bv2-yaml-modal__opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #c9d3e2;
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+#builder .bv2-yaml-modal__opt input {
+  accent-color: #45bee9;
+}
+
+#builder .bv2-yaml-modal__opt--select select {
+  min-height: 25px;
+  margin-left: 0.1rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 4px;
+  color: #e8edf7;
+  background: #252b3d;
+  font-size: 0.68rem;
+}
+
+#builder .bv2-yaml-modal__toolbar-hint {
+  flex: 1 1 180px;
+  color: #7f8da2;
+  font-size: 0.62rem;
+  text-align: right;
+}
+
+#builder .bv2-modal--yaml .bv2-modal__body {
+  min-height: 0;
+  padding: 0.75rem 1rem;
+  overflow: hidden;
+}
+
+#builder .bv2-yaml-editor {
+  display: flex;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+  border: 1px solid rgba(69, 190, 233, 0.18);
+  border-radius: 7px;
+  background: #111827;
+}
+
+#builder .bv2-yaml-editor__gutter {
+  flex: 0 0 46px;
+  padding: 10px 8px;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  color: #546174;
+  background: #151d2d;
+  font: 12px/19.2px Consolas, Monaco, monospace;
+  text-align: right;
+  user-select: none;
+  white-space: pre;
+}
+
+#builder .bv2-yaml-editor__main {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+#builder .bv2-yaml-editor__highlight,
+#builder .bv2-yaml-editor__textarea {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 10px 12px;
+  border: 0;
+  font: 12px/19.2px Consolas, Monaco, monospace;
+  letter-spacing: 0;
+  tab-size: 2;
+  white-space: pre;
+}
+
+#builder .bv2-yaml-editor__highlight {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  color: #d7deeb;
+  pointer-events: none;
+}
+
+#builder .bv2-yaml-editor__textarea {
+  position: relative;
+  z-index: 2;
+  display: block;
+  resize: none;
+  overflow: auto;
+  outline: none;
+  color: transparent;
+  caret-color: #e8edf7;
+  background: transparent;
+}
+
+#builder .bv2-yaml-editor__textarea::selection {
+  color: transparent;
+  background: rgba(69, 190, 233, 0.26);
+}
+
+#builder .yh-key { color: #82aaff; }
+#builder .yh-colon,
+#builder .yh-dash { color: #89ddff; }
+#builder .yh-string { color: #c3e88d; }
+#builder .yh-number { color: #f78c6c; }
+#builder .yh-bool { color: #c792ea; }
+#builder .yh-null { color: #546e7a; }
+#builder .yh-comment { color: #6a9955; }
+#builder .bv2-yaml-copy.is-copied { border-color: #63d88a; background: #25824e; }
+
+@media (max-width: 620px) {
+  #builder .bv2-modal--yaml {
+    width: calc(100vw - 1rem);
+    height: calc(100vh - 1rem);
+    max-height: calc(100vh - 1rem);
+  }
+
+  #builder .bv2-modal--yaml .bv2-modal__body,
+  #builder .bv2-yaml-modal__toolbar {
+    padding: 0.65rem;
+  }
+
+  #builder .bv2-yaml-modal__toolbar-hint {
+    flex-basis: 100%;
+    text-align: left;
   }
 }

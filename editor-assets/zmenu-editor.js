@@ -44307,16 +44307,23 @@ ${s.comment}`:s.comment
     type_id:1,
     actions:[]
   }),
+  itemStackObject=i=>i&&typeof i==="object"&&!Array.isArray(i)?i:{},
+  itemStackReservedKeys=new Set(["material","url","amount","name","lore","modelId","model-id","glow","components"]),
+  itemStackHasValue=i=>i!==void 0&&i!==null&&i!==""&&(!Array.isArray(i)||i.length>0),
   Mk=(i,
   r)=>{
     const s=(i==null?void 0:i.button)||{
     },
-    c=Ak(r);
+    c=Ak(r),
+    d=i!=null&&i.content?{
+      ...i.content,
+      item:itemStackObject(i.content.item),
+      components:itemStackObject(i.content.components),
+      components_raw:String(i.content.components_raw||"")
+    }:null;
     return{
       id:r,
-      content:i!=null&&i.content?{
-        ...i.content
-      }:null,
+      content:d,
       button:{
         ...c,
         ...s,
@@ -44429,8 +44436,22 @@ ${s.comment}`:s.comment
     const r=i.button||{
     },
     s={
-    };
-    return r.head_url&&((c=i.content)==null?void 0:c.material)==="PLAYER_HEAD"?s.url=r.head_url:s.material=((d=i.content)==null?void 0:d.material)||"BARRIER",
+    },
+    content=itemStackObject(i.content),
+    itemExtras=itemStackObject(content.item),
+    componentExtras={
+      ...itemStackObject(content.components)
+    },
+    rawComponents={};
+    if(content.components_raw&&String(content.components_raw).trim()!==""){
+      try{
+        const parsed=wO(String(content.components_raw));
+        parsed&&typeof parsed==="object"&&!Array.isArray(parsed)&&(rawComponents=parsed)
+      }
+      catch{
+      }
+    }
+    return r.head_url&&content.material==="PLAYER_HEAD"?s.url=r.head_url:s.material=content.material||"BARRIER",
     Sr(r.amount,
     1)!==1&&(s.amount=Sr(r.amount,
     1)),
@@ -44440,6 +44461,11 @@ ${s.comment}`:s.comment
     0)!==0&&(s.modelId=Sr(r.model_id,
     0)),
     Ci(r.glow)&&(s.glow=!0),
+    Object.entries(itemExtras).forEach(([key,value])=>{
+      itemStackReservedKeys.has(key)||!itemStackHasValue(value)||(s[key]=value)
+    }),
+    Object.assign(componentExtras,rawComponents),
+    Object.keys(componentExtras).length>0&&(s.components=componentExtras),
     s
   },
   zmenuSerializeActions=i=>Array.isArray(i)?i.map(a=>{
@@ -44830,7 +44856,7 @@ ${s.comment}`:s.comment
     })
   },
   BO=i=>{
-    const r=MO(i),
+    const r=typeof i.yaml==="string"?i.yaml:MO(i),
     s=new Blob([r],
     {
       type:"application/yaml;charset=utf-8"
@@ -44881,8 +44907,10 @@ ${s.comment}`:s.comment
       Sr(P.page,
       1))),
       B=zmenuExpandSlots(P.slots??P.slot??0),
-      L=await LO(P.item||{
-      });
+      itemData=P.item&&typeof P.item==="object"&&!Array.isArray(P.item)?P.item:{},
+      L=await LO(itemData),
+      itemExtras=Object.fromEntries(Object.entries(itemData).filter(([key])=>!itemStackReservedKeys.has(key))),
+      componentData=itemStackObject(itemData.components);
       for(const G of B){
         const Z=Sr(G,
         0);
@@ -44982,7 +45010,12 @@ ${s.comment}`:s.comment
         c[J]={
           id:J,
           content:{
-            ...L
+            ...L,
+            item:itemExtras,
+            components:{
+              ...componentData
+            },
+            components_raw:""
           },
           button:V
         }
@@ -45021,12 +45054,29 @@ ${s.comment}`:s.comment
       slots:r,
       buttonTypes:s
     })=>{
-      BO({
+      const raw=MO({
         inventory:i,
         slots:r,
         editorButtonTypes:s
+      }),
+      options=window.ZMenuEditorYamlOptions,
+      yaml=options&&typeof window.ZMenuEditorFormatYaml==="function"?window.ZMenuEditorFormatYaml(raw,options):raw;
+      BO({
+        inventory:i,
+        slots:r,
+        editorButtonTypes:s,
+        yaml
       })
     },
+    generateInventoryYaml:({
+      inventory:i,
+      slots:r,
+      buttonTypes:s
+    })=>MO({
+      inventory:i,
+      slots:r,
+      editorButtonTypes:s
+    }),
     displayToast:i=>{
       var s;
       const r=(s=i==null?void 0:i.data)==null?void 0:s.toast;
@@ -61312,7 +61362,8 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     needToUpdate:i,
     saveData:r,
     onDownload:s,
-    onImport:c
+    onImport:c,
+    onViewYaml:o
   })=>{
     const[d,
     h]=U.useState(!1),
@@ -61340,28 +61391,43 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             {
               className:"bi bi-floppy"
             }),
-            R.jsx("span",
-            {
-              className:"ms-1",
+           R.jsx("span",
+           {
+             className:"ms-1",
               children:"保存"
             })]
-          }),
-          R.jsxs("button",
-          {
-            type:"button",
-            className:"enable action border-0 bg-transparent",
-            onClick:s,
-            children:[R.jsx("i",
-            {
-              className:"bi bi-cloud-download"
-            }),
-            R.jsx("span",
-            {
-              className:"ms-1",
-              children:"导出"
-            })]
-          }),
-          R.jsx("input",
+           }),
+           R.jsxs("button",
+           {
+             type:"button",
+             className:"enable action border-0 bg-transparent",
+             onClick:o,
+             children:[R.jsx("i",
+             {
+               className:"bi bi-file-earmark-code"
+             }),
+             R.jsx("span",
+             {
+               className:"ms-1",
+               children:"View YAML"
+             })]
+           }),
+           R.jsxs("button",
+           {
+             type:"button",
+             className:"enable action border-0 bg-transparent",
+             onClick:s,
+             children:[R.jsx("i",
+             {
+               className:"bi bi-cloud-download"
+             }),
+             R.jsx("span",
+             {
+               className:"ms-1",
+               children:"导出"
+             })]
+           }),
+           R.jsx("input",
           {
             ref:m,
             type:"file",
@@ -62803,6 +62869,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     ],
     clickKeys=["LEFT","RIGHT","SHIFT_LEFT","SHIFT_RIGHT","MIDDLE","DROP","CONTROL_DROP"],
     [activeTab,setActiveTab]=U.useState("general"),
+    [buttonPanelCollapsed,setButtonPanelCollapsed]=U.useState(!1),
     [typePickerOpen,setTypePickerOpen]=U.useState(!1),
     [typePickerQuery,setTypePickerQuery]=U.useState(""),
     [typePickerMode,setTypePickerMode]=U.useState("all"),
@@ -64553,96 +64620,187 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       })
     }),
     renderTab=()=>activeTab==="general"?renderGeneral():activeTab==="type"?renderType():activeTab==="advanced"?renderAdvanced():activeTab==="requirements"?renderRequirements():renderClicks();
-    return i.currentSlot>=0?R.jsx("div",
+    const buttonEditor=i.currentSlot>=0?R.jsxs("div",
     {
-      className:"configurations-button",
-      children:R.jsxs("div",
+      className:"bv2-button-editor",
+      children:[R.jsx("div",
       {
-        className:"bv2-button-editor",
-        children:[R.jsx("div",
+        className:"bv2-tabs",
+        children:tabs.map(L=>R.jsx("button",
         {
-          className:"bv2-tabs",
-          children:tabs.map(L=>R.jsx("button",
-          {
-            type:"button",
-            className:`bv2-tab${activeTab===L[0]?" bv2-tab--active":""}`,
-            onClick:()=>setActiveTab(L[0]),
-            children:L[1]
-          },
-          L[0]))
-        }),renderTab()]
-      })
+          type:"button",
+          className:`bv2-tab${activeTab===L[0]?" bv2-tab--active":""}`,
+          onClick:()=>setActiveTab(L[0]),
+          children:L[1]
+        },
+        L[0]))
+      }),renderTab()]
     }):R.jsx("div",
     {
-      className:"configurations-button",
-      children:R.jsx("div",
+      className:"bv2-button-editor bv2-button-editor--empty",
+      children:"请选择一个物品"
+    });
+    return buttonPanelCollapsed?R.jsx("div",
+    {
+      className:"bv2-right-panel__col configurations-button bv2-right-panel__col--collapsed",
+      children:R.jsxs("button",
       {
-        className:"bv2-button-editor bv2-button-editor--empty",
-        children:"请选择一个物品"
+        type:"button",
+        className:"bv2-right-panel__expand-tab",
+        onClick:()=>setButtonPanelCollapsed(!1),
+        title:"Expand Button",
+        "aria-label":"Expand Button",
+        children:[R.jsx("i",
+        {
+          className:"bi bi-chevron-right",
+          "aria-hidden":"true"
+        }),R.jsx("span",
+        {
+          children:"Button"
+        })]
       })
+    }):R.jsxs("div",
+    {
+      className:"bv2-right-panel__col configurations-button",
+      children:[R.jsxs("div",
+      {
+        className:"bv2-right-panel__col-header",
+        children:[R.jsx("span",
+        {
+          className:"bv2-right-panel__col-title",
+          children:"Button"
+        }),R.jsx("button",
+        {
+          type:"button",
+          className:"bv2-right-panel__collapse-btn",
+          onClick:()=>setButtonPanelCollapsed(!0),
+          title:"Collapse",
+          "aria-label":"Collapse Button",
+          children:R.jsx("i",
+          {
+            className:"bi bi-x-lg",
+            "aria-hidden":"true"
+          })
+        })]
+      }),R.jsx("div",
+      {
+        className:"bv2-right-panel__col-body",
+        children:buttonEditor
+      })]
     })
   },
   lB=({
     handleChange:i,
     displayName:r
-  })=>R.jsxs(Xe.Group,
+  })=>R.jsxs("div",
   {
-    className:"mb-3",
-    children:[R.jsx(Xe.Label,
+    className:"bv2-field bv2-item-stack__field bv2-item-stack__field--mini-message",
+    children:[R.jsxs("label",
     {
-      children:"显示名称"
+      htmlFor:"zmm-item-display-name-editor",
+      children:["Display Name ",
+      R.jsx("a",
+      {
+        className:"bv2-docs-link",
+        href:"https://docs.groupez.dev/zmenu/configurations/items/item#name",
+        target:"_blank",
+        rel:"noopener noreferrer",
+        title:"Open documentation: Display Name",
+        "aria-label":"Open documentation: Display Name",
+        children:R.jsx("i",
+        {
+          className:"bi bi-box-arrow-up-right",
+          "aria-hidden":"true"
+        })
+      })]
     }),
-    R.jsx(Xe.Control,
+    R.jsx("input",
     {
+      className:"zmm-source-field",
+      id:"zmenu-item-display-name",
       type:"text",
       name:"display_name",
       value:r??"",
       onChange:i,
-      className:"rounded-1"
+      autoComplete:"off",
+      placeholder:"<gold>Custom name...</gold>",
+      spellCheck:!1,
+      "data-zmm-field":"display_name"
     })]
   }),
   cB=({
     handleChange:i,
     lore:r
-  })=>R.jsxs(Xe.Group,
+  })=>R.jsxs("div",
   {
-    className:"mb-3",
-    children:[R.jsx(Xe.Label,
+    className:"bv2-field bv2-item-stack__field bv2-item-stack__field--mini-message",
+    children:[R.jsxs("label",
     {
-      children:"物品描述"
+      htmlFor:"zmm-item-lore-editor",
+      children:["Lore ",
+      R.jsx("a",
+      {
+        className:"bv2-docs-link",
+        href:"https://docs.groupez.dev/zmenu/configurations/items/item#lore",
+        target:"_blank",
+        rel:"noopener noreferrer",
+        title:"Open documentation: Lore",
+        "aria-label":"Open documentation: Lore",
+        children:R.jsx("i",
+        {
+          className:"bi bi-box-arrow-up-right",
+          "aria-hidden":"true"
+        })
+      })]
     }),
-    R.jsx(Xe.Control,
+    R.jsx("textarea",
     {
-      as:"textarea",
+      className:"zmm-source-field",
+      id:"zmenu-item-lore",
       name:"lore",
       value:r??"",
       onChange:i,
-      className:"rounded-1",
-      rows:10
+      rows:2,
+      placeholder:"Item description...",
+      spellCheck:!1,
+      "data-zmm-field":"lore"
     })]
   }),
   uB=({
     handleChange:i,
     amount:r,
     maxStackSize:s=64
-  })=>R.jsxs(Xe.Group,
+  })=>R.jsxs("div",
   {
-    className:"mb-3",
-    children:[R.jsxs(Xe.Label,
+    className:"bv2-field bv2-item-stack__field bv2-item-stack__field--number",
+    children:[R.jsxs("label",
     {
-      children:["数量：",
-      r,
-      "/",
-      s]
+      htmlFor:"zmenu-item-amount",
+      children:["Amount ",
+      R.jsx("a",
+      {
+        className:"bv2-docs-link",
+        href:"https://docs.groupez.dev/zmenu/configurations/items/item#amount",
+        target:"_blank",
+        rel:"noopener noreferrer",
+        title:"Open documentation: Amount",
+        "aria-label":"Open documentation: Amount",
+        children:R.jsx("i",
+        {
+          className:"bi bi-box-arrow-up-right",
+          "aria-hidden":"true"
+        })
+      })]
     }),
-    R.jsx(Xe.Range,
+    R.jsx("input",
     {
+      id:"zmenu-item-amount",
+      type:"number",
       min:1,
       max:s,
       name:"amount",
-      value:r,
-      onChange:i,
-      className:"rounded-1"
+      value:r??1,
+      onChange:i
     })]
   }),
   fB=({
@@ -64650,63 +64808,95 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     handleChange:r
   })=>{
     var s;
-    return R.jsxs(Xe.Group,
+    return R.jsx("div",
     {
-      className:"mb-2 d-flex",
-      children:[R.jsx(Xe.Check,
+      className:"bv2-toggle-group bv2-item-stack__glow",
+      children:R.jsxs("label",
       {
-        label:"附魔光效",
-        type:"checkbox",
-        name:"glow",
-        onChange:r,
-        checked:((s=i.button)==null?void 0:s.glow)??!1,
-        className:"rounded-1"
-      }),
-      R.jsxs("a",
-      {
-        className:"ms-2",
-        href:"https://docs.groupez.dev/zmenu/configurations/items/item/#glow",
-        target:"_blank",
-        children:["(",
-        R.jsx("i",
+        className:"bv2-toggle",
+        children:[R.jsx("i",
         {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
-      })]
+          className:"bi bi-magic bv2-toggle__icon",
+          "aria-hidden":"true"
+        }),R.jsxs("span",
+        {
+          className:"bv2-toggle__text",
+          children:[R.jsx("span",
+          {
+            className:"bv2-toggle__label",
+            children:"Enchantment Glow"
+          }),R.jsx("span",
+          {
+            className:"bv2-toggle__desc",
+            children:"Add the enchanted shimmer effect"
+          })]
+        }),R.jsx("a",
+        {
+          className:"bv2-docs-link",
+          href:"https://docs.groupez.dev/zmenu/configurations/items/item#glow",
+          target:"_blank",
+          rel:"noopener noreferrer",
+          title:"Open documentation: Enchantment Glow",
+          "aria-label":"Open documentation: Enchantment Glow",
+          onClick:s=>s.stopPropagation(),
+          children:R.jsx("i",
+          {
+            className:"bi bi-box-arrow-up-right",
+            "aria-hidden":"true"
+          })
+        }),R.jsxs("span",
+        {
+          className:"bv2-toggle__switch",
+          children:[R.jsx("input",
+          {
+            type:"checkbox",
+            name:"glow",
+            onChange:r,
+            checked:((s=i.button)==null?void 0:s.glow)??!1,
+            "aria-label":"Enchantment Glow"
+          }),R.jsx("span",
+          {
+            className:"bv2-toggle__track",
+            "aria-hidden":"true"
+          })]
+        })]
+      })
     })
   },
   dB=({
     handleChange:i,
     currentSlot:r
-  })=>R.jsxs(Xe.Group,
+  })=>R.jsxs("div",
   {
-    className:"mb-3",
-    children:[R.jsxs(Xe.Label,
+    className:"bv2-field bv2-item-stack__field bv2-item-stack__field--number",
+    children:[R.jsxs("label",
     {
-      children:["自定义模型 ID ",
-      R.jsxs("a",
+      htmlFor:"zmenu-item-model-id",
+      children:["Model ID ",
+      R.jsx("a",
       {
-        className:"ms-2",
+        className:"bv2-docs-link",
         href:"https://docs.groupez.dev/zmenu/configurations/items/item#model-id",
         target:"_blank",
-        children:["(",
-        R.jsx("i",
+        rel:"noopener noreferrer",
+        title:"Open documentation: Model ID",
+        "aria-label":"Open documentation: Model ID",
+        children:R.jsx("i",
         {
-          className:"bi bi-question-lg"
-        }),
-        ")"]
+          className:"bi bi-box-arrow-up-right",
+          "aria-hidden":"true"
+        })
       })]
     }),
-    R.jsx(Xe.Control,
+    R.jsx("input",
     {
+      id:"zmenu-item-model-id",
       type:"number",
       min:0,
       max:9999999,
       name:"model_id",
-      value:r.button.model_id,
-      onChange:i,
-      className:"rounded-1"
+      value:r.button.model_id??0,
+      onChange:i
     })]
   }),
   mB=({
@@ -64927,13 +65117,551 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       })]
     })
   },
+  itemStackRarityOptions=["COMMON","UNCOMMON","RARE","EPIC"],
+  itemStackColorOptions=["WHITE","ORANGE","MAGENTA","LIGHT_BLUE","YELLOW","LIME","PINK","GRAY","LIGHT_GRAY","CYAN","PURPLE","BLUE","BROWN","GREEN","RED","BLACK"],
+  itemStackEnchantmentOptions=["protection","fire_protection","feather_falling","blast_protection","projectile_protection","respiration","aqua_affinity","thorns","depth_strider","frost_walker","binding_curse","soul_speed","swift_sneak","sharpness","smite","bane_of_arthropods","knockback","fire_aspect","looting","sweeping_edge","efficiency","silk_touch","unbreaking","fortune","power","punch","flame","infinity","luck_of_the_sea","lure","loyalty","impaling","riptide","channeling","multishot","quick_charge","piercing","mending","vanishing_curse","density","breach","wind_burst"],
+  itemStackTrimMaterialOptions=["amethyst","copper","diamond","emerald","gold","iron","lapis","netherite","quartz","redstone"],
+  itemStackTrimPatternOptions=["coast","dune","eye","host","raiser","rib","sentry","shaper","silence","snout","spire","tide","vex","ward","wayfinder","wild"],
+  itemStackAttributeOperationOptions=["ADD_NUMBER","ADD_SCALAR","MULTIPLY_SCALAR_1"],
+  itemStackAttributeSlotOptions=["ANY","MAINHAND","OFFHAND","HEAD","CHEST","LEGS","FEET","BODY"],
+  itemStackAnimationOptions=["NONE","EAT","DRINK","BLOCK","BOW","SPEAR","CROSSBOW","SPYGLASS","TOOT_HORN","BRUSH"],
+  itemStackBookGenerationOptions=["ORIGINAL","COPY_OF_ORIGINAL","COPY_OF_COPY","TATTERED"],
+  itemStackFireworkShapeOptions=["SMALL_BALL","LARGE_BALL","STAR","CREEPER","BURST"],
+  itemStackSwingTypeOptions=["WHACK","BRUSH"],
+  itemStackItemFields=[
+    {key:"lore-type",label:"Lore type",type:"enum",group:"BASE",options:["REPLACE","APPEND","PREPEND"],help:"How this lore interacts with the existing item lore."},
+    {key:"translated-name",label:"Translated display name",type:"objectList",group:"BASE",itemLabel:"Translation",help:"Per-locale display name (e.g. locale \"fr-fr\").",of:[{key:"locale",label:"Locale",type:"text",placeholder:"fr-fr"},{key:"name",label:"Name",type:"text",placeholder:"French name"}]},
+    {key:"translated-lore",label:"Translated lore",type:"objectList",group:"BASE",itemLabel:"Translation",help:"Per-locale lore (one line per entry).",of:[{key:"locale",label:"Locale",type:"text",placeholder:"fr-fr"},{key:"lore",label:"Lore",type:"list",placeholder:"French lore"}]},
+    {key:"target",label:"Target",type:"text",group:"BASE",placeholder:"%zmenu_argument_player%",help:"Target player for placeholder resolution."},
+    {key:"durability",label:"Durability / damage",type:"int",group:"DURABILITY",min:0,help:"Damage value for tools."},
+    {key:"max-damage",label:"Max damage",type:"int",group:"DURABILITY",min:1,help:"Custom maximum durability."},
+    {key:"repair-cost",label:"Repair cost",type:"int",group:"DURABILITY",min:0,help:"Anvil repair cost."},
+    {key:"unbreakable",label:"Unbreakable",type:"bool",group:"DURABILITY",default:!1,help:"Item never loses durability."},
+    {key:"unbreakable-show-in-tooltip",label:"Show \"Unbreakable\" tag",type:"bool",group:"DURABILITY",default:!0},
+    {key:"fire-resistant",label:"Fire resistant",type:"bool",group:"DURABILITY",default:!1,help:"Doesn't burn in fire / lava."},
+    {key:"item-rarity",label:"Rarity",type:"enum",group:"APPEARANCE",options:itemStackRarityOptions,help:"Affects the name colour."},
+    {key:"max-stack-size",label:"Max stack size",type:"int",group:"APPEARANCE",min:1,max:99},
+    {key:"item-model",label:"Item model",type:"text",group:"APPEARANCE",version:"1.21.2+",placeholder:"minecraft:custom/my_sword"},
+    {key:"equipped-model",label:"Equipped model",type:"text",group:"APPEARANCE",version:"1.21+",placeholder:"minecraft:custom/my_armor"},
+    {key:"tooltip-style",label:"Tooltip style",type:"text",group:"APPEARANCE",placeholder:"minecraft:custom_tooltip"},
+    {key:"hide-tooltip",label:"Hide tooltip",type:"bool",group:"TOOLTIP",default:!1,help:"Completely hide the tooltip on hover."},
+    {key:"hide-additional-tooltip",label:"Hide additional tooltip",type:"bool",group:"TOOLTIP",default:!1,help:"Hide enchantments and attributes."},
+    {key:"enchantment-show-in-tooltip",label:"Show enchantments",type:"bool",group:"TOOLTIP",default:!0},
+    {key:"attribute-show-in-tooltip",label:"Show attributes",type:"bool",group:"TOOLTIP",default:!0},
+    {key:"enchantments",label:"Enchantments",type:"keyvalue",group:"ENCHANTMENTS",valueType:"int",keyPlaceholder:"minecraft:sharpness",valuePlaceholder:"Level",keyOptions:itemStackEnchantmentOptions,help:"Enchantment + level. Exported as \"name,level\"."},
+    {key:"flags",label:"Item flags",type:"multiselect",group:"FLAGS",options:["HIDE_ENCHANTS","HIDE_ATTRIBUTES","HIDE_UNBREAKABLE","HIDE_DESTROYS","HIDE_PLACED_ON","HIDE_POTION_EFFECTS","HIDE_DYE","HIDE_ARMOR_TRIM","HIDE_ADDITIONAL_TOOLTIP"],help:"Hide parts of the vanilla tooltip."},
+    {key:"trim",label:"Armor trim",type:"object",group:"TRIM",help:"Applies an armor trim (armor pieces only).",fields:[{key:"material",label:"Material",type:"enum",options:itemStackTrimMaterialOptions},{key:"pattern",label:"Pattern",type:"enum",options:itemStackTrimPatternOptions}]},
+    {key:"attributes",label:"Attribute modifiers",type:"objectList",group:"ATTRIBUTES",itemLabel:"Modifier",of:[{key:"attribute",label:"Attribute",type:"text",placeholder:"GENERIC_ATTACK_DAMAGE"},{key:"amount",label:"Amount",type:"float"},{key:"operation",label:"Operation",type:"enum",options:itemStackAttributeOperationOptions},{key:"slot",label:"Slot",type:"enum",options:itemStackAttributeSlotOptions}]},
+    {key:"attribute-merge-strategy",label:"Attribute merge strategy",type:"enum",group:"ATTRIBUTES",options:["REPLACE","ADD","KEEP_HIGHEST","KEEP_LOWEST","SUM"]},
+    {key:"clear-default-attributes",label:"Clear default attributes",type:"bool",group:"ATTRIBUTES",default:!1}
+  ],
+  itemStackComponentFields=[
+    {key:"item-name",label:"Item name",type:"text",group:"GENERAL",placeholder:"&6Special Item",help:"Base name (cannot be anvil-renamed)."},
+    {key:"custom-name",label:"Custom name",type:"text",group:"GENERAL",placeholder:"&6&lLegendary Sword",help:"Paper only."},
+    {key:"rarity",label:"Rarity",type:"enum",group:"GENERAL",options:itemStackRarityOptions},
+    {key:"max-stack-size",label:"Max stack size",type:"int",group:"GENERAL",min:1,max:99},
+    {key:"repair-cost",label:"Repair cost",type:"int",group:"GENERAL",min:0},
+    {key:"ominous-bottle-amplifier",label:"Ominous bottle amplifier",type:"int",group:"GENERAL",min:0,max:4},
+    {key:"jukebox-playable",label:"Jukebox playable",type:"text",group:"GENERAL",version:"1.21+",placeholder:"minecraft:music_disc.cat"},
+    {key:"recipes",label:"Recipes (knowledge book)",type:"list",group:"GENERAL",placeholder:"minecraft:diamond_sword"},
+    {key:"break-sound",label:"Break sound",type:"text",group:"GENERAL",version:"1.21.5+",placeholder:"entity.item.break"},
+    {key:"potion-duration-scale",label:"Potion duration scale",type:"float",group:"GENERAL",version:"1.21.5+"},
+    {key:"enchantment-glint-override",label:"Glint override",type:"bool",group:"GENERAL",default:!1,help:"Force or remove the enchantment glint."},
+    {key:"glider",label:"Glider",type:"bool",group:"GENERAL",default:!1,help:"Acts as an elytra when equipped."},
+    {key:"enchantments",label:"Enchantments (component)",type:"keyvalue",group:"DATA",valueType:"int",keyPlaceholder:"minecraft:sharpness",valuePlaceholder:"Level",keyOptions:itemStackEnchantmentOptions,help:"Enchantment -> level map."},
+    {key:"stored-enchantments",label:"Stored enchantments",type:"keyvalue",group:"DATA",valueType:"int",keyPlaceholder:"minecraft:sharpness",valuePlaceholder:"Level",keyOptions:itemStackEnchantmentOptions,help:"Enchanted-book enchantments."},
+    {key:"custom-data",label:"Custom data (NBT)",type:"keyvalue",group:"DATA",valueType:"text",keyPlaceholder:"my_plugin:item_id",valuePlaceholder:"value",help:"Persistent NBT key -> value."},
+    {key:"custom-model-data",label:"Custom model data",type:"object",group:"DATA",fields:[{key:"floats",label:"Floats",type:"list",placeholder:"1.0"},{key:"flags",label:"Flags",type:"list",placeholder:"true"},{key:"strings",label:"Strings",type:"list"},{key:"colors",label:"Colors",type:"list",placeholder:"#FFAA00"}]},
+    {key:"dyed-color",label:"Dyed color (leather)",type:"color",group:"MATERIAL",placeholder:"#FFAA00"},
+    {key:"base-color",label:"Base color (shield/banner)",type:"enum",group:"MATERIAL",options:itemStackColorOptions},
+    {key:"banner-patterns",label:"Banner patterns",type:"objectList",group:"MATERIAL",itemLabel:"Pattern",of:[{key:"pattern",label:"Pattern",type:"text",placeholder:"stripe_top"},{key:"color",label:"Color",type:"enum",options:itemStackColorOptions}]},
+    {key:"potion-contents",label:"Potion contents",type:"object",group:"MATERIAL",fields:[{key:"potion",label:"Base potion",type:"text",placeholder:"speed"},{key:"custom-color",label:"Custom color",type:"color",placeholder:"#RRGGBB"},{key:"custom-effects",label:"Custom effects",type:"objectList",itemLabel:"Effect",of:[{key:"type",label:"Effect",type:"text",placeholder:"speed"},{key:"amplifier",label:"Amplifier",type:"int",min:0},{key:"duration",label:"Duration (ticks)",type:"int",min:0}]}]},
+    {key:"food",label:"Food",type:"object",group:"BEHAVIOUR",fields:[{key:"nutrition",label:"Nutrition",type:"int",min:0},{key:"saturation",label:"Saturation",type:"float",min:0},{key:"can-always-eat",label:"Can always eat",type:"bool",default:!1}]},
+    {key:"consumable",label:"Consumable",type:"object",group:"BEHAVIOUR",version:"1.21.2+",fields:[{key:"consume-seconds",label:"Consume seconds",type:"float",min:0},{key:"animation",label:"Animation",type:"enum",options:itemStackAnimationOptions},{key:"consume-sound",label:"Consume sound",type:"text",placeholder:"entity.generic.eat"},{key:"has-consume-particles",label:"Consume particles",type:"bool",default:!0}]},
+    {key:"use-cooldown",label:"Use cooldown",type:"object",group:"BEHAVIOUR",version:"1.21.2+",fields:[{key:"seconds",label:"Seconds",type:"float",min:0},{key:"cooldown-group",label:"Cooldown group",type:"text",placeholder:"my_plugin:special"}]},
+    {key:"use-effects",label:"Use effects",type:"object",group:"BEHAVIOUR",version:"1.21.11+",fields:[{key:"can-sprint",label:"Can sprint",type:"bool",default:!1},{key:"speed-multiplier",label:"Speed multiplier",type:"float"},{key:"interact-vibrations",label:"Interact vibrations",type:"bool",default:!0}]},
+    {key:"enchantable",label:"Enchantable",type:"object",group:"BEHAVIOUR",version:"1.21.2+",fields:[{key:"value",label:"Value",type:"int",min:0}]},
+    {key:"tool",label:"Tool",type:"object",group:"BEHAVIOUR",fields:[{key:"default-mining-speed",label:"Default mining speed",type:"float",min:0},{key:"damage-per-block",label:"Damage per block",type:"int",min:0},{key:"can-destroy-blocks-in-creative",label:"Destroy blocks in creative",type:"bool",default:!0},{key:"rules",label:"Rules",type:"objectList",itemLabel:"Rule",of:[{key:"blocks",label:"Blocks",type:"list",placeholder:"minecraft:stone"},{key:"speed",label:"Speed",type:"float",min:0},{key:"correct-for-drops",label:"Correct for drops",type:"bool",default:!1}]}]},
+    {key:"equippable",label:"Equippable",type:"object",group:"BEHAVIOUR",version:"1.21.2+",fields:[{key:"slot",label:"Slot",type:"enum",options:itemStackAttributeSlotOptions},{key:"equip-sound",label:"Equip sound",type:"text",placeholder:"item.armor.equip_leather"},{key:"asset-id",label:"Asset id",type:"text"},{key:"allowed-entities",label:"Allowed entities",type:"list"},{key:"dispensable",label:"Dispensable",type:"bool",default:!0},{key:"swappable",label:"Swappable",type:"bool",default:!0},{key:"damage-on-hurt",label:"Damage on hurt",type:"bool",default:!0},{key:"equip-on-interact",label:"Equip on interact",type:"bool",default:!1},{key:"can-be-sheared",label:"Can be sheared",type:"bool",default:!1}]},
+    {key:"tooltip-display",label:"Tooltip display",type:"object",group:"BEHAVIOUR",version:"1.21.5+",fields:[{key:"hide-tooltip",label:"Hide tooltip",type:"bool",default:!1},{key:"hidden-components",label:"Hidden components",type:"list",placeholder:"minecraft:attribute_modifiers"}]},
+    {key:"use-remainder",label:"Use remainder",type:"object",group:"BEHAVIOUR",version:"1.21.2+",fields:[{key:"material",label:"Material",type:"text",placeholder:"DIAMOND"},{key:"amount",label:"Amount",type:"int",min:1}]},
+    {key:"damage",label:"Damage",type:"int",group:"DURABILITY",min:0},
+    {key:"max-damage",label:"Max damage",type:"int",group:"DURABILITY",min:1},
+    {key:"writable-book-content",label:"Writable book",type:"object",group:"BOOKS",fields:[{key:"pages",label:"Pages",type:"objectList",itemLabel:"Page",of:[{key:"title",label:"Title",type:"text"},{key:"raw",label:"Content",type:"textarea"}]}]},
+    {key:"written-book-content",label:"Written book",type:"object",group:"BOOKS",fields:[{key:"title",label:"Title",type:"text"},{key:"author",label:"Author",type:"text"},{key:"generation",label:"Generation",type:"enum",options:itemStackBookGenerationOptions},{key:"pages",label:"Pages",type:"objectList",itemLabel:"Page",of:[{key:"raw",label:"Content",type:"textarea"}]}]},
+    {key:"map-id",label:"Map id",type:"int",group:"MAPS",min:0},
+    {key:"map-color",label:"Map color",type:"color",group:"MAPS",placeholder:"#FF5555"},
+    {key:"map-decorations",label:"Map decorations",type:"objectList",group:"MAPS",itemLabel:"Decoration",of:[{key:"type",label:"Type",type:"text",placeholder:"red_marker"},{key:"x",label:"X",type:"float"},{key:"z",label:"Z",type:"float"},{key:"rotation",label:"Rotation",type:"int"}]},
+    {key:"container",label:"Container",type:"objectList",group:"CONTAINERS",itemLabel:"Slot",of:[{key:"slot",label:"Slot",type:"int",min:0},{key:"material",label:"Material",type:"text",placeholder:"DIAMOND"},{key:"amount",label:"Amount",type:"int",min:1}]},
+    {key:"bundle-contents",label:"Bundle contents",type:"objectList",group:"CONTAINERS",itemLabel:"Item",of:[{key:"material",label:"Material",type:"text",placeholder:"DIAMOND"},{key:"amount",label:"Amount",type:"int",min:1}]},
+    {key:"charged-projectiles",label:"Charged projectiles",type:"objectList",group:"CONTAINERS",itemLabel:"Projectile",of:[{key:"material",label:"Material",type:"text",placeholder:"DIAMOND"},{key:"amount",label:"Amount",type:"int",min:1}]},
+    {key:"container-loot",label:"Container loot",type:"object",group:"CONTAINERS",fields:[{key:"loot-table",label:"Loot table",type:"text",placeholder:"minecraft:chests/desert_pyramid"},{key:"seed",label:"Seed",type:"int"}]},
+    {key:"fireworks",label:"Fireworks (rocket)",type:"object",group:"FIREWORKS",fields:[{key:"flight-duration",label:"Flight duration",type:"int",min:0},{key:"explosions",label:"Explosions",type:"objectList",itemLabel:"Explosion",of:[{key:"shape",label:"Shape",type:"enum",options:itemStackFireworkShapeOptions},{key:"colors",label:"Colors",type:"list",placeholder:"#FF0000"},{key:"fade_colors",label:"Fade colors",type:"list",placeholder:"#FFAA00"},{key:"has_trail",label:"Trail",type:"bool",default:!1},{key:"has_twinkle",label:"Twinkle",type:"bool",default:!1}]}]},
+    {key:"firework-explosion",label:"Firework explosion (star)",type:"object",group:"FIREWORKS",fields:[{key:"shape",label:"Shape",type:"enum",options:itemStackFireworkShapeOptions},{key:"colors",label:"Colors",type:"list",placeholder:"#FF0000"},{key:"fade_colors",label:"Fade colors",type:"list",placeholder:"#FFAA00"},{key:"has_trail",label:"Trail",type:"bool",default:!1},{key:"has_twinkle",label:"Twinkle",type:"bool",default:!1}]},
+    {key:"weapon",label:"Weapon",type:"object",group:"COMBAT",version:"1.21.5+",fields:[{key:"item-damage-per-attack",label:"Item damage per attack",type:"int",min:0},{key:"disable-blocking-for-seconds",label:"Disable blocking (s)",type:"float",min:0}]},
+    {key:"blocks-attacks",label:"Blocks attacks",type:"object",group:"COMBAT",version:"1.21.5+",fields:[{key:"block-delay-seconds",label:"Block delay (s)",type:"float",min:0},{key:"disable-cooldown-scale",label:"Disable cooldown scale",type:"float"},{key:"block-sound",label:"Block sound",type:"text"},{key:"disabled-sound",label:"Disabled sound",type:"text"}]},
+    {key:"attack-range",label:"Attack range",type:"object",group:"COMBAT",version:"1.21.11+",fields:[{key:"min-reach",label:"Min reach",type:"float"},{key:"max-reach",label:"Max reach",type:"float"},{key:"min-creative-reach",label:"Min creative reach",type:"float"},{key:"max-creative-reach",label:"Max creative reach",type:"float"},{key:"hitbox-margin",label:"Hitbox margin",type:"float"},{key:"mob-factor",label:"Mob factor",type:"float"}]},
+    {key:"piercing-weapon",label:"Piercing weapon",type:"object",group:"COMBAT",version:"1.21.11+",fields:[{key:"deals-knockback",label:"Deals knockback",type:"bool",default:!0},{key:"dismounts",label:"Dismounts",type:"bool",default:!1},{key:"sound",label:"Sound",type:"text"},{key:"hit-sound",label:"Hit sound",type:"text"}]},
+    {key:"kinetic-weapon",label:"Kinetic weapon",type:"object",group:"COMBAT",version:"1.21.11+",fields:[{key:"delay-ticks",label:"Delay ticks",type:"int",min:0},{key:"forward-movement",label:"Forward movement",type:"float"},{key:"damage-multiplier",label:"Damage multiplier",type:"float"},{key:"sound",label:"Sound",type:"text"},{key:"hit-sound",label:"Hit sound",type:"text"}]},
+    {key:"swing-animation",label:"Swing animation",type:"object",group:"COMBAT",version:"1.21.11+",fields:[{key:"duration",label:"Duration",type:"int",min:0},{key:"type",label:"Type",type:"enum",options:itemStackSwingTypeOptions}]},
+    {key:"damage-type",label:"Damage type",type:"object",group:"COMBAT",version:"1.21.11+",fields:[{key:"types",label:"Types",type:"text",placeholder:"minecraft:player_attack"}]},
+    {key:"minimum-attack-charge",label:"Minimum attack charge",type:"float",group:"COMBAT",version:"1.21.11+",min:0,max:1},
+    {key:"instrument",label:"Instrument",type:"object",group:"MISC",fields:[{key:"sound-event",label:"Sound event",type:"text",placeholder:"minecraft:ponder_goat_horn"},{key:"use-duration",label:"Use duration",type:"float"},{key:"range",label:"Range",type:"float"}]},
+    {key:"lodestone-tracker",label:"Lodestone tracker",type:"object",group:"MISC",fields:[{key:"tracked",label:"Tracked",type:"bool",default:!0},{key:"target",label:"Target",type:"object",fields:[{key:"pos",label:"Position",type:"list",placeholder:"100"},{key:"dimension",label:"Dimension",type:"text",placeholder:"minecraft:overworld"}]}]},
+    {key:"suspicious-stew-effects",label:"Suspicious stew effects",type:"objectList",group:"MISC",itemLabel:"Effect",of:[{key:"type",label:"Effect",type:"text",placeholder:"blindness"},{key:"amplifier",label:"Amplifier",type:"int",min:0},{key:"duration",label:"Duration (ticks)",type:"int",min:0},{key:"ambient",label:"Ambient",type:"bool",default:!1},{key:"show_particles",label:"Show particles",type:"bool",default:!0},{key:"show_icon",label:"Show icon",type:"bool",default:!0}]},
+    {key:"block-state",label:"Block state",type:"keyvalue",group:"MISC",valueType:"text",keyPlaceholder:"facing",valuePlaceholder:"north",help:"Block properties when placed."},
+    {key:"death-protection",label:"Death protection",type:"object",group:"PAPER",version:"1.21.2+",fields:[{key:"death_effects",label:"Death effects",type:"objectList",itemLabel:"Effect",of:[{key:"type",label:"Type",type:"text",placeholder:"APPLY_EFFECTS"},{key:"probability",label:"Probability",type:"float",min:0,max:1}]}]},
+    {key:"repairable",label:"Repairable",type:"object",group:"PAPER",version:"1.21.2+",fields:[{key:"items",label:"Items",type:"list",placeholder:"minecraft:diamond"}]},
+    {key:"note-block-sound",label:"Note block sound",type:"text",group:"PAPER",placeholder:"minecraft:block.note_block.bell"},
+    {key:"pot-decorations",label:"Pot decorations",type:"list",group:"PAPER",placeholder:"skull_pottery_sherd"},
+    {key:"provides-banner-patterns",label:"Provides banner patterns",type:"text",group:"PAPER",version:"1.21.5+"},
+    {key:"provides-trim-material",label:"Provides trim material",type:"text",group:"PAPER",version:"1.21.5+"},
+    {key:"damage-resistant",label:"Damage resistant",type:"object",group:"PAPER",fields:[{key:"types",label:"Types",type:"text",placeholder:"minecraft:is_fire"}]},
+    {key:"intangible-projectile",label:"Intangible projectile",type:"bool",group:"PAPER",default:!1},
+    {key:"axolotl/variant",label:"Axolotl variant",type:"enum",group:"ENTITY VARIANTS",options:["lucy","wild","gold","cyan","blue"]},
+    {key:"cat/variant",label:"Cat variant",type:"text",group:"ENTITY VARIANTS",placeholder:"siamese"},
+    {key:"cat/collar",label:"Cat collar",type:"enum",group:"ENTITY VARIANTS",options:itemStackColorOptions},
+    {key:"chicken/variant",label:"Chicken variant",type:"enum",group:"ENTITY VARIANTS",options:["temperate","warm","cold"],version:"1.21.5+"},
+    {key:"cow/variant",label:"Cow variant",type:"enum",group:"ENTITY VARIANTS",options:["temperate","warm","cold"],version:"1.21.5+"},
+    {key:"fox/variant",label:"Fox variant",type:"enum",group:"ENTITY VARIANTS",options:["RED","SNOW"]},
+    {key:"frog/variant",label:"Frog variant",type:"enum",group:"ENTITY VARIANTS",options:["temperate","warm","cold"]},
+    {key:"horse/variant",label:"Horse variant",type:"enum",group:"ENTITY VARIANTS",options:["WHITE","CREAMY","CHESTNUT","BROWN","BLACK","GRAY","DARK_BROWN"]},
+    {key:"llama/variant",label:"Llama variant",type:"enum",group:"ENTITY VARIANTS",options:["CREAMY","WHITE","BROWN","GRAY"]},
+    {key:"mooshroom/variant",label:"Mooshroom variant",type:"enum",group:"ENTITY VARIANTS",options:["RED","BROWN"]},
+    {key:"painting/variant",label:"Painting variant",type:"text",group:"ENTITY VARIANTS",version:"1.20.5+",placeholder:"minecraft:wither"},
+    {key:"parrot/variant",label:"Parrot variant",type:"enum",group:"ENTITY VARIANTS",options:["RED","BLUE","GREEN","CYAN","GRAY"]},
+    {key:"pig/variant",label:"Pig variant",type:"enum",group:"ENTITY VARIANTS",options:["temperate","warm","cold"],version:"1.21.5+"},
+    {key:"rabbit/variant",label:"Rabbit variant",type:"enum",group:"ENTITY VARIANTS",options:["BROWN","WHITE","BLACK","WHITE_SPLOTCHED","GOLD","SALT","THE_KILLER_BUNNY"]},
+    {key:"salmon/size",label:"Salmon size",type:"enum",group:"ENTITY VARIANTS",options:["SMALL","MEDIUM","LARGE"],version:"1.21.5+"},
+    {key:"sheep/color",label:"Sheep color",type:"enum",group:"ENTITY VARIANTS",options:itemStackColorOptions},
+    {key:"shulker/color",label:"Shulker color",type:"enum",group:"ENTITY VARIANTS",options:itemStackColorOptions},
+    {key:"tropical-fish/base-color",label:"Tropical fish base color",type:"enum",group:"ENTITY VARIANTS",options:itemStackColorOptions},
+    {key:"tropical-fish/pattern-color",label:"Tropical fish pattern color",type:"enum",group:"ENTITY VARIANTS",options:itemStackColorOptions},
+    {key:"villager/variant",label:"Villager variant",type:"enum",group:"ENTITY VARIANTS",options:["plains","desert","jungle","savanna","snow","swamp","taiga"]},
+    {key:"wolf/variant",label:"Wolf variant",type:"text",group:"ENTITY VARIANTS",version:"1.20.5+",placeholder:"pale"},
+    {key:"wolf/collar",label:"Wolf collar",type:"enum",group:"ENTITY VARIANTS",options:itemStackColorOptions,version:"1.20.5+"}
+  ],
+  itemStackFieldHasValue=i=>i!==void 0&&i!==null&&i!==""&&(!Array.isArray(i)||i.length>0)&&(typeof i!=="object"||Object.keys(i).length>0),
+  itemStackCleanValue=(field,value)=>{
+    if(!itemStackFieldHasValue(value))return void 0;
+    return field.default!==void 0&&value===field.default?void 0:value
+  },
+  itemStackUpdateObject=(values,field,value)=>{
+    const next={
+      ...itemStackObject(values)
+    },
+    cleaned=itemStackCleanValue(field,value);
+    cleaned===void 0?delete next[field.key]:next[field.key]=cleaned;
+    return Object.keys(next).length>0?next:{}
+  },
+  itemStackParseList=i=>String(i||"").split(/\r?\n/).map(value=>value.trim()).filter(Boolean),
+  itemStackParseNumber=(field,value)=>{
+    if(value==="")return void 0;
+    const parsed=field.type==="int"?parseInt(value,10):parseFloat(value);
+    return Number.isFinite(parsed)?parsed:void 0
+  },
+  itemStackDocsUrl=(root,key)=>"https://docs.groupez.dev/zmenu/configurations/items/"+(root==="components"?"components/#":"item#")+String(key).replace(/\//g,"-"),
+  itemStackFieldLabel=(field,root)=>{
+    const docs=itemStackDocsUrl(root,field.key);
+    return R.jsxs("div",
+    {
+      className:"bv2-item-schema-field__label",
+      children:[R.jsx("span",
+      {
+        children:field.label
+      }),field.version&&R.jsx("small",
+      {
+        children:field.version
+      }),R.jsx("a",
+      {
+        className:"bv2-docs-link",
+        href:docs,
+        target:"_blank",
+        rel:"noopener noreferrer",
+        title:"Open documentation: "+field.label,
+        "aria-label":"Open documentation: "+field.label,
+        onClick:event=>event.stopPropagation(),
+        children:R.jsx("i",
+        {
+          className:"bi bi-box-arrow-up-right",
+          "aria-hidden":"true"
+        })
+      })]
+    })
+  },
+  itemStackKeyValueEditor=(field,value,onChange)=>{
+    const entries=Object.entries(itemStackObject(value)),
+    updateEntry=(index,keyValue,nextValue)=>{
+      const next={};
+      entries.forEach(([oldKey,oldValue],rowIndex)=>{
+        const key=rowIndex===index?keyValue:oldKey;
+        itemStackFieldHasValue(key)&&(next[String(key).trim()]=rowIndex===index?nextValue:oldValue)
+      });
+      onChange(Object.keys(next).length>0?next:void 0)
+    },
+    addEntry=()=>{
+      const available=(field.keyOptions||[]).find(option=>!entries.some(([key])=>key===option)),
+      base=available||"key_"+(entries.length+1);
+      onChange({
+        ...itemStackObject(value),
+        [base]:field.valueType==="int"?1:""
+      })
+    };
+    return R.jsxs("div",
+    {
+      className:"bv2-item-schema-keyvalue",
+      children:[entries.map(([key,currentValue],index)=>{
+        const inputType=field.valueType==="int"||field.valueType==="float"?"number":"text";
+        return R.jsxs("div",
+        {
+          className:"bv2-item-schema-keyvalue__row",
+          children:[field.keyOptions?R.jsx("select",
+          {
+            value:key,
+            onChange:event=>updateEntry(index,event.target.value,currentValue),
+            children:(field.keyOptions||[]).map(option=>R.jsx("option",
+            {
+              value:option,
+              children:option
+            },
+            option))
+          }):R.jsx("input",
+          {
+            type:"text",
+            value:key,
+            placeholder:field.keyPlaceholder||"Key",
+            onChange:event=>updateEntry(index,event.target.value,currentValue)
+          }),R.jsx("input",
+          {
+            type:inputType,
+            step:field.valueType==="float"?"0.01":"1",
+            value:currentValue??"",
+            placeholder:field.valuePlaceholder||"Value",
+            onChange:event=>{
+              const raw=event.target.value,
+              parsed=field.valueType==="int"?parseInt(raw,10):parseFloat(raw),
+              nextValue=field.valueType==="int"||field.valueType==="float"?(raw===""||!Number.isFinite(parsed)?void 0:parsed):raw;
+              updateEntry(index,key,nextValue)
+            }
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-item-schema-list__remove",
+            title:"Remove",
+            onClick:()=>updateEntry(index,"",void 0),
+            children:R.jsx("i",
+            {
+              className:"bi bi-x-lg",
+              "aria-hidden":"true"
+            })
+          })]
+        },
+        key)
+      }),R.jsxs("button",
+      {
+        type:"button",
+        className:"bv2-btn bv2-item-schema-list__add",
+        onClick:addEntry,
+        children:[R.jsx("i",
+        {
+          className:"bi bi-plus-lg",
+          "aria-hidden":"true"
+        })," Add entry"]
+      })]
+    })
+  },
+  itemStackField=({field,value,onChange,root,path})=>{
+    const current=value===void 0?field.default:value,
+    fieldType=field.type;
+    if(fieldType==="object"){
+      const objectValue=itemStackObject(current);
+      return R.jsxs("div",
+      {
+        className:"bv2-item-schema-object",
+        children:[itemStackFieldLabel(field,root),R.jsx("div",
+        {
+          className:"bv2-item-schema-object__children",
+          children:(field.fields||[]).map(child=>R.jsx(itemStackField,
+          {
+            field:child,
+            value:objectValue[child.key],
+            onChange:next=>onChange(itemStackUpdateObject(objectValue,child,next)),
+            root:root,
+            path:path+"."+child.key
+          },
+          path+"."+child.key))
+        }),field.help&&R.jsx("small",
+          {
+            className:"bv2-item-schema-field__help",
+            children:field.help
+          })]
+      })
+    }
+    if(fieldType==="objectList"){
+      const rows=Array.isArray(current)?current:[];
+      return R.jsxs("div",
+      {
+        className:"bv2-item-schema-object-list",
+        children:[itemStackFieldLabel(field,root),rows.map((row,index)=>{
+          const rowObject=itemStackObject(row);
+          return R.jsxs("div",
+          {
+            className:"bv2-item-schema-object-list__item",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-item-schema-object-list__header",
+              children:[R.jsx("strong",
+              {
+                children:(field.itemLabel||"Entry")+" "+(index+1)
+              }),R.jsx("button",
+              {
+                type:"button",
+                className:"bv2-item-schema-list__remove",
+                title:"Remove",
+                onClick:()=>onChange(rows.filter((rowValue,rowIndex)=>rowIndex!==index)),
+                children:R.jsx("i",
+                {
+                  className:"bi bi-x-lg",
+                  "aria-hidden":"true"
+                })
+              })]
+            }),(field.of||[]).map(child=>R.jsx(itemStackField,
+            {
+              field:child,
+              value:rowObject[child.key],
+              onChange:next=>onChange(rows.map((rowValue,rowIndex)=>rowIndex===index?itemStackUpdateObject(rowObject,child,next):rowValue)),
+              root:root,
+              path:path+"."+index+"."+child.key
+            },
+            path+"."+index+"."+child.key))]
+          },
+          path+"."+index)
+        }),R.jsxs("button",
+        {
+          type:"button",
+          className:"bv2-btn bv2-item-schema-list__add",
+          onClick:()=>onChange([...(Array.isArray(current)?current:[]),{}]),
+          children:[R.jsx("i",
+          {
+            className:"bi bi-plus-lg",
+            "aria-hidden":"true"
+          })," Add ",String(field.itemLabel||"entry").toLowerCase()]
+        }),field.help&&R.jsx("small",
+        {
+          className:"bv2-item-schema-field__help",
+          children:field.help
+        })]
+      })
+    }
+    if(fieldType==="keyvalue"){
+      return R.jsxs("div",
+      {
+        className:"bv2-item-schema-field",
+        children:[itemStackFieldLabel(field,root),itemStackKeyValueEditor(field,current,onChange),field.help&&R.jsx("small",
+        {
+          className:"bv2-item-schema-field__help",
+          children:field.help
+        })]
+      })
+    }
+    if(fieldType==="multiselect"){
+      const selected=Array.isArray(current)?current:[];
+      return R.jsxs("div",
+      {
+        className:"bv2-item-schema-field",
+        children:[itemStackFieldLabel(field,root),R.jsx("div",
+        {
+          className:"bv2-item-schema-multiselect",
+          children:(field.options||[]).map(option=>{
+            const optionValue=typeof option==="string"?option:option.value;
+            const optionLabel=typeof option==="string"?option:option.label||option.value;
+            return R.jsxs("label",
+            {
+              children:[R.jsx("input",
+              {
+                type:"checkbox",
+                checked:selected.includes(optionValue),
+                onChange:()=>onChange(selected.includes(optionValue)?selected.filter(item=>item!==optionValue):[...selected,optionValue])
+              }),R.jsx("span",
+              {
+                children:optionLabel
+              })]
+            },
+            optionValue)
+          })
+        }),field.help&&R.jsx("small",
+        {
+          className:"bv2-item-schema-field__help",
+          children:field.help
+        })]
+      })
+    }
+    if(fieldType==="color"){
+      const colorValue=typeof current==="string"&&/^#[0-9a-f]{6}$/i.test(current)?current:"#ffffff";
+      return R.jsxs("div",
+      {
+        className:"bv2-item-schema-field",
+        children:[itemStackFieldLabel(field,root),R.jsxs("div",
+        {
+          className:"bv2-item-schema-color",
+          children:[R.jsx("input",
+          {
+            type:"color",
+            value:colorValue,
+            onChange:event=>onChange(event.target.value)
+          }),R.jsx("input",
+          {
+            type:"text",
+            value:current??"",
+            placeholder:field.placeholder||"#FFFFFF",
+            onChange:event=>onChange(event.target.value)
+          })]
+        }),field.help&&R.jsx("small",
+        {
+          className:"bv2-item-schema-field__help",
+          children:field.help
+        })]
+      })
+    }
+    const control=fieldType==="list"?R.jsx("textarea",
+    {
+      rows:3,
+      value:Array.isArray(current)?current.join("\n"):current??"",
+      placeholder:field.placeholder||"",
+      onChange:event=>onChange(itemStackParseList(event.target.value))
+    }):fieldType==="textarea"?R.jsx("textarea",
+    {
+      rows:4,
+      value:current??"",
+      placeholder:field.placeholder||"",
+      onChange:event=>onChange(event.target.value)
+    }):fieldType==="bool"?R.jsx("label",
+    {
+      className:"bv2-item-schema-toggle",
+      children:[R.jsx("input",
+      {
+        type:"checkbox",
+        checked:current===!0,
+        onChange:event=>onChange(event.target.checked)
+      }),R.jsx("span",
+      {
+        className:"bv2-item-schema-toggle__track",
+        "aria-hidden":"true"
+      }),R.jsx("span",
+      {
+        children:field.label
+      })]
+    }):fieldType==="enum"?R.jsxs("select",
+    {
+      value:current??"",
+      onChange:event=>onChange(event.target.value),
+      children:[R.jsx("option",
+      {
+        value:"",
+        children:"-"
+      }),(field.options||[]).map(option=>{
+        const optionValue=typeof option==="string"?option:option.value;
+        return R.jsx("option",
+        {
+          value:optionValue,
+          children:typeof option==="string"?option:option.label||option.value
+        },
+        optionValue)
+      })]
+    }):R.jsx("input",
+    {
+      type:fieldType==="int"||fieldType==="float"||fieldType==="number"?"number":"text",
+      min:field.min,
+      max:field.max,
+      step:fieldType==="float"?"0.01":"1",
+      value:current??"",
+      placeholder:field.placeholder||"",
+      onChange:event=>onChange(fieldType==="int"||fieldType==="float"||fieldType==="number"?itemStackParseNumber(field,event.target.value):event.target.value)
+    });
+    return R.jsxs("div",
+    {
+      className:"bv2-item-schema-field"+(fieldType==="bool"?" bv2-item-schema-field--toggle":""),
+      children:[fieldType==="bool"?control:R.jsxs(R.Fragment,
+      {
+        children:[itemStackFieldLabel(field,root),control]
+      }),field.help&&R.jsx("small",
+      {
+        className:"bv2-item-schema-field__help",
+        children:field.help
+      })]
+    })
+  },
+  itemStackSchemaGroups=(fields,values,onChange,root)=>{
+    const groups=[];
+    (fields||[]).forEach(field=>{
+      let group=groups.find(item=>item.name===field.group);
+      group||(group={
+        name:field.group||"GENERAL",
+        fields:[]
+      },
+      groups.push(group)),
+      group.fields.push(field)
+    });
+    return groups.map((group,index)=>R.jsxs("details",
+    {
+      className:"bv2-item-schema-group",
+      open:index===0,
+      children:[R.jsxs("summary",
+      {
+        children:[R.jsx("span",
+        {
+          children:group.name
+        }),R.jsx("em",
+        {
+          children:group.fields.length
+        })]
+      }),R.jsx("div",
+      {
+        className:"bv2-item-schema-group__body",
+        children:group.fields.map(field=>R.jsx(itemStackField,
+        {
+          field:field,
+          value:itemStackObject(values)[field.key],
+          onChange:value=>onChange(itemStackUpdateObject(itemStackObject(values),field,value)),
+          root:root,
+          path:root+"."+field.key
+        },
+        field.key))
+      })]
+    },
+    root+"."+group.name))
+  },
+  itemStackRawEditor=({value,onChange})=>R.jsxs("div",
+  {
+    className:"bv2-item-schema-raw",
+    children:[R.jsxs("div",
+    {
+      className:"bv2-item-schema-raw__title",
+      children:R.jsx("span",
+      {
+        children:"Raw components (YAML)"
+      })
+    }),R.jsx("textarea",
+    {
+      value:value||"",
+      rows:7,
+      spellCheck:!1,
+      placeholder:"food:\n  nutrition: 6\n  saturation: 0.8\ntool:\n  default-mining-speed: 1.5",
+      onChange:event=>onChange(event.target.value)
+    }),R.jsx("small",
+    {
+      children:"Merged as-is into item.components during export. Use this for components that are not yet available in the UI."
+    })]
+  }),
   pB=({
     inventoryContent:i,
     updateButton:r,
     selectedSlots:s
   })=>{
-    var k;
-    const c=s.length>0?s:[i.currentSlot].filter(_=>_>=0),
+    const[itemPanelCollapsed,setItemPanelCollapsed]=U.useState(!1),
+    [itemTab,setItemTab]=U.useState("general"),
+    [tooltipPinned,setTooltipPinned]=U.useState(!1),
+    c=s.length>0?s:[i.currentSlot].filter(_=>_>=0),
     d=_=>{
       const{
         name:S,
@@ -64971,50 +65699,211 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         x)
       })
     };
-    let m=i.slots[i.currentSlot];
-    return R.jsx("div",
+    const updateContent=(slotIndex,nextContent)=>{
+      const slot=i.slots[slotIndex];
+      slot&&r(slotIndex,{
+        ...slot.button
+      },nextContent)
+    },
+    updateItemSchema=nextItem=>{
+      c.forEach(slotIndex=>{
+        const slot=i.slots[slotIndex];
+        slot&&updateContent(slotIndex,{
+          ...itemStackObject(slot.content),
+          item:itemStackObject(nextItem)
+        })
+      })
+    },
+    updateComponentSchema=nextComponents=>{
+      c.forEach(slotIndex=>{
+        const slot=i.slots[slotIndex];
+        slot&&updateContent(slotIndex,{
+          ...itemStackObject(slot.content),
+          components:itemStackObject(nextComponents)
+        })
+      })
+    },
+    updateRawComponents=raw=>{
+      c.forEach(slotIndex=>{
+        const slot=i.slots[slotIndex];
+        slot&&updateContent(slotIndex,{
+          ...itemStackObject(slot.content),
+          components_raw:String(raw||"")
+        })
+      })
+    };
+    const m=i.slots[i.currentSlot],
+    currentContent=itemStackObject(m==null?void 0:m.content),
+    itemValues=itemStackObject(currentContent.item),
+    componentValues=itemStackObject(currentContent.components);
+    const itemEditor=i.currentSlot>=0?R.jsxs("div",
     {
-      className:"configurations-itemstack",
-      children:i.currentSlot>=0?R.jsxs("div",
+      className:"bv2-config-section bv2-item-stack-editor",
+      children:[R.jsx("div",
       {
-        className:"p-2",
-        children:[((k=m.content)==null?void 0:k.material)==="PLAYER_HEAD"&&R.jsx(mB,
+        className:"bv2-toggle-group bv2-item-stack__preview-toggle",
+        children:R.jsxs("label",
+        {
+          className:"bv2-toggle",
+          children:[R.jsx("i",
+          {
+            className:"bi bi-pin-angle-fill bv2-toggle__icon",
+            "aria-hidden":"true"
+          }),R.jsxs("span",
+          {
+            className:"bv2-toggle__text",
+            children:[R.jsx("span",
+            {
+              className:"bv2-toggle__label",
+              children:"Always show tooltip"
+            }),R.jsx("span",
+            {
+              className:"bv2-toggle__desc",
+              children:"Keep the item preview pinned while you configure it"
+            })]
+          }),R.jsxs("span",
+          {
+            className:"bv2-toggle__switch",
+            children:[R.jsx("input",
+            {
+              type:"checkbox",
+              checked:tooltipPinned,
+              onChange:_=>setTooltipPinned(_.target.checked),
+              "aria-label":"Always show tooltip"
+            }),R.jsx("span",
+            {
+              className:"bv2-toggle__track",
+              "aria-hidden":"true"
+            })]
+          })]
+        })
+      }),R.jsxs("div",
+      {
+        className:"bv2-tabs bv2-item-stack__tabs",
+        role:"tablist",
+        "aria-label":"Item Stack configuration",
+        children:[R.jsx("button",
+        {
+          type:"button",
+          role:"tab",
+          "aria-selected":itemTab==="general",
+          className:`bv2-tab${itemTab==="general"?" bv2-tab--active":""}`,
+          onClick:()=>setItemTab("general"),
+          children:"General"
+        }),R.jsx("button",
+        {
+          type:"button",
+          role:"tab",
+          "aria-selected":itemTab==="item",
+          className:`bv2-tab${itemTab==="item"?" bv2-tab--active":""}`,
+          onClick:()=>setItemTab("item"),
+          children:"Item"
+        }),R.jsx("button",
+        {
+          type:"button",
+          role:"tab",
+          "aria-selected":itemTab==="components",
+          className:`bv2-tab${itemTab==="components"?" bv2-tab--active":""}`,
+          onClick:()=>setItemTab("components"),
+          children:"Components"
+        })]
+      }),itemTab==="general"?R.jsxs("div",
+      {
+        className:"bv2-item-stack__tab-content",
+        children:[R.jsx(lB,
+        {
+          handleChange:d,
+          displayName:m.button.display_name
+        },
+        `${m.id}-display-name`),R.jsx(cB,
+        {
+          handleChange:d,
+          lore:m.button.lore
+        },
+        `${m.id}-lore`),R.jsx(uB,
+        {
+          handleChange:d,
+          amount:m.button.amount
+        }),R.jsx(dB,
+        {
+          handleChange:d,
+          currentSlot:m
+        }),R.jsx(fB,
+        {
+          handleChange:d,
+          currentSlot:m
+        })]
+      }):itemTab==="item"?R.jsxs("div",
+      {
+        className:"bv2-item-stack__tab-content",
+        children:[currentContent.material==="PLAYER_HEAD"&&R.jsx(mB,
         {
           handleChange:d,
           currentSlot:m,
           updateHead:h
         },
-        m.button.id),
-        R.jsx(lB,
-        {
-          handleChange:d,
-          displayName:m.button.display_name
-        }),
-        R.jsx(cB,
-        {
-          handleChange:d,
-          lore:m.button.lore
-        }),
-        R.jsx(uB,
-        {
-          handleChange:d,
-          amount:m.button.amount
-        }),
-        R.jsx(fB,
-        {
-          handleChange:d,
-          currentSlot:m
-        }),
-        R.jsx(dB,
-        {
-          handleChange:d,
-          currentSlot:m
-        })]
+        m.button.id),itemStackSchemaGroups(itemStackItemFields,itemValues,updateItemSchema,"item")]
       }):R.jsx("div",
       {
-        className:"d-flex justify-content-center align-items-center h-100",
-        children:"请选择一个物品"
+        className:"bv2-item-stack__tab-content",
+        children:[itemStackSchemaGroups(itemStackComponentFields,componentValues,updateComponentSchema,"components"),R.jsx(itemStackRawEditor,
+        {
+          value:currentContent.components_raw,
+          onChange:updateRawComponents
+        })]
+      })]
+    }):R.jsx("div",
+    {
+      className:"bv2-config-section bv2-item-stack__empty bv2-item-stack__empty--centered",
+      children:"Select an inventory slot to configure its Item Stack."
+    });
+    return itemPanelCollapsed?R.jsx("div",
+    {
+      className:"bv2-right-panel__col configurations-itemstack bv2-right-panel__col--collapsed",
+      children:R.jsxs("button",
+      {
+        type:"button",
+        className:"bv2-right-panel__expand-tab",
+        onClick:()=>setItemPanelCollapsed(!1),
+        title:"Expand Item Stack",
+        "aria-label":"Expand Item Stack",
+        children:[R.jsx("i",
+        {
+          className:"bi bi-chevron-right",
+          "aria-hidden":"true"
+        }),R.jsx("span",
+        {
+          children:"Item Stack"
+        })]
       })
+    }):R.jsxs("div",
+    {
+      className:"bv2-right-panel__col configurations-itemstack",
+      children:[R.jsxs("div",
+      {
+        className:"bv2-right-panel__col-header",
+        children:[R.jsx("span",
+        {
+          className:"bv2-right-panel__col-title",
+          children:"Item Stack"
+        }),R.jsx("button",
+        {
+          type:"button",
+          className:"bv2-right-panel__collapse-btn",
+          onClick:()=>setItemPanelCollapsed(!0),
+          title:"Collapse",
+          "aria-label":"Collapse Item Stack",
+          children:R.jsx("i",
+          {
+            className:"bi bi-x-lg",
+            "aria-hidden":"true"
+          })
+        })]
+      }),R.jsx("div",
+      {
+        className:"bv2-right-panel__col-body",
+        children:itemEditor
+      })]
     })
   },
   Kf=54,
@@ -65470,13 +66359,19 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       })
     },
     Ve=(ee,
-    re)=>{
+    re,
+    content)=>{
       T(!0),
       G(pe=>{
         const ge=[...pe.slots];
         return ge[ee]={
           ...ge[ee],
-          button:re
+          ...(re?{
+            button:re
+          }:{}),
+          ...(content!==void 0?{
+            content:content
+          }: {})
         },
         {
           ...pe,
@@ -65590,6 +66485,15 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         buttonTypes:r.buttonTypes
       })
     },
+    Q=()=>{
+      const ee=po.generateInventoryYaml({
+        inventory:s,
+        slots:L.slots,
+        buttonTypes:r.buttonTypes
+      });
+      if(typeof window.ZMenuEditorOpenYamlPreview==="function")window.ZMenuEditorOpenYamlPreview({yaml:ee});
+      else window.alert("YAML preview is not ready yet.")
+    },
     Re=async ee=>{
       try{
         const re=await po.importYaml(ee);
@@ -65674,12 +66578,17 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       !hasActionSlots,
       !1,
       null),
+      R.jsx("span",
+      {
+        className:"bv2-clip-bar__sep",
+        "aria-hidden":"true"
+      }),
       clipButton("bi bi-eraser",
       "Reset slot (Del)",
       resetSlots,
       !hasActionSlots,
       !0,
-      "Reset slot (Del)")]
+      null)]
     });
     return R.jsxs("div",
     {
@@ -65708,7 +66617,8 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         needToUpdate:x,
         saveData:F,
         onDownload:Y,
-        onImport:Re
+        onImport:Re,
+        onViewYaml:Q
       }),
       R.jsxs("div",
       {
@@ -65773,6 +66683,16 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       })]
     })
   };
+  window.ZMenuEditorItems=()=>dT(),
+  window.ZMenuEditorGenerateYaml=({
+    inventory:i,
+    slots:r,
+    buttonTypes:s
+  })=>po.generateInventoryYaml({
+    inventory:i,
+    slots:r,
+    buttonTypes:s
+  }),
   window.Content=po.loadEditorContent(),
   window.toast=(i,
   r,

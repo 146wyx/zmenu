@@ -79,7 +79,7 @@
   }
 
   function selectedRawValue(name) {
-    const enhanced = document.querySelector('.zmm-editor .zmm-textarea');
+    const enhanced = document.querySelector('.bv2-mm-field .mm-textarea, .zmm-editor .zmm-textarea');
     const source = document.querySelector('[name="' + name + '"]');
     if (enhanced && name === 'display_name') return enhanced.value;
     if (source) return source.value || '';
@@ -136,7 +136,7 @@
     const slots = document.querySelector('#slots') || document.body;
     observer.observe(slots, { childList: true, subtree: true });
     document.addEventListener('input', function (event) {
-      if (event.target.matches && event.target.matches('.zmm-textarea, [name="display_name"], [name="lore"]')) {
+      if (event.target.matches && event.target.matches('.mm-textarea, .zmm-textarea, [name="display_name"], [name="lore"]')) {
         setTimeout(refreshTooltips, 0);
       }
     });
