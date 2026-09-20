@@ -1,93 +1,91 @@
 # zMenu 菜单编辑器
 
-一个面向 [zMenu](https://github.com/Maxlego08/zMenu) 插件的本地可视化菜单编辑器，基于 [Minecraft Inventory Builder](https://minecraft-inventory-builder.com/) 的设计风格改造。
+一个可离线运行的 zMenu Minecraft 菜单编辑器，使用静态 HTML、CSS 和 JavaScript 实现，无需后端服务或构建步骤。
 
-## 特性
+## 功能
 
-- **完整物品目录**：内置 1783 个英文物品，覆盖 Minecraft 1.0 至 26.2
-- **版本筛选**：下拉与 Minecraft Inventory Builder 保持一致，支持 32 个版本筛选
-- **26 种内置 Actions**：MESSAGE、COMMAND、CHAT、SOUND、TELEPORT 等操作类型
-- **自定义 ADD AN ACTION**：参考官网的紫蓝渐变按钮和操作类型选择弹窗
-- **卡片化操作面板**：支持折叠、展开、上移、下移、复制、删除
-- **附魔光效文档链接**：直跳 zMenu 官方文档
+- 内置 1783 个英文 Minecraft 物品和对应图标。
+- 支持 32 个 Minecraft 版本筛选，从 1.0 到 26.2。
+- 支持拖动添加物品、跟随鼠标的物品预览、搜索和滚动浏览。
+- 支持调整物品面板和右侧配置面板大小，并可折叠物品面板。
+- 支持 Button 的 Requirements、Actions、Advanced 和 General 配置。
+- 支持 Item Stack、Components、Display Name、Lore 和 MiniMessage 预览。
+- 支持 MiniMessage 加粗、颜色、渐变、悬停、点击事件、Sprites 等编辑工具。
+- 支持导入 YAML、导出 zMenu YAML，以及查看和复制 YAML 预览。
+- 支持桌面端、窄屏和触摸操作。
 
-## 目录结构
+## 项目结构
 
-```
+```text
 .
-├── index.html              # 入口页面
+├── index.html                         # 页面入口
+├── _serve.ps1                         # PowerShell 本地静态服务器
 ├── editor-assets/
-│   ├── zmenu-editor.js     # 核心编辑器逻辑（React）
-│   ├── actions-ui.js       # Actions 增强脚本
-│   ├── actions-ui.css      # Actions 自定义样式
-│   ├── responsive.css      # 桌面/Android 窄屏响应式布局与触控适配
-│   └── style.css           # 物品图标 CSS
+│   ├── zmenu-editor.js                # 编辑器核心逻辑
+│   ├── reference-items.js             # 内置物品目录和版本数据
+│   ├── style.css                      # 基础和图标样式
+│   ├── minecraft-icons.css            # Minecraft 精灵图坐标
+│   ├── items-panel.css                # 物品面板和工作区样式
+│   ├── button-behaviour.css           # Button 配置面板样式
+│   ├── actions-ui.css                 # Actions 界面样式
+│   ├── mm-toolbar.css                 # MiniMessage 工具栏样式
+│   ├── responsive.css                 # 响应式样式
+│   ├── mm-toolbar.js                  # MiniMessage 工具栏逻辑
+│   ├── mm-preview.js                  # MiniMessage 预览逻辑
+│   ├── yaml-preview.js                # YAML 预览和复制逻辑
+│   ├── actions-ui.js                  # Actions 界面逻辑
+│   ├── items-panel-resize.js          # 物品面板拖动调整
+│   └── right-panel-resize.js          # 右侧面板拖动调整
 ├── images/
-│   └── sprites.webp        # 物品精灵图（含 26.2 坐标）
-├── new/                    # 参考资源
-│   ├── items.txt           # 物品排序与版本数据
-│   ├── sprites.webp        # 最新版精灵图
-│   └── ...
-├── css/                    # SB Admin 2 主题
-├── js/                     # 演示脚本
-├── vendor/                 # Bootstrap、jQuery、DataTables
-└── _serve.ps1              # 本地启动脚本（http://localhost:8765）
+│   └── sprites.webp                   # Minecraft 物品精灵图
+├── favicon.ico                        # 网站图标
+├── apple-touch-icon.png               # Apple 设备图标
+├── android-chrome-192x192.png         # Android 图标
+├── android-chrome-512x512.png         # Android 图标
+└── site.webmanifest                   # PWA 清单
 ```
 
 ## 本地运行
 
-直接打开 `index.html` 可能在某些浏览器受限，建议使用本地 HTTP 服务：
+推荐使用项目自带的 PowerShell 静态服务器：
 
 ```powershell
-.\\_serve.ps1
+powershell -ExecutionPolicy Bypass -File .\_serve.ps1
 ```
 
-然后访问 `http://localhost:8765/index.html`。
+然后访问 `http://localhost:8765/`。
 
-也可手动启动：
+也可以使用 Python：
 
 ```powershell
 python -m http.server 8765
 ```
 
-或：
+直接打开 `index.html` 也可以加载静态物品目录，但使用 HTTP 服务更适合测试文件导入、下载和浏览器权限相关功能。
 
-```powershell
-npx http-server -p 8765
-```
+## 数据和资源
 
-## Android 浏览器
+- 物品目录、英文名称、材质 ID、图标类名和版本筛选数据位于 `editor-assets/reference-items.js`。
+- Minecraft 图标 CSS 位于 `editor-assets/minecraft-icons.css`。
+- 精灵图位于 `images/sprites.webp`，由图标 CSS 使用背景坐标读取。
+- 当前入口只加载 `editor-assets` 中的运行文件，不依赖旧的参考站点构建包或第三方前端目录。
 
-界面已针对窄屏与触控操作适配。手机访问时请通过 HTTP 或 HTTPS 提供页面，不建议直接使用 `file://` 打开。
+## 部署
 
-在与电脑同一局域网时，可在电脑上执行：
+这是一个静态网站，可以部署到 Nginx、Apache、Docker 静态容器或任意静态文件服务器。部署时将仓库根目录作为网站根目录，并确保服务器将 `index.html` 作为默认入口。
 
-```powershell
-python -m http.server 8765 --bind 0.0.0.0
-```
-
-然后在 Android 浏览器中访问 `http://<电脑局域网 IP>:8765/index.html`。首次访问时请允许 Windows 防火墙放行该端口；部署到网站时建议使用 HTTPS。
-
-## 物品数据来源
-
-- 物品排序与版本信息来自 `new/items.txt`（参考 Minecraft Inventory Builder 的离线快照）
-- 图标精灵图来自 `images/sprites.webp`
-- CSS 坐标参考 `new/app-Kzu55Ish.css`
-
-## Actions 类型
-
-当前内置的 26 种操作类型请参考 `editor-assets/zmenu-editor.js` 中的 `_actionTypes`。官方 zMenu/zMenu+ 还提供更多类型；未内置的类型不会显示在编辑器的选择器中。
+`ssl/` 目录仅用于本地部署证书，已加入 `.gitignore`，不会提交到 GitHub。不要把私钥提交到公开仓库；如果私钥曾经出现在 Git 历史中，应及时更换或重新签发证书。
 
 ## 致谢
 
 - [Minecraft Inventory Builder](https://minecraft-inventory-builder.com/)
 - [zMenu](https://github.com/Maxlego08/zMenu)
-- [groupez docs](https://docs.groupez.dev/zmenu/)
+- [zMenu 官方文档](https://docs.groupez.dev/zmenu/)
 
 ## 版本
 
-`1.0.0` - 2026-08-10
+`1.1.0` - 2026-09-20
 
 ## 许可
 
-仅供学习与个人使用。Minecraft 内容版权归 Mojang AB 所有。
+本项目仅供学习和个人使用。Minecraft 内容版权归 Mojang AB 所有。

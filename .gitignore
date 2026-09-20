@@ -9,3 +9,8 @@ images/*.backup_*
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# 本地部署证书，不提交私钥或证书文件
+ssl/
+*.key
+*.pem
