@@ -94,7 +94,7 @@ body {
     min-width: min(100%, 320px);
   }
 
-  #builder .bv2-right-panel > .bv2-clip-bar {
+  #builder .configurations.bv2-right-panel > .bv2-clip-bar {
     flex: 0 0 auto;
     width: 100%;
     min-width: 0;
@@ -153,8 +153,7 @@ body {
     width: 100%;
   }
 
-  #builder .inventory-builder-center > .p-3,
-  #builder .inventory-builder-center-configuration.p-3 {
+  #builder .inventory-builder-center > .p-3 {
     padding: 12px !important;
   }
 
@@ -282,7 +281,6 @@ body {
 }
 
 @media (max-width: 390px) {
-  #builder .inventory-builder-center-configuration.p-3,
   #builder .configurations-button-top,
   #builder .configurations-button-bottom,
   #builder .configurations-itemstack {

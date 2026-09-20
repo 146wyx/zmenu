@@ -44274,12 +44274,7 @@ ${s.comment}`:s.comment
     ...r,
     chinese_name:null
   })),
-  dT=async()=>Wg||Ug||(Ug=fetch("./new/items.txt").then(i=>i.ok?i.json():null).then(i=>{
-    const r=RO.map(s=>`icon-minecraft-${s.toLowerCase().replaceAll("_","-")}`),
-    s=Array.isArray(i==null?void 0:i.items)?i.items:[];
-    return Wg=zmenuEnglishItems(s.length?s:r.map(DO))
-  }).catch(()=>Wg=zmenuEnglishItems(RO.map(r=>`icon-minecraft-${r.toLowerCase().replaceAll("_","-")}`).map(DO))),
-  Ug),
+  dT=async()=>Wg||Ug||(Ug=typeof window.ZMenuReferenceItems==="function"?window.ZMenuReferenceItems().then(i=>Wg=zmenuEnglishItems(Array.isArray(i)?i:[])):Promise.resolve(Wg=[]),Ug),
   Ak=i=>({
     slot:i%Ff,
     page:Math.floor(i/Ff)+1,
@@ -44375,14 +44370,7 @@ ${s.comment}`:s.comment
     }
   },
   PO=()=>{
-    try{
-      const i=window.localStorage.getItem(cT);
-      return Gg(i?JSON.parse(i):{
-      })
-    }
-    catch{
-      return Gg()
-    }
+    return Gg()
   },
   OO=({
     inventory:i,
@@ -44392,12 +44380,7 @@ ${s.comment}`:s.comment
       inventory:i,
       slots:r
     });
-    return window.localStorage.setItem(cT,
-    JSON.stringify({
-      inventory:s.inventory,
-      slots:s.slots
-    })),
-    s
+    return s
   },
   NO=i=>{
     var s;
@@ -54070,24 +54053,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     S]=U.useState("default"),
     [x,
     T]=U.useState("all"),
+    [F,
+    Z]=U.useState("all"),
     [O,
-    P]=U.useState(()=>{
-      try{
-        const E=JSON.parse(window.localStorage.getItem("zmenu-item-favorites")||"[]");
-        return Array.isArray(E)?E:[]
-      }catch{
-        return[]
-      }
-    }),
+    P]=U.useState([]),
     [B,
-    E]=U.useState(()=>{
-      try{
-        const V=JSON.parse(window.localStorage.getItem("zmenu-custom-items")||"[]");
-        return Array.isArray(V)?V:[]
-      }catch{
-        return[]
-      }
-    }),
+    E]=U.useState([]),
     [N,
     A]=U.useState({
       width:216,
@@ -54103,14 +54074,6 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       })
     },
     []),
-    U.useEffect(()=>{
-      window.localStorage.setItem("zmenu-item-favorites",JSON.stringify(O))
-    },
-    [O]),
-    U.useEffect(()=>{
-      window.localStorage.setItem("zmenu-custom-items",JSON.stringify(B))
-    },
-    [B]),
     U.useEffect(()=>{
       const H=D.current;
       if(!H)return;
@@ -54138,7 +54101,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
         scrollTop:0
       }))
     },
-    [d,m,_,x]);
+    [d,m,_,x,F]);
     const V=H=>String(H??"").toLowerCase().replace(/[-_\s:]+/g,""),
     q=H=>{
       const Y=String(H||"").trim().toUpperCase();
@@ -54166,13 +54129,22 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
       E(Q=>Q.some(K=>K.material===Y)?Q:[...Q,J]),
       T("custom")
     };
+    const X=[["all","All"],["building","Building"],["decoration","Decoration"],["redstone","Redstone"],["transport","Transport"],["combat","Combat"],["food","Food"],["tools","Tools"],["misc","Misc"]],$=H=>{const Y=String(H.material||H.name||"").toUpperCase();if(F==="all")return!0;if(F==="building")return/(PLANKS|LOG|WOOD|STONE|BRICK|BLOCK|SLAB|STAIRS|WALL|GLASS|CONCRETE|TERRACOTTA|WOOL|FENCE|DOOR|TRAPDOOR|SIGN|SAND|DIRT|GRAVEL|ORE)/.test(Y);if(F==="decoration")return/(FLOWER|SAPLING|LEAVES|VINE|BANNER|CARPET|POT|PAINTING|HEAD|SKULL|CANDLE|LANTERN|TORCH|CORAL|MUSHROOM|BUSH)/.test(Y);if(F==="redstone")return/(REDSTONE|PISTON|OBSERVER|REPEATER|COMPARATOR|HOPPER|DROPPER|DISPENSER|RAIL|LEVER|BUTTON|PRESSURE_PLATE|DAYLIGHT|TARGET|TRIPWIRE)/.test(Y);if(F==="transport")return/(BOAT|MINECART|RAIL|SADDLE|ELYTRA|LEAD|HORSE_ARMOR)/.test(Y);if(F==="combat")return/(SWORD|AXE|BOW|CROSSBOW|TRIDENT|MACE|SHIELD|ARROW|HELMET|CHESTPLATE|LEGGINGS|BOOTS|ARMOR)/.test(Y);if(F==="food")return/(APPLE|BREAD|POTATO|CARROT|BEETROOT|COOKED|RAW_|PORK|BEEF|CHICKEN|MUTTON|RABBIT|FISH|SALMON|COD|STEW|SOUP|CAKE|COOKIE|PIE|MELON|BERRIES|HONEY|KELP)/.test(Y);if(F==="tools")return/(PICKAXE|SHOVEL|HOE|SHEARS|FISHING_ROD|FLINT_AND_STEEL|COMPASS|CLOCK|SPYGLASS|BRUSH|BUCKET)/.test(Y);return!/(PLANKS|LOG|WOOD|STONE|BRICK|BLOCK|SLAB|STAIRS|WALL|GLASS|CONCRETE|TERRACOTTA|WOOL|FENCE|DOOR|TRAPDOOR|SIGN|SAND|DIRT|GRAVEL|ORE|FLOWER|SAPLING|LEAVES|VINE|BANNER|CARPET|POT|PAINTING|HEAD|SKULL|CANDLE|LANTERN|TORCH|CORAL|MUSHROOM|BUSH|REDSTONE|PISTON|OBSERVER|REPEATER|COMPARATOR|HOPPER|DROPPER|DISPENSER|RAIL|LEVER|BUTTON|PRESSURE_PLATE|DAYLIGHT|TARGET|TRIPWIRE|BOAT|MINECART|SADDLE|ELYTRA|LEAD|HORSE_ARMOR|SWORD|AXE|BOW|CROSSBOW|TRIDENT|MACE|SHIELD|ARROW|HELMET|CHESTPLATE|LEGGINGS|BOOTS|ARMOR|APPLE|BREAD|POTATO|CARROT|BEETROOT|COOKED|RAW_|PORK|BEEF|CHICKEN|MUTTON|RABBIT|FISH|SALMON|COD|STEW|SOUP|CAKE|COOKIE|PIE|MELON|BERRIES|HONEY|KELP|PICKAXE|SHOVEL|HOE|SHEARS|FISHING_ROD|FLINT_AND_STEEL|COMPASS|CLOCK|SPYGLASS|BRUSH|BUCKET)/.test(Y)};
     let M=x==="custom"?[...B]:[...s];
     x==="favorites"&&(M=M.filter(H=>O.includes(H.material))),
+    M=M.filter($),
     M=M.filter(H=>![H.name,H.chinese_name,H.material,H.old_material,H.minecraft_id].some(Y=>/[\u3400-\u9fff]/.test(String(Y??"")))),
     m.trim()&&(M=M.filter(H=>[H.name,H.material,H.old_material,H.minecraft_id,H.css,H.material&&`minecraft:${H.material.toLowerCase()}`].some(Y=>V(Y).includes(V(m))))),
-    d!==""&&(M=M.filter(H=>String(H.version?.version??H.version?.minecraft_version??"")===String(d))),
+    d!==""&&(M=M.filter(H=>String(H.version?.minecraft_version??H.version?.version??"")===String(d))),
     _==="name-asc"?M=[...M].sort((H,Y)=>String(H.name).localeCompare(String(Y.name),"en")):_==="name-desc"?M=[...M].sort((H,Y)=>String(Y.name).localeCompare(String(H.name),"en")):_==="material"&&(M=[...M].sort((H,Y)=>String(H.material||"").localeCompare(String(Y.material||""))));
-    const I=Math.max(1,Math.floor(N.width/36)),
+    const Q=Array.from(new Map(s.map(H=>{
+      const Y=H.version||{};
+      return[String(Y.minecraft_version??""),String(Y.version??Y.minecraft_version??"")]
+    })).entries()).filter(([H])=>H!=="").map(([H,Y])=>({
+      minecraft_version:H,
+      version:Y
+    })),
+    I=Math.max(1,Math.floor(N.width/36)),
     C=Math.ceil(M.length/I),
     G=Math.max(0,Math.floor(N.scrollTop/36)-2),
     K=Math.min(C,Math.ceil((N.scrollTop+N.height)/36)+3),
@@ -54229,7 +54201,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
               value:"",
               children:"All versions"
             }),
-            i.map((H,Y)=>R.jsx("option",
+            Q.map((H,Y)=>R.jsx("option",
             {
               value:H.minecraft_version,
               children:H.version
@@ -54307,7 +54279,19 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           "aria-label":"Add custom Minecraft item",
           onClick:W,
           children:"+"
-        })]
+      })]
+      }),
+      R.jsx("div",
+      {
+        className:"bv2-items-panel__categories",
+        "aria-label":"Item categories",
+        children:X.map(H=>R.jsx("button",
+        {
+          type:"button",
+          className:`bv2-items-panel__category ${F===H[0]?"bv2-items-panel__category--active":""}`,
+          onClick:()=>Z(H[0]),
+          children:H[1]
+        },H[0]))
       }),
       R.jsx("div",
       {
@@ -54379,7 +54363,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     R.jsx("div",
     {
       id:`slot-${i}`,
-      className:`slot ${k?"slot-select":""}`,
+      className:`slot bv2-slot ${k?"slot-select bv2-slot--selected":""}`,
       onClick:S=>s(S,
       i),
       onContextMenu:S=>c(S,
@@ -60909,194 +60893,6 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     TRANSITION_DURATION:300,
     BACKDROP_TRANSITION_DURATION:150
   }),
-  UM=({
-    inventory:i,
-    updateInventory:r,
-    page:s,
-    setPage:c,
-    maxPage:d
-  })=>{
-    const[h,
-    m]=U.useState(""),
-    k=x=>{
-      const{
-        name:T,
-        value:O,
-        type:P,
-        checked:j
-      }
-      =x.target;
-      r(B=>({
-        ...B,
-        [T]:P==="checkbox"?j:O
-      }))
-    },
-    _=()=>{
-      s>=d||c(s+1)
-    },
-    S=()=>{
-      s<=1||c(s-1)
-    };
-    return R.jsxs("div",
-    {
-      className:"inventory-builder-center-configuration-wrap",
-      children:[R.jsxs("div",
-      {
-        className:"inventory-builder-center-pagination d-flex justify-content-between p-3",
-        children:[R.jsx("button",
-        {
-          className:"btn btn-secondary btn-sm",
-          onClick:S,
-          children:R.jsx("i",
-          {
-            className:"bi bi-caret-left-fill"
-          })
-        }),
-        R.jsxs("div",
-        {
-          children:["第 ",
-          s,
-          " 页"]
-        }),
-        R.jsx("button",
-        {
-          className:"btn btn-secondary btn-sm",
-          onClick:_,
-          children:R.jsx("i",
-          {
-            className:"bi bi-caret-right-fill"
-          })
-        })]
-      }),
-      R.jsx("div",
-      {
-        className:"inventory-builder-center-configuration p-3",
-        children:R.jsxs("div",
-        {
-          className:"mb-3",
-          children:[R.jsxs(Xe.Group,
-          {
-            className:"mb-3",
-            children:[R.jsx(Xe.Label,
-            {
-              children:"菜单名称"
-            }),
-            R.jsx(Xe.Control,
-            {
-              type:"text",
-              name:"name",
-              value:(i==null?void 0:i.name)??"",
-              onChange:k,
-              className:"rounded-1",
-              placeholder:"菜单",
-              isInvalid:!!h
-            }),
-            R.jsx(Xe.Control.Feedback,
-            {
-              type:"invalid",
-              children:h
-            }),
-            R.jsx("small",
-            {
-              className:"form-text text-muted",
-              children:"这是显示给玩家的菜单名称。请注意，不同 Minecraft 版本可能有字符数量限制；可使用颜色代码和占位符。"
-            })]
-          }),
-          R.jsxs(Xe.Group,
-          {
-            className:"mb-3",
-            children:[R.jsx(Xe.Label,
-            {
-              children:"菜单大小"
-            }),
-            R.jsxs(Xe.Select,
-            {
-              name:"size",
-              value:i.size,
-              onChange:k,
-              className:"rounded-1",
-              children:[R.jsx("option",
-              {
-                value:"9",
-                children:"9"
-              }),
-              R.jsx("option",
-              {
-                value:"18",
-                children:"18"
-              }),
-              R.jsx("option",
-              {
-                value:"27",
-                children:"27"
-              }),
-              R.jsx("option",
-              {
-                value:"36",
-                children:"36"
-              }),
-              R.jsx("option",
-              {
-                value:"45",
-                children:"45"
-              }),
-              R.jsx("option",
-              {
-                value:"54",
-                children:"54"
-              })]
-            })]
-          }),
-          R.jsxs(Xe.Group,
-          {
-            className:"mb-3",
-            children:[R.jsx(Xe.Label,
-            {
-              children:"刷新间隔（秒）"
-            }),
-            R.jsx(Xe.Control,
-            {
-              type:"number",
-              name:"updateInterval",
-              value:i.updateInterval,
-              onChange:k,
-              className:"rounded-1"
-            }),
-            R.jsxs("small",
-            {
-              className:"form-text text-muted",
-              children:["设置菜单按钮的刷新间隔（秒）。要让按钮自动刷新，需启用按钮的“自动更新”选项。更多说明请见 ",
-              R.jsx("a",
-              {
-                href:"https://zmenu.groupez.dev/configurations/buttons",
-                target:"_blank",
-                children:"这里"
-              }),
-              "。"]
-            })]
-          }),
-          R.jsxs(Xe.Group,
-          {
-            className:"mb-3",
-            children:[R.jsx(Xe.Check,
-            {
-              type:"checkbox",
-              label:"清空玩家背包",
-              name:"clearInventory",
-              checked:i.clearInventory,
-              onChange:k,
-              className:"rounded-1"
-            }),
-            R.jsx("small",
-            {
-              className:"form-text text-muted",
-              children:"打开菜单时暂时清空玩家背包，并在关闭菜单时恢复。可用于显示背景图等效果，不受玩家背包物品干扰。"
-            })]
-          })]
-        })
-      })]
-    })
-  },
   $M=()=>{
     const[i,
     r]=U.useState(!1),
@@ -61358,126 +61154,900 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       })
     })]
   }),
+  MenuNameModal=({
+    show:i,
+    value:r,
+    onChange:s,
+    onClose:c,
+    onApply:d
+  })=>{
+    if(!i)return null;
+    const h=String(r||"菜单").replace(/&[0-9a-fk-or]/gi,""),
+    f=m=>{
+      const k=document.querySelector(".bv2-modal--inventory-name .mm-textarea");
+      if(!k){
+        s(`${r||""}${m}`);
+        return
+      }
+      const _=k.selectionStart??k.value.length,
+      S=k.selectionEnd??_,
+      x=k.closest(".bv2-mm-field")?.querySelector(".zmm-autocomplete");
+      k.value=`${k.value.slice(0,_)}${m}${k.value.slice(S)}`,
+      k.selectionStart=k.selectionEnd=_+m.length,
+      k.dispatchEvent(new Event("input",{bubbles:!0})),
+      x&&(x.hidden=!0),
+      k.focus()
+    };
+    return R.jsx("div",
+    {
+      className:"bv2-modal-overlay bv2-modal-overlay--inventory-name",
+      onMouseDown:m=>m.target===m.currentTarget&&c(),
+      children:R.jsxs("div",
+      {
+        className:"bv2-modal bv2-modal--inventory-name",
+        role:"dialog",
+        "aria-modal":!0,
+        "aria-label":"菜单名称",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-modal__header",
+          children:[R.jsx("span",
+          {
+            children:"菜单名称"
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-modal__close",
+            "aria-label":"关闭菜单名称编辑",
+            onClick:c,
+            children:R.jsx("i",
+            {
+              className:"bi bi-x-lg",
+              "aria-hidden":"true"
+            })
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-modal__body bv2-name-editor__body",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-field bv2-name-editor__field",
+            children:[R.jsx("label",
+            {
+              children:"名称内容"
+            }),R.jsx("div",
+            {
+              className:"mb-3",
+              children:R.jsx("input",
+              {
+                type:"text",
+                name:"name",
+                "data-zmm-field":"name",
+                value:r??"",
+                onChange:m=>s(m.target.value),
+                placeholder:"<gold>我的菜单</gold>",
+                "aria-label":"菜单名称内容"
+              })
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-field bv2-name-editor__preview-field",
+            children:[R.jsx("label",
+            {
+              children:"预览"
+            }),R.jsx("div",
+            {
+              className:"bv2-name-editor__preview",
+              children:R.jsx("span",
+              {
+                className:"mm-component",
+                children:h
+              })
+            })]
+          }),R.jsxs("section",
+          {
+            className:"bv2-name-editor__placeholders",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-name-editor__section-head",
+              children:[R.jsx("strong",
+              {
+                children:"可用占位符"
+              }),R.jsx("a",
+              {
+                href:"https://docs.groupez.dev/zmenu/configurations/inventories/inventory",
+                target:"_blank",
+                rel:"noopener noreferrer",
+                children:"文档"
+              })]
+            }),R.jsx("div",
+            {
+              className:"bv2-name-editor__placeholder-list",
+              children:[["%player%","玩家名称"],["%page%","当前页码"],["%max-page%","最大页数"]].map(([m,k])=>R.jsxs("button",
+              {
+                type:"button",
+                className:"bv2-name-editor__placeholder",
+                onClick:()=>f(m),
+                children:[R.jsx("code",
+                {
+                  children:m
+                }),R.jsx("span",
+                {
+                  children:k
+                })]
+              },m))
+            })]
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-modal__footer",
+          children:[R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn",
+            onClick:c,
+            children:"取消"
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn bv2-btn--primary",
+            onClick:d,
+            children:"应用"
+          })]
+        })]
+      })
+    })
+  },
+  InventorySettingsModal=({
+    show:i,
+    draft:r,
+    onChange:s,
+    onClose:c,
+    onApply:d
+  })=>{
+    if(!i||r==null)return null;
+    const h=(m,k)=>R.jsxs("label",
+    {
+      className:"bv2-inventory-settings__field",
+      children:[R.jsx("span",
+      {
+        children:m
+      }),k]
+    });
+    return R.jsx("div",
+    {
+      className:"bv2-modal-overlay bv2-modal-overlay--inventory-settings",
+      onMouseDown:m=>m.target===m.currentTarget&&c(),
+      children:R.jsxs("div",
+      {
+        className:"bv2-modal bv2-modal--wide bv2-modal--inventory-settings",
+        role:"dialog",
+        "aria-modal":!0,
+        "aria-labelledby":"bv2-inventory-settings-title",
+        children:[R.jsxs("div",
+        {
+          className:"bv2-modal__header",
+          children:[R.jsxs("div",
+          {
+            className:"bv2-inventory-settings__header-copy",
+            children:[R.jsxs("span",
+            {
+              id:"bv2-inventory-settings-title",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-gear-fill",
+                "aria-hidden":"true"
+              })," 菜单设置"]
+            }),R.jsx("small",
+            {
+              children:"配置这个菜单和编辑器预览。"
+            })]
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-modal__close",
+            "aria-label":"关闭菜单设置",
+            onClick:c,
+            children:R.jsx("i",
+            {
+              className:"bi bi-x-lg",
+              "aria-hidden":"true"
+            })
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-modal__body bv2-inventory-settings-modal__body",
+          children:[R.jsxs("section",
+          {
+            className:"bv2-inventory-settings__section",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__section-head",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-file-earmark-text",
+                "aria-hidden":"true"
+              }),R.jsxs("div",
+              {
+                children:[R.jsx("h3",
+                {
+                  children:"常规"
+                }),R.jsx("p",
+                {
+                  children:"菜单文件和可用状态。"
+                })]
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__fields",
+              children:[h("文件名",R.jsx("input",
+              {
+                type:"text",
+                name:"file_name",
+                value:r.file_name??"menu",
+                onChange:s
+              })),h("文件备注",R.jsx("textarea",
+              {
+                name:"comment",
+                rows:3,
+                value:r.comment??"",
+                placeholder:"导出时显示在 YAML 顶部的备注。",
+                onChange:s
+              }))]
+            }),R.jsx("label",
+            {
+              className:"bv2-inventory-settings__toggle",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-check2-circle",
+                "aria-hidden":"true"
+              }),R.jsx("span",
+              {
+                children:[R.jsx("strong",
+                {
+                  children:"启用菜单"
+                }),R.jsx("small",
+                {
+                  children:"允许 zMenu 加载并显示此菜单"
+                })]
+              }),R.jsx("input",
+              {
+                type:"checkbox",
+                name:"enabled",
+                checked:r.enabled!==!1,
+                onChange:s
+              })]
+            })]
+          }),R.jsxs("section",
+          {
+            className:"bv2-inventory-settings__section",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__section-head",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-percent",
+                "aria-hidden":"true"
+              }),R.jsxs("div",
+              {
+                children:[R.jsx("h3",
+                {
+                  children:"占位符预览"
+                }),R.jsx("p",
+                {
+                  children:"控制标题、物品名称和描述的预览值。"
+                })]
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__toggle-group",
+              children:[R.jsx("label",
+              {
+                className:"bv2-inventory-settings__toggle",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-braces",
+                  "aria-hidden":"true"
+                }),R.jsx("span",
+                {
+                  children:[R.jsx("strong",
+                  {
+                    children:"全局替换占位符"
+                  }),R.jsx("small",
+                  {
+                    children:"应用到编辑器中的所有视觉预览"
+                  })]
+                }),R.jsx("input",
+                {
+                  type:"checkbox",
+                  name:"replacePlaceholdersPreview",
+                  checked:!!r.replacePlaceholdersPreview,
+                  onChange:s
+                })]
+              }),R.jsx("label",
+              {
+                className:"bv2-inventory-settings__toggle",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-database",
+                  "aria-hidden":"true"
+                }),R.jsx("span",
+                {
+                  children:[R.jsx("strong",
+                  {
+                    children:"自动使用数据库值"
+                  }),R.jsx("small",
+                  {
+                    children:"读取目录中的默认占位符值"
+                  })]
+                }),R.jsx("input",
+                {
+                  type:"checkbox",
+                  name:"automaticPlaceholderValues",
+                  checked:r.automaticPlaceholderValues!==!1,
+                  onChange:s
+                })]
+              })]
+            }),R.jsx("div",
+            {
+              className:"bv2-inventory-settings__action",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-code-square",
+                "aria-hidden":"true"
+              }),R.jsx("span",
+              {
+                children:[R.jsx("strong",
+                {
+                  children:"自定义预览值"
+                }),R.jsx("small",
+                {
+                  children:r.customPreviewValues?"已设置自定义覆盖":"没有自定义覆盖"
+                })]
+              }),R.jsx("i",
+              {
+                className:"bi bi-pencil",
+                "aria-hidden":"true"
+              })]
+            })]
+          }),R.jsxs("section",
+          {
+            className:"bv2-inventory-settings__section bv2-inventory-settings__section--wide",
+            children:[R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__section-head",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-sliders",
+                "aria-hidden":"true"
+              }),R.jsxs("div",
+              {
+                children:[R.jsx("h3",
+                {
+                  children:"高级行为"
+                }),R.jsx("p",
+                {
+                  children:"刷新、玩家背包和交互规则。"
+                })]
+              })]
+            }),R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__fields bv2-inventory-settings__fields--two",
+              children:[h("刷新间隔（毫秒）",R.jsx("input",
+              {
+                type:"number",
+                min:0,
+                name:"updateInterval",
+                value:r.updateInterval??0,
+                onChange:s
+              })),h("清空背包类型",R.jsxs("select",
+              {
+                name:"clearInventoryType",
+                value:r.clearInventoryType??"DEFAULT",
+                onChange:s,
+                children:[R.jsx("option",
+                {
+                  value:"DEFAULT",
+                  children:"DEFAULT"
+                }),R.jsx("option",
+                {
+                  value:"PACKET_EVENT",
+                  children:"PACKET_EVENT"
+                })]
+              }))]
+            }),R.jsxs("div",
+            {
+              className:"bv2-inventory-settings__toggle-group bv2-inventory-settings__advanced-toggles",
+              children:[R.jsx("label",
+              {
+                className:"bv2-inventory-settings__toggle",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-broom",
+                  "aria-hidden":"true"
+                }),R.jsx("span",
+                {
+                  children:[R.jsx("strong",
+                  {
+                    children:"清空玩家背包"
+                  }),R.jsx("small",
+                  {
+                    children:"打开菜单时暂时清空玩家背包"
+                  })]
+                }),R.jsx("input",
+                {
+                  type:"checkbox",
+                  name:"clearInventory",
+                  checked:!!r.clearInventory,
+                  onChange:s
+                })]
+              }),R.jsx("label",
+              {
+                className:"bv2-inventory-settings__toggle",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-hand-index",
+                  "aria-hidden":"true"
+                }),R.jsx("span",
+                {
+                  children:[R.jsx("strong",
+                  {
+                    children:"取消物品拾取"
+                  }),R.jsx("small",
+                  {
+                    children:"阻止打开菜单期间拾取物品"
+                  })]
+                }),R.jsx("input",
+                {
+                  type:"checkbox",
+                  name:"cancelItemPickup",
+                  checked:!!r.cancelItemPickup,
+                  onChange:s
+                })]
+              }),R.jsx("label",
+              {
+                className:"bv2-inventory-settings__toggle",
+                children:[R.jsx("i",
+                {
+                  className:"bi bi-mouse2",
+                  "aria-hidden":"true"
+                }),R.jsx("span",
+                {
+                  children:[R.jsx("strong",
+                  {
+                    children:"点击限制"
+                  }),R.jsx("small",
+                  {
+                    children:"限制按钮的重复点击行为"
+                  })]
+                }),R.jsx("input",
+                {
+                  type:"checkbox",
+                  name:"clickLimiterEnabled",
+                  checked:!!r.clickLimiterEnabled,
+                  onChange:s
+                })]
+              })]
+            }),R.jsx("label",
+            {
+              className:"bv2-inventory-settings__field",
+              children:[R.jsx("span",
+              {
+                children:"Patterns"
+              }),R.jsx("textarea",
+              {
+                rows:4,
+              name:"patterns",
+              value:r.patterns??"",
+              placeholder:"每行填写一个 zMenu pattern 名称。",
+              onChange:s
+              }),R.jsx("small",
+              {
+                children:"更改会随菜单一起保存。"
+              })]
+            }),R.jsx("div",
+            {
+              className:"bv2-inventory-settings__action",
+              children:[R.jsx("i",
+              {
+                className:"bi bi-braces",
+                "aria-hidden":"true"
+              }),R.jsx("span",
+              {
+                children:[R.jsx("strong",
+                {
+                  children:"本地占位符"
+                }),R.jsx("small",
+                {
+                  children:r.localPlaceholders?"已设置本地占位符":"没有本地占位符"
+                })]
+              }),R.jsx("i",
+              {
+                className:"bi bi-box-arrow-up-right",
+                "aria-hidden":"true"
+              })]
+            })]
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-modal__footer",
+          children:[R.jsxs("span",
+          {
+            className:"bv2-inventory-settings__footer-note",
+            children:[R.jsx("i",
+            {
+              className:"bi bi-info-circle-fill",
+              "aria-hidden":"true"
+            })," 更改会随菜单一起保存。"]
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn",
+            onClick:c,
+            children:"取消"
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-btn bv2-btn--primary",
+            onClick:d,
+            children:"完成"
+          })]
+        })]
+      })
+    })
+  },
   GM=({
     needToUpdate:i,
     saveData:r,
     onDownload:s,
     onImport:c,
-    onViewYaml:o
+    onViewYaml:o,
+    inventory:p,
+    updateInventory:f,
+    labelsHidden:e,
+    onToggleLabels:a
   })=>{
     const[d,
     h]=U.useState(!1),
+    [nameEditorOpen,
+    setNameEditorOpen]=U.useState(!1),
+    [settingsOpen,
+    setSettingsOpen]=U.useState(!1),
+    [nameDraft,
+    setNameDraft]=U.useState(""),
+    [settingsDraft,
+    setSettingsDraft]=U.useState(null),
     m=U.useRef(null),
     k=_=>{
       var x;
       const S=(x=_.target.files)==null?void 0:x[0];
       S&&c(S),
       _.target.value=""
-    };
-    return R.jsx("div",
-    {
-      className:"header-information",
-      children:R.jsx("div",
-      {
-        className:"card rounded-1",
-        children:R.jsxs("div",
-        {
-          className:"card-body d-flex justify-content-between",
-          children:[R.jsxs("div",
-          {
-            className:i?"enable":"disable",
-            onClick:r,
-            children:[R.jsx("i",
-            {
-              className:"bi bi-floppy"
-            }),
-           R.jsx("span",
-           {
-             className:"ms-1",
-              children:"保存"
-            })]
-           }),
-           R.jsxs("button",
-           {
-             type:"button",
-             className:"enable action border-0 bg-transparent",
-             onClick:o,
-             children:[R.jsx("i",
-             {
-               className:"bi bi-file-earmark-code"
-             }),
-             R.jsx("span",
-             {
-               className:"ms-1",
-               children:"View YAML"
-             })]
-           }),
-           R.jsxs("button",
-           {
-             type:"button",
-             className:"enable action border-0 bg-transparent",
-             onClick:s,
-             children:[R.jsx("i",
-             {
-               className:"bi bi-cloud-download"
-             }),
-             R.jsx("span",
-             {
-               className:"ms-1",
-               children:"导出"
-             })]
-           }),
-           R.jsx("input",
-          {
-            ref:m,
-            type:"file",
-            accept:".yml,.yaml,text/yaml,application/x-yaml",
-            hidden:!0,
-            onChange:k
-          }),
-          R.jsxs("button",
-          {
-            type:"button",
-            className:"enable action border-0 bg-transparent",
-            onClick:()=>{
-              var _;
-              return(_=m.current)==null?void 0:_.click()
-            },
-            children:[R.jsx("i",
-            {
-              className:"bi bi-file-earmark-arrow-up"
-            }),
-            R.jsx("span",
-            {
-              className:"ms-1",
-              children:"导入"
-            })]
-          }),
-          R.jsx($M,
-          {
-          }),
-          R.jsxs("span",
-          {
-            className:"action",
-            onClick:()=>h(!0),
-            children:[R.jsx("i",
-            {
-              className:"bi bi-info-lg"
-            }),
-            " 操作说明"]
-          }),
-          R.jsx(HM,
-          {
-            handleClose:()=>h(!1),
-            show:d
-          })]
-        })
+    },
+    _=S=>{
+      const x=S.target.name==="size"?Number(S.target.value):S.target.value;
+      f({
+        ...p,
+        [S.target.name]:x
       })
+    },
+    openNameEditor=()=>{
+      setNameDraft((p==null?void 0:p.name)??"");
+      setNameEditorOpen(!0)
+    },
+    openSettings=()=>{
+      setSettingsDraft({
+        ...p,
+        file_name:(p==null?void 0:p.file_name)??"menu",
+        enabled:(p==null?void 0:p.enabled)!==!1,
+        comment:(p==null?void 0:p.comment)??"",
+        replacePlaceholdersPreview:!!(p==null?void 0:p.replacePlaceholdersPreview),
+        automaticPlaceholderValues:(p==null?void 0:p.automaticPlaceholderValues)!==!1,
+        customPreviewValues:(p==null?void 0:p.customPreviewValues)??"",
+        localPlaceholders:(p==null?void 0:p.localPlaceholders)??"",
+        updateInterval:(p==null?void 0:p.updateInterval)??0,
+        clearInventory:!!(p==null?void 0:p.clearInventory),
+        clearInventoryType:(p==null?void 0:p.clearInventoryType)??"DEFAULT",
+        cancelItemPickup:!!(p==null?void 0:p.cancelItemPickup),
+        clickLimiterEnabled:!!(p==null?void 0:p.clickLimiterEnabled),
+        patterns:(p==null?void 0:p.patterns)??""
+      }),
+      setSettingsOpen(!0)
+    },
+    updateSettings=S=>{
+      const x=S.target;
+      setSettingsDraft(T=>T==null?T:{
+        ...T,
+        [x.name]:x.type==="checkbox"?x.checked:x.type==="number"?Number(x.value):x.value
+      })
+    },
+    applyName=()=>{
+      f({
+        ...p,
+        name:nameDraft
+      }),
+      setNameEditorOpen(!1)
+    },
+    applySettings=()=>{
+      settingsDraft!=null&&f({
+        ...p,
+        ...settingsDraft
+      }),
+      setSettingsOpen(!1)
+    },
+    x=String((p==null?void 0:p.name)||"菜单").replace(/&[0-9a-fk-or]/gi,"");
+    U.useEffect(()=>{
+      if(!nameEditorOpen&&!settingsOpen)return;
+      const onKeyDown=S=>{
+        S.key==="Escape"&&(setNameEditorOpen(!1),setSettingsOpen(!1))
+      };
+      return document.addEventListener("keydown",onKeyDown),()=>document.removeEventListener("keydown",onKeyDown)
+    },[nameEditorOpen,settingsOpen]);
+    return R.jsxs("section",
+    {
+      className:"top-categories-bar",
+      children:[R.jsxs("div",
+      {
+        className:`top-controls-shell${e?" top-controls-shell--no-labels":""}`,
+        children:[R.jsxs("div",
+        {
+          className:"top-toolbar-block top-controls-left",
+          children:[R.jsx("p",
+          {
+            className:"top-toolbar-title",
+            children:"项目工作区"
+          }),R.jsxs("div",
+          {
+            className:"header-actions",
+            children:[R.jsxs("div",
+            {
+              className:"top-profile-tools",
+              children:[R.jsx($M,
+              {
+              }),R.jsx("button",
+              {
+                type:"button",
+                className:"tool-icon top-profile-icon",
+                "data-tooltip":"操作说明",
+                "aria-label":"操作说明",
+                onClick:()=>h(!0),
+                children:R.jsx("i",
+                {
+                  className:"bi bi-info-lg",
+                  "aria-hidden":"true"
+                })
+              })]
+            }),R.jsxs("div",
+            {
+              className:"top-project-meta",
+              title:`菜单: ${x}`,
+              children:[R.jsx("span",
+              {
+                className:"top-project-meta-kicker",
+                children:"菜单:"
+              }),R.jsx("strong",
+              {
+                children:x
+              })]
+            })]
+          })]
+        }),R.jsx("div",
+        {
+          className:"top-controls-center",
+          children:R.jsx("div",
+          {
+            className:"topbar-center-track",
+            children:R.jsxs("div",
+            {
+              className:"top-toolbars-stack",
+              children:[R.jsxs("div",
+              {
+                className:"top-toolbar-block",
+                children:[R.jsx("p",
+                {
+                  className:"top-toolbar-title",
+                  children:"菜单名称"
+                }),R.jsx("div",
+                {
+                  className:"bv2-toolbar-content",
+                  children:R.jsxs("button",
+                  {
+                    type:"button",
+                    className:"bv2-topbar__mm-name",
+                    title:"编辑菜单名称",
+                    "aria-label":"编辑菜单名称",
+                    onClick:openNameEditor,
+                    children:[R.jsx("span",
+                    {
+                      children:x
+                    }),R.jsx("i",
+                    {
+                      className:"bi bi-pencil",
+                      "aria-hidden":"true"
+                    })]
+                  })
+                })]
+              }),R.jsxs("div",
+              {
+                className:"top-toolbar-block",
+                children:[R.jsx("p",
+                {
+                  className:"top-toolbar-title",
+                  children:"菜单设置"
+                }),R.jsxs("div",
+                {
+                  className:"bv2-toolbar-content",
+                  children:[R.jsxs("div",
+                  {
+                    className:"bv2-topbar__size",
+                    children:[R.jsx("label",
+                    {
+                      htmlFor:"top-inventory-size",
+                      children:"大小"
+                    }),R.jsxs("select",
+                    {
+                      id:"top-inventory-size",
+                      name:"size",
+                      value:(p==null?void 0:p.size)??54,
+                      onChange:_,
+                      title:"菜单大小",
+                      "aria-label":"菜单大小",
+                      children:[R.jsx("option",
+                      {
+                        value:"9",
+                        children:"9"
+                      }),R.jsx("option",
+                      {
+                        value:"18",
+                        children:"18"
+                      }),R.jsx("option",
+                      {
+                        value:"27",
+                        children:"27"
+                      }),R.jsx("option",
+                      {
+                        value:"36",
+                        children:"36"
+                      }),R.jsx("option",
+                      {
+                        value:"45",
+                        children:"45"
+                      }),R.jsx("option",
+                      {
+                        value:"54",
+                        children:"54"
+                      })]
+                    })]
+                  }),R.jsx("button",
+                  {
+                    type:"button",
+                    className:"tool-icon bv2-topbar__settings",
+                    "data-tooltip":"打开菜单设置",
+                    "aria-label":"打开菜单设置",
+                    onClick:openSettings,
+                    children:R.jsx("i",
+                    {
+                      className:"bi bi-gear-fill",
+                      "aria-hidden":"true"
+                    })
+                  })]
+                })]
+              })]
+            })
+          })
+        }),R.jsxs("div",
+        {
+          className:"top-toolbar-block top-controls-right",
+          children:[R.jsx("p",
+          {
+            className:"top-toolbar-title",
+            children:"项目操作"
+          }),R.jsxs("div",
+          {
+            className:"header-actions",
+            children:[R.jsx("button",
+            {
+              type:"button",
+              className:"tool-icon header-theme-btn save-btn save-btn-inline",
+              disabled:!i,
+              "data-tooltip":i?"保存":"没有待保存的更改",
+              "aria-label":"保存",
+              onClick:r,
+              children:R.jsx("i",
+              {
+                className:"bi bi-floppy-fill",
+                "aria-hidden":"true"
+              })
+            }),R.jsxs("button",
+            {
+              type:"button",
+              className:"ghost action-with-icon",
+              onClick:o,
+              children:[R.jsx("span",
+              {
+                className:"btn-icon",
+                children:R.jsx("i",
+                {
+                  className:"bi bi-file-earmark-code",
+                  "aria-hidden":"true"
+                })
+              }),R.jsx("span",
+              {
+                className:"btn-label",
+                children:"查看 YAML"
+              })]
+            }),R.jsxs("button",
+            {
+              type:"button",
+              className:"primary action-with-icon",
+              onClick:s,
+              children:[R.jsx("span",
+              {
+                className:"btn-icon",
+                children:R.jsx("i",
+                {
+                  className:"bi bi-cloud-download",
+                  "aria-hidden":"true"
+                })
+              }),R.jsx("span",
+              {
+                className:"btn-label",
+                children:"下载 YAML"
+              })]
+            }),R.jsx("input",
+            {
+              ref:m,
+              type:"file",
+              accept:".yml,.yaml,text/yaml,application/x-yaml",
+              hidden:!0,
+              onChange:k
+            }),R.jsxs("button",
+            {
+              type:"button",
+              className:"ghost action-with-icon",
+              onClick:()=>{
+                var S;
+                return(S=m.current)==null?void 0:S.click()
+              },
+              children:[R.jsx("span",
+              {
+                className:"btn-icon",
+                children:R.jsx("i",
+                {
+                  className:"bi bi-file-earmark-arrow-up",
+                  "aria-hidden":"true"
+                })
+              }),R.jsx("span",
+              {
+                className:"btn-label",
+                children:"导入 YAML"
+              })]
+            })]
+          })]
+        })]
+      }),R.jsx(HM,
+      {
+        handleClose:()=>h(!1),
+        show:d
+      }),R.jsx(MenuNameModal,
+      {
+        show:nameEditorOpen,
+        value:nameDraft,
+        onChange:setNameDraft,
+        onClose:()=>setNameEditorOpen(!1),
+        onApply:applyName
+      }),R.jsx(InventorySettingsModal,
+      {
+        show:settingsOpen,
+        draft:settingsDraft,
+        onChange:updateSettings,
+        onClose:()=>setSettingsOpen(!1),
+        onApply:applySettings
+      })]
     })
   },
   VM=({
     inventory:i,
-    updateInventory:r,
     inventoryContent:s,
     handleSlotClick:c,
     handleSlotDoubleClick:d,
@@ -61488,59 +62058,219 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     setPage:S,
     maxPage:x,
     onDownload:T,
-    onImport:O
+    onImport:O,
+    labelsHidden:W,
+    onToggleLabels:Z
   })=>{
     const P=Array.from({
       length:i.size
     }),
+    pageOffset=(_-1)*Kf,
+    pageEnd=pageOffset+P.length,
+    selectedPageSlots=k.filter(L=>L>=pageOffset&&L<pageEnd).map(L=>L-pageOffset),
+    currentPageSlot=s.currentSlot>=pageOffset&&s.currentSlot<pageEnd?s.currentSlot-pageOffset:-1,
     j=i.name?Gk.sanitize(Fk.processMinecraftColorCodes(i.name)):"菜单",
-    B=L=>s.slots.find(G=>G.button.slot==L&&G.button.page==_);
+    B=L=>s.slots.find(G=>G.button.slot==L&&G.button.page==_),
+    [stageBackground,setStageBackground]=U.useState("transparent"),
+    [stageColor,setStageColor]=U.useState("#39434a"),
+    stageColorInput=U.useRef(null),
+    previousPage=()=>{
+      _>1&&S(_-1)
+    },
+    nextPage=()=>{
+      _<x&&S(_+1)
+    },
+    openStageColor=()=>{
+      setStageBackground("custom"),
+      stageColorInput.current&&stageColorInput.current.click()
+    };
     return R.jsxs("div",
     {
       className:"inventory-builder-center",
       children:[R.jsx("div",
       {
-        className:"inventory-builder-center-inventory inventory",
-        children:R.jsxs("div",
+        className:`inventory-builder-center-inventory inventory workspace-stage-area workspace-stage-area--${stageBackground}`,
+        style:stageBackground==="custom"?{
+          "--bv2-stage-custom-color":stageColor
+        }:void 0,
+        children:[R.jsxs("div",
         {
-          className:"inventory-content",
-          children:[R.jsx("div",
+          className:"bv2-center",
+          children:[R.jsxs("div",
           {
-            className:"inventory-content-header",
-            children:R.jsx("span",
+            className:"inventory-content bv2-inventory",
+            children:[R.jsx("div",
             {
-              className:"inventory-name",
-              id:"inventory-display-name",
-              dangerouslySetInnerHTML:{
-                __html:j
-              }
-            })
-          }),
-          R.jsx("div",
+              className:"inventory-content-header bv2-inventory__header",
+              children:R.jsx("span",
+              {
+                className:"inventory-name",
+                id:"inventory-display-name",
+                dangerouslySetInnerHTML:{
+                  __html:j
+                }
+              })
+            }),R.jsx("div",
+            {
+              className:"slotSpace bv2-inventory__slots bv2-inventory__slots--menu",
+              id:"slots",
+              children:P.map((L,
+              G)=>R.jsx(wN,
+              {
+                id:G,
+                currentItem:B(G),
+                selectSlots:selectedPageSlots,
+                currentSelectSlot:currentPageSlot,
+                handleSlotClick:(L,G)=>c(L,G+pageOffset),
+                handleSlotDoubleClick:(L,G,Z)=>d(L,G+pageOffset,Z)
+              },
+              G))
+            }),R.jsx("div",
+            {
+              className:"bv2-inventory__separator",
+              "aria-hidden":"true"
+            }),R.jsx("div",
+            {
+              className:"bv2-inventory__label",
+              children:"Inventory"
+            }),R.jsx("div",
+            {
+              className:"bv2-inventory__slots bv2-inventory__slots--player",
+              children:Array.from({
+                length:27
+              },
+              (L,
+              G)=>R.jsx("div",
+              {
+                className:"bv2-slot bv2-slot--player bv2-slot--disabled",
+                "aria-hidden":"true"
+              },
+              G))
+            }),R.jsx("div",
+            {
+              className:"bv2-inventory__slots bv2-inventory__slots--hotbar",
+              children:Array.from({
+                length:9
+              },
+              (L,
+              G)=>R.jsx("div",
+              {
+                className:"bv2-slot bv2-slot--hotbar bv2-slot--disabled",
+                "aria-hidden":"true"
+              },
+              G))
+            })]
+          }),R.jsxs("div",
           {
-            className:"slotSpace",
-            id:"slots",
-            children:P.map((L,
-            G)=>R.jsx(wN,
+            className:"bv2-player-inv-hint",
+            children:[R.jsx("i",
             {
-              id:G,
-              currentItem:B(G),
-              selectSlots:k,
-              currentSelectSlot:s.currentSlot,
-              handleSlotClick:c,
-              handleSlotDoubleClick:d
-            },
-            G))
+              className:"bi bi-info-circle",
+              "aria-hidden":"true"
+            }),"Player inventory is available with ",R.jsx("span",
+            {
+              children:"zMenu+"
+            })]
+          }),R.jsxs("div",
+          {
+            className:"bv2-page-controls",
+            children:[R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-page-controls__btn",
+              title:"Previous page",
+              "aria-label":"Previous page",
+              disabled:_<=1,
+              onClick:previousPage,
+              children:R.jsx("i",
+              {
+                className:"bi bi-chevron-left",
+                "aria-hidden":"true"
+              })
+            }),R.jsxs("span",
+            {
+              className:"bv2-page-controls__label",
+              children:["Page ",_," / ",x]
+            }),R.jsx("button",
+            {
+              type:"button",
+              className:"bv2-page-controls__btn",
+              title:"Next page",
+              "aria-label":"Next page",
+              disabled:_>=x,
+              onClick:nextPage,
+              children:R.jsx("i",
+              {
+                className:"bi bi-chevron-right",
+                "aria-hidden":"true"
+              })
+            })]
           })]
-        })
-      }),
-      R.jsx(UM,
-      {
-        inventory:i,
-        updateInventory:r,
-        page:_,
-        setPage:S,
-        maxPage:x
+        }),R.jsxs("div",
+        {
+          className:"bv2-stage-bg-actions",
+          children:[R.jsx("button",
+          {
+            type:"button",
+            className:`bv2-stage-bg-btn${stageBackground==="transparent"?" bv2-stage-bg-btn--active":""}`,
+            title:"Transparent background",
+            "aria-label":"Transparent background",
+            onClick:()=>setStageBackground("transparent"),
+            children:R.jsx("i",
+            {
+              className:"bi bi-grid-3x3-gap",
+              "aria-hidden":"true"
+            })
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:`bv2-stage-bg-btn${stageBackground==="custom"?" bv2-stage-bg-btn--active":""}`,
+            title:"Custom color",
+            "aria-label":"Custom color",
+            onClick:openStageColor,
+            children:R.jsx("i",
+            {
+              className:"bi bi-palette",
+              "aria-hidden":"true"
+            })
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:`bv2-stage-bg-btn${stageBackground==="minecraft"?" bv2-stage-bg-btn--active":""}`,
+            title:"Minecraft background",
+            "aria-label":"Minecraft background",
+            onClick:()=>setStageBackground("minecraft"),
+            children:R.jsx("i",
+            {
+              className:"bi bi-image",
+              "aria-hidden":"true"
+            })
+          }),R.jsx("input",
+          {
+            ref:stageColorInput,
+            type:"color",
+            className:"bv2-stage-bg-color-input",
+            value:stageColor,
+            tabIndex:-1,
+            "aria-hidden":"true",
+            onChange:L=>{
+              setStageColor(L.target.value),
+              setStageBackground("custom")
+            }
+          })]
+        }),R.jsx("button",
+        {
+          type:"button",
+          className:`topbar-labels-toggle${W?" active":""}`,
+          title:W?"显示工具栏标题":"隐藏工具栏标题",
+          "aria-label":W?"显示工具栏标题":"隐藏工具栏标题",
+          onClick:Z,
+          children:R.jsx("i",
+          {
+            className:W?"bi bi-chevron-down":"bi bi-chevron-up",
+            "aria-hidden":"true"
+          })
+        })]
       })]
     })
   },
@@ -65979,6 +66709,14 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         }
       })
     });
+    const[labelsHidden,setLabelsHidden]=U.useState(()=>{
+      try{
+        return window.localStorage.getItem("bv2-labels-hidden")!=="0"
+      }
+      catch{
+        return!0
+      }
+    });
     U.useEffect(()=>{
       const ee=setInterval(()=>{
         F()
@@ -66201,8 +66939,9 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     clipboardSlots]),
     J=(ee,
     re)=>{
+      const pe=(j-1)*Kf;
       ee.preventDefault(),
-      re>=0&&re<s.size&&Ae(re)
+      re>=pe&&re<pe+s.size&&Ae(re)
     },
     V=U.useCallback(ee=>{
       ee=ee||window.event,
@@ -66233,12 +66972,12 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       }
       let ge=document.createElement("div"),
       Me=document.createElement("span");
-      Me.classList.add("mouse-item");
+      ge.classList.add("bv2-ghost-item");
+      Me.classList.add("bv2-ghost-item__count");
       let ft=document.createElement("div");
       ft.classList.add("icon-minecraft"),
       ft.classList.add(`${re.css}`),
-      ft.style.position="absolute",
-      ft.style.zIndex="1000";
+      ft.setAttribute("aria-hidden","true");
       let _e=ge.getBoundingClientRect().left+15,
       Lt=ge.getBoundingClientRect().top+15;
       ge.style.position="absolute",
@@ -66266,7 +67005,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         if(pe.startsWith("item")&&!pe.startsWith("item-slot"))se();
         else if(pe.startsWith("slot")){
           let ge=re.getAttribute("data-slot");
-          Je(ge,
+          Je(parseInt(ge)+(j-1)*Kf,
           d.item,
           m),
           se()
@@ -66274,20 +67013,21 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         else if(pe.startsWith("item-slot")){
           let Me=re.parentElement.parentElement.getAttribute("data-slot");
           ve(ee,
-          Me)
+          parseInt(Me)+(j-1)*Kf)
         }
         else se()
       }
     },
     [d,
-    L]),
+    L,
+    j]),
     Ie=U.useCallback(ee=>{
       if(ee.preventDefault(),
       d==null)return;
       let re=Le(ee),
       pe=re.id;
       if(pe!=null&&(pe.startsWith("slot")||pe.startsWith("item-slot"))){
-        let ge=re.getAttribute("data-slot"),
+        let ge=parseInt(re.getAttribute("data-slot"))+(j-1)*Kf,
         Me=L.slots[ge].button.amount+1;
         if(Me>64)return;
         Je(ge,
@@ -66298,11 +67038,15 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     },
     [L,
     d,
-    m]),
+    m,
+    j]),
     Le=ee=>{
       let re=document.elementsFromPoint(ee.clientX,
       ee.clientY);
-      return re.length>=3?re[2]:null
+      return re.find(pe=>{
+        const ge=typeof pe.id==="string"?pe.id:"";
+        return ge.startsWith("item-slot")||ge.startsWith("slot")||ge.startsWith("item")
+      })||re[0]||null
     },
     ze=()=>{
       d!=null&&(d.countElement.innerText=`${m}`)
@@ -66318,12 +67062,12 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     Je=(ee,
     re,
     pe=1)=>{
-      ee=parseInt(ee)+(j-1)*Kf,
+      ee=parseInt(ee),
       T(!0),
       G(ge=>{
         const Me=[...ge.slots],
         ft={
-          ...L.slots[ee].button,
+          ...ge.slots[ee].button,
           amount:pe
         };
         return Me[ee]={
@@ -66344,7 +67088,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       G(pe=>{
         const ge=[...pe.slots],
         Me={
-          ...L.slots[ee].button,
+          ...pe.slots[ee].button,
           amount:re
         };
         return ge[ee]={
@@ -66419,6 +67163,12 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         else se();
         ut(re,
         ge)
+      }
+      else{
+        Je(re,
+        d.item,
+        m),
+        se()
       }
     },
     He=(ee,
@@ -66517,8 +67267,25 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     We=ee=>{
       P(O.filter((re,
       pe)=>re!=ee))
+    },
+    changePage=ee=>{
+      const re=Math.max(1,Math.min(CR,Number(ee)||1));
+      B(re),
+      P([]),
+      G(pe=>({
+        ...pe,
+        currentSlot:-1
+      }))
     };
-    const actionSlots=getActionSlots(),
+    const toggleTopbarLabels=()=>{
+      const ee=!labelsHidden;
+      setLabelsHidden(ee);
+      try{
+        window.localStorage.setItem("bv2-labels-hidden",ee?"1":"0")
+      }
+      catch{}
+    },
+    actionSlots=getActionSlots(),
     hasActionSlots=actionSlots.length>0,
     clipButton=(ee,
     re,
@@ -66618,7 +67385,11 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         saveData:F,
         onDownload:Y,
         onImport:Re,
-        onViewYaml:Q
+        onViewYaml:Q,
+        inventory:s,
+        updateInventory:X,
+        labelsHidden:labelsHidden,
+        onToggleLabels:toggleTopbarLabels
       }),
       R.jsxs("div",
       {
@@ -66634,7 +67405,6 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           R.jsx(VM,
           {
             inventory:s,
-            updateInventory:X,
             inventoryContent:L,
             needToUpdate:x,
             saveData:F,
@@ -66644,8 +67414,10 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             handleSlotClick:ve,
             handleSlotDoubleClick:He,
             page:j,
-            setPage:B,
-            maxPage:CR
+            setPage:changePage,
+            maxPage:CR,
+            labelsHidden:labelsHidden,
+            onToggleLabels:toggleTopbarLabels
           })]
         }),
         R.jsx("div",

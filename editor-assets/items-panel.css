@@ -8,6 +8,8 @@
 
 #builder .sidebar.bv2-items-panel {
   --bv2-items-panel-width: 450px;
+  --scroll-thumb: color-mix(in oklch, oklch(.3717 .0392 257.29) 50%, transparent);
+  --scroll-thumb-hover: color-mix(in oklch, oklch(.4455 .0374 257.28) 70%, transparent);
   box-sizing: border-box;
   display: flex;
   /* Keep the item pane at its configured width; the center column absorbs
@@ -26,6 +28,29 @@
   color: #e8edf7;
   background: linear-gradient(180deg, #17253a, #121e31);
   border-right: 1px solid rgba(126, 159, 198, 0.18);
+}
+
+/* Match the reference builder's item preview that follows the cursor. */
+.bv2-ghost-item {
+  position: absolute;
+  z-index: 2500;
+  pointer-events: none;
+}
+
+.bv2-ghost-item .icon-minecraft {
+  display: block;
+  font-size: 28px;
+}
+
+.bv2-ghost-item__count {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.9);
 }
 
 /* The divider overlays the item picker edge, like the reference builder. */
@@ -61,6 +86,421 @@ body.bv2-items-resizing #builder .bv2-items-resize-handle {
   display: flex;
   flex-direction: column;
   min-width: 0;
+}
+
+/* Reference-style project toolbar above the three-column editor workspace. */
+#builder .top-categories-bar {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  min-width: 0;
+  margin: 6px 0 0;
+  padding: 5px;
+  color: #e4edf8;
+  background: linear-gradient(110deg, #1c2d46, #121e31);
+  border: 1px solid #243f68;
+  border-radius: 5px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#builder .top-controls-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 6px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+/* The reference toggle collapses toolbar titles into the compact 43px state. */
+#builder .top-controls-shell--no-labels .top-toolbar-title {
+  display: none;
+}
+
+#builder .top-controls-shell--no-labels .top-toolbar-block {
+  min-height: 43px;
+  height: 43px;
+}
+
+#builder .top-controls-shell--no-labels .header-actions,
+#builder .top-controls-shell--no-labels .bv2-toolbar-content {
+  min-height: 41px;
+}
+
+#builder .top-toolbar-block {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 1px;
+  min-height: 62px;
+  max-width: 100%;
+  color: #e4edf8;
+  background: linear-gradient(180deg, #203550, #18283f);
+  border: 1px solid #243f68;
+  border-radius: 5px;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+#builder .top-controls-left {
+  justify-self: start;
+  width: min(355px, 100%);
+}
+
+#builder .top-controls-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+#builder .topbar-center-track {
+  min-width: 0;
+}
+
+#builder .top-toolbars-stack {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 0;
+}
+
+#builder .top-controls-center .top-toolbar-block {
+  width: auto;
+}
+
+#builder .top-controls-right {
+  justify-self: end;
+  width: auto;
+  max-width: min(640px, 100%);
+}
+
+#builder .top-toolbar-title {
+  box-sizing: border-box;
+  min-height: 18px;
+  margin: 0;
+  padding: 4px 8px 2px;
+  color: #d7e1ef;
+  background: rgba(58, 76, 103, 0.72);
+  border-radius: 4px 4px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 11px;
+}
+
+#builder .top-categories-bar .header-actions,
+#builder .top-categories-bar .bv2-toolbar-content {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  min-height: 42px;
+  padding: 5px 6px;
+  gap: 5px;
+}
+
+#builder .top-categories-bar .header-actions {
+  justify-content: flex-end;
+}
+
+#builder .top-profile-tools {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+}
+
+#builder .top-categories-bar .tool-icon,
+#builder .top-categories-bar .top-profile-tools > .action {
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: 0 0 31px;
+  place-items: center;
+  width: 31px;
+  min-width: 31px;
+  height: 31px;
+  min-height: 31px;
+  padding: 0;
+  color: #b4c6dd;
+  background: rgba(58, 76, 103, 0.54);
+  border: 1px solid #0e1e3a;
+  border-radius: 4px;
+  box-shadow: none;
+  font-size: 14px;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#builder .top-categories-bar button.tool-icon {
+  appearance: none;
+}
+
+#builder .top-categories-bar .tool-icon:hover,
+#builder .top-categories-bar .top-profile-tools > .action:hover,
+#builder .top-categories-bar .tool-icon:focus-visible,
+#builder .top-categories-bar .top-profile-tools > .action:focus-visible {
+  color: #f1f7ff;
+  background: #29496d;
+  border-color: #5e9fd3;
+  outline: 0;
+}
+
+#builder .top-categories-bar .tool-icon:disabled {
+  color: #65758b;
+  background: rgba(43, 56, 76, 0.5);
+  border-color: rgba(52, 66, 89, 0.7);
+  cursor: not-allowed;
+}
+
+#builder .top-project-meta {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  max-width: 140px;
+  min-height: 31px;
+  padding: 0 2px;
+  gap: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#builder .top-project-meta-kicker {
+  flex: 0 0 auto;
+  color: #8398b4;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#builder .top-project-meta strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #e3edf8;
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+}
+
+#builder .bv2-topbar__mm-name {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  min-width: 124px;
+  max-width: 280px;
+  min-height: 28px;
+  padding: 4px 8px;
+  gap: 7px;
+  color: #c3d3e6;
+  background: #10203a;
+  border: 1px solid #0e1e3a;
+  border-radius: 5px;
+  appearance: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+#builder button.bv2-topbar__mm-name {
+  font: inherit;
+}
+
+#builder .bv2-topbar__mm-name > span {
+  min-width: 0;
+  overflow: hidden;
+  flex: 1 1 auto;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#builder .bv2-topbar__mm-name > i {
+  flex: 0 0 auto;
+  color: #91a9c6;
+  font-size: 11px;
+}
+
+#builder .bv2-topbar__mm-name:focus-within {
+  border-color: #5e9fd3;
+  box-shadow: 0 0 0 3px rgba(77, 156, 215, 0.18);
+}
+
+#builder .bv2-topbar__mm-name input {
+  width: 132px;
+  min-width: 0;
+  padding: 0;
+  color: #e8eff8;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+#builder .bv2-topbar__mm-name input::placeholder {
+  color: #7f94ae;
+}
+
+#builder .bv2-topbar__size {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+}
+
+#builder .bv2-topbar__size label {
+  color: #a9bad0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#builder .bv2-topbar__size select {
+  min-width: 46px;
+  height: 28px;
+  padding: 3px 22px 3px 8px;
+  color: #e8eff8;
+  background: #10203a;
+  border: 1px solid #0e1e3a;
+  border-radius: 4px;
+  outline: 0;
+  font-size: 13px;
+}
+
+#builder .bv2-topbar__size select:focus-visible {
+  border-color: #5e9fd3;
+  box-shadow: 0 0 0 3px rgba(77, 156, 215, 0.18);
+}
+
+#builder .top-categories-bar .action-with-icon {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 8px;
+  gap: 6px;
+  color: #b4c6dd;
+  background: rgba(43, 61, 88, 0.7);
+  border: 1px solid #0e1e3a;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#builder .top-categories-bar .action-with-icon:hover,
+#builder .top-categories-bar .action-with-icon:focus-visible {
+  color: #f1f7ff;
+  background: #29496d;
+  border-color: #5e9fd3;
+  outline: 0;
+}
+
+#builder .top-categories-bar .primary.action-with-icon {
+  color: #fff;
+  background: linear-gradient(135deg, #368fd1, #65aee0);
+  border-color: transparent;
+  box-shadow: 0 7px 18px rgba(54, 143, 209, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+}
+
+#builder .top-categories-bar .primary.action-with-icon:hover,
+#builder .top-categories-bar .primary.action-with-icon:focus-visible {
+  color: #fff;
+  background: linear-gradient(135deg, #2f84c4, #5aa6dc);
+  border-color: transparent;
+}
+
+#builder .top-categories-bar .btn-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 1180px) {
+  #builder .top-project-meta {
+    display: none;
+  }
+
+  #builder .top-controls-right .btn-label {
+    display: none;
+  }
+
+  #builder .top-controls-right .action-with-icon {
+    min-width: 31px;
+    padding-inline: 8px;
+  }
+}
+
+@media (max-width: 980px) {
+  #builder .top-controls-shell {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "left right"
+      "center center";
+  }
+
+  #builder .top-controls-left {
+    grid-area: left;
+  }
+
+  #builder .top-controls-center {
+    grid-area: center;
+    justify-content: center;
+    min-width: 0;
+    overflow-x: auto;
+  }
+
+  #builder .top-controls-right {
+    grid-area: right;
+  }
+}
+
+@media (max-width: 620px) {
+  #builder .top-categories-bar {
+    margin-top: 4px;
+    padding: 4px;
+  }
+
+  #builder .top-controls-shell {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "left"
+      "center"
+      "right";
+  }
+
+  #builder .top-controls-left,
+  #builder .top-controls-right {
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
+  }
+
+  #builder .top-controls-center {
+    justify-content: flex-start;
+  }
+
+  #builder .top-toolbars-stack,
+  #builder .top-controls-right .header-actions {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  #builder .top-toolbars-stack::-webkit-scrollbar,
+  #builder .top-controls-right .header-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  #builder .top-controls-right .header-actions {
+    justify-content: flex-start;
+  }
+
+  #builder .top-project-meta {
+    display: flex;
+  }
 }
 
 #builder .inventory-builder > .header-information {
@@ -117,7 +557,7 @@ body.bv2-items-resizing #builder .bv2-items-resize-handle {
   overflow: visible;
 }
 
-#builder .inventory-builder-center-inventory.inventory {
+#builder .inventory-builder-center-inventory.inventory.workspace-stage-area {
   box-sizing: border-box;
   flex: 1 1 0;
   width: 100%;
@@ -125,37 +565,723 @@ body.bv2-items-resizing #builder .bv2-items-resize-handle {
   min-height: 0;
   max-width: none;
   padding: 24px 48px;
-  overflow: auto;
-  background-color: #39434a;
+  overflow: visible;
+  background-color: oklch(0.2815 0.0357 262);
   background-image:
-    linear-gradient(45deg, rgba(255, 255, 255, 0.018) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.018) 75%),
-    linear-gradient(45deg, rgba(255, 255, 255, 0.018) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.018) 75%);
-  background-position: 0 0, 12px 12px;
-  background-size: 24px 24px;
+    radial-gradient(circle at 50% 42%, oklch(0.647801 0.182016 259.073 / 0.04), transparent 28rem),
+    linear-gradient(45deg, oklch(1 0 0 / 0.018) 25%, transparent 25%, transparent 75%, oklch(1 0 0 / 0.018) 75%),
+    linear-gradient(45deg, oklch(1 0 0 / 0.018) 25%, transparent 25%, transparent 75%, oklch(1 0 0 / 0.018) 75%);
+  background-position: center center, 0 0, 12px 12px;
+  background-size: auto, 24px 24px, 24px 24px;
 }
 
-#builder .inventory-builder-center-configuration-wrap {
-  box-sizing: border-box;
-  flex: 0 0 auto;
-  min-width: 0;
+#builder .workspace-stage-area {
+  display: flex;
+  position: relative;
+  align-items: stretch;
+  justify-content: stretch;
 }
 
-#builder .inventory-builder-center-pagination {
+#builder .workspace-stage-area > .topbar-labels-toggle {
   box-sizing: border-box;
-  flex: 0 0 auto;
+  position: absolute;
+  z-index: 80;
+  top: -4px;
+  left: 50%;
+  display: inline-flex;
   align-items: center;
-  min-height: 58px;
-  padding: 10px 16px !important;
-  color: #dbe6f3;
-  background: rgba(26, 26, 46, 0.94);
-  border-top: 1px solid rgba(126, 159, 198, 0.14);
+  justify-content: center;
+  width: 36px;
+  min-width: 36px;
+  height: 20px;
+  padding: 0;
+  transform: translateX(-50%);
+  color: #8fa9c8;
+  background: rgba(18, 30, 49, 0.88);
+  border: 1px solid #294464;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
 }
 
-#builder .inventory-builder-center-pagination > button {
-  min-width: 34px;
-  min-height: 34px;
-  border: 1px solid rgba(126, 159, 198, 0.24);
+#builder .workspace-stage-area > .topbar-labels-toggle.active {
+  color: #6bb7ef;
+}
+
+#builder .workspace-stage-area > .topbar-labels-toggle:hover,
+#builder .workspace-stage-area > .topbar-labels-toggle:focus-visible {
+  color: #e7f5ff;
+  background: #29496d;
+  border-color: #65afe2;
+  outline: 0;
+}
+
+/* Reference inventory stage: the menu and its player preview live together. */
+#builder .workspace-stage-area .bv2-center {
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  padding: 16px;
+  gap: 8px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#builder .workspace-stage-area .inventory-content.bv2-inventory {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: 342px;
+  min-width: 342px;
+  max-width: 342px;
+  margin: 0;
+  padding: 6px;
+  border: 3px solid;
+  border-color: #ffffff #373737 #373737 #ffffff;
+  color: #555555;
+  background: #c6c6c6;
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  user-select: none;
+}
+
+#builder .workspace-stage-area .bv2-inventory__header {
+  box-sizing: border-box;
+  width: 324px;
+  max-width: 324px;
+  min-height: 25px;
+  margin: 0;
+  padding: 1px 0 6px;
+  overflow: hidden;
+  color: #555555;
+  font-family: Minecraft, Minecraftia, monospace;
+  font-size: 16px;
+  line-height: 18px;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+#builder .workspace-stage-area .bv2-inventory__header .inventory-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots {
+  display: grid;
+  grid-template-columns: repeat(9, 36px);
+  grid-auto-rows: 36px;
+  width: 324px;
+  margin: 0;
+  gap: 0;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots .slot,
+#builder .workspace-stage-area .bv2-slot {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid;
+  border-color: oklch(0.3368 0 0) #ffffff #ffffff oklch(0.3368 0 0);
+  background: oklch(0.6368 0 0);
+  box-shadow: none;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots .slot {
+  cursor: pointer;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots--player .bv2-slot,
+#builder .workspace-stage-area .bv2-inventory__slots--hotbar .bv2-slot {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots .slot:hover:not(.bv2-slot--disabled),
+#builder .workspace-stage-area .bv2-inventory__slots .bv2-slot:hover:not(.bv2-slot--disabled) {
+  background: oklch(0.6862 0 0);
+}
+
+#builder .workspace-stage-area .bv2-inventory.bv2-inventory--pixel-menu .bv2-slot:hover:not(.bv2-slot--disabled) {
+  outline: 2px solid rgba(255, 255, 255, 0.42);
+  outline-offset: -2px;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots .slot.slot-select,
+#builder .workspace-stage-area .bv2-inventory__slots .bv2-slot--selected {
+  z-index: 1;
+  border-color: #4a6fa9 #8aafdf #8aafdf #4a6fa9;
+  background: #6a8fc9 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots .slot .item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+#builder .workspace-stage-area .bv2-inventory__separator {
+  width: 324px;
+  height: 10px;
+  flex: 0 0 10px;
+}
+
+#builder .workspace-stage-area .bv2-inventory__label {
+  width: 324px;
+  min-height: 18px;
+  margin: 0 0 4px;
+  color: #555555;
+  font-family: Minecraft, Minecraftia, monospace;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+#builder .workspace-stage-area .bv2-inventory__slots--hotbar {
+  margin-top: 8px;
+}
+
+#builder .workspace-stage-area .bv2-player-inv-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 16px;
+  gap: 5px;
+  color: #8e9caf;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+}
+
+#builder .workspace-stage-area .bv2-player-inv-hint i {
+  color: #7b899d;
+  font-size: 11px;
+}
+
+#builder .workspace-stage-area .bv2-player-inv-hint span {
+  color: #4f9fe6;
+  font-weight: 700;
+}
+
+#builder .workspace-stage-area .bv2-page-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  gap: 8px;
+  color: #aebbd0;
+  font-size: 11px;
+  line-height: 1;
+}
+
+#builder .workspace-stage-area .bv2-page-controls__label {
+  min-width: 54px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+#builder .workspace-stage-area .bv2-page-controls__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid #294464;
   border-radius: 4px;
+  color: #92a9c6;
+  background: rgba(21, 33, 58, 0.88);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition: all 140ms ease;
+}
+
+#builder .workspace-stage-area .bv2-page-controls__btn:hover:not(:disabled),
+#builder .workspace-stage-area .bv2-page-controls__btn:focus-visible:not(:disabled) {
+  border-color: #5aa6e4;
+  color: #e9f4ff;
+  background: #173655;
+  outline: 0;
+}
+
+#builder .workspace-stage-area .bv2-page-controls__btn:disabled {
+  opacity: 0.34;
+  cursor: default;
+}
+
+#builder .workspace-stage-area .bv2-stage-bg-actions {
+  display: flex;
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  z-index: 28;
+  align-items: center;
+  gap: 10px;
+}
+
+#builder .workspace-stage-area .bv2-stage-bg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  min-width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid #294464;
+  border-radius: 4px;
+  color: #a5b9d1;
+  background: #15213a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+}
+
+#builder .workspace-stage-area .bv2-stage-bg-btn:hover,
+#builder .workspace-stage-area .bv2-stage-bg-btn:focus-visible,
+#builder .workspace-stage-area .bv2-stage-bg-btn--active {
+  border-color: #4e9fe0;
+  color: #72baf0;
+  background: #192d4b;
+  outline: 0;
+}
+
+#builder .workspace-stage-area .bv2-stage-bg-color-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#builder .workspace-stage-area.workspace-stage-area--custom {
+  background-color: var(--bv2-stage-custom-color);
+  background-image: none;
+}
+
+#builder .workspace-stage-area.workspace-stage-area--minecraft {
+  background-color: #344936;
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.12) 75%),
+    linear-gradient(45deg, rgba(0, 0, 0, 0.12) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.05) 75%);
+  background-position: 0 0, 16px 16px;
+  background-size: 32px 32px;
+}
+
+#builder .bv2-modal--inventory-name {
+  width: min(560px, calc(100vw - 2rem));
+}
+
+#builder .bv2-name-editor__body {
+  gap: 14px;
+}
+
+#builder .bv2-name-editor__field > label,
+#builder .bv2-name-editor__preview-field > label {
+  display: block;
+  margin: 0 0 6px;
+  color: #dbe6f3;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#builder .bv2-name-editor__field .mb-3 {
+  margin: 0 !important;
+}
+
+/* The shared field rule colors generic textareas. This editor renders the
+   text through its highlight layer, so keep its native textarea transparent. */
+#builder .bv2-name-editor__field .bv2-mm-field .mm-textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  margin: 0;
+  padding: 10px;
+  border: 0;
+  border-radius: 0 0 4px 4px;
+  color: transparent;
+  background: #15213a;
+  caret-color: #e9eff8;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+#builder .bv2-name-editor__field .bv2-mm-field .mm-textarea::selection {
+  color: transparent;
+}
+
+/* Hidden tooltip content must not enlarge the modal's scrollable body. */
+#builder .bv2-name-editor__field .mm-toolbar-btn[data-tooltip]::after {
+  display: none;
+}
+
+#builder .bv2-name-editor__field .mm-toolbar-btn[data-tooltip]:hover::after,
+#builder .bv2-name-editor__field .mm-toolbar-btn[data-tooltip]:focus-visible::after {
+  display: block;
+}
+
+#builder .bv2-name-editor__preview {
+  min-height: 40px;
+  padding: 10px 12px;
+  border: 1px solid rgba(126, 159, 198, 0.2);
+  border-radius: 5px;
+  color: #e8eff8;
+  background: #15213a;
+}
+
+#builder .bv2-name-editor__placeholders {
+  padding-top: 4px;
+}
+
+#builder .bv2-name-editor__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: #dbe6f3;
+  font-size: 12px;
+}
+
+#builder .bv2-name-editor__section-head a {
+  color: #76bff2;
+  font-size: 11px;
+}
+
+#builder .bv2-name-editor__placeholder-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+#builder .bv2-name-editor__placeholder {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 7px 8px;
+  border: 1px solid rgba(126, 159, 198, 0.2);
+  border-radius: 4px;
+  color: #b9c9dc;
+  background: rgba(20, 35, 59, 0.72);
+  text-align: left;
+  cursor: pointer;
+}
+
+#builder .bv2-name-editor__placeholder:hover,
+#builder .bv2-name-editor__placeholder:focus-visible {
+  border-color: #5e9fd3;
+  color: #eff7ff;
+  outline: 0;
+}
+
+#builder .bv2-name-editor__placeholder code {
+  color: #8fcaf2;
+  font-size: 11px;
+}
+
+#builder .bv2-name-editor__placeholder span {
+  overflow: hidden;
+  color: #859ab4;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#builder .bv2-modal--inventory-settings {
+  width: min(1040px, calc(100vw - 2rem));
+}
+
+#builder .bv2-modal--inventory-settings .bv2-modal__header > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+#builder .bv2-inventory-settings-modal__body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px;
+}
+
+#builder .bv2-inventory-settings__section {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid rgba(126, 159, 198, 0.16);
+  border-radius: 6px;
+  background: rgba(24, 39, 64, 0.52);
+}
+
+#builder .bv2-inventory-settings__section--wide {
+  grid-column: 1 / -1;
+}
+
+#builder .bv2-modal--inventory-settings .bv2-modal__header {
+  align-items: flex-start;
+}
+
+#builder .bv2-inventory-settings__header-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+#builder .bv2-inventory-settings__header-copy > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+#builder .bv2-inventory-settings__header-copy > small {
+  color: #8499b4;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+#builder .bv2-inventory-settings__section-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #8fcaf2;
+}
+
+#builder .bv2-inventory-settings__section-head > i {
+  margin-top: 2px;
+  font-size: 15px;
+}
+
+#builder .bv2-inventory-settings__section-head h3 {
+  margin: 0;
+  color: #e5eef9;
+  font-size: 13px;
+}
+
+#builder .bv2-inventory-settings__section-head p {
+  margin: 3px 0 0;
+  color: #8499b4;
+  font-size: 11px;
+}
+
+#builder .bv2-inventory-settings__fields {
+  display: grid;
+  gap: 10px;
+}
+
+#builder .bv2-inventory-settings__fields--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+#builder .bv2-inventory-settings__field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  color: #aebfd4;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+#builder .bv2-inventory-settings__field input,
+#builder .bv2-inventory-settings__field select,
+#builder .bv2-inventory-settings__field textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 8px 9px;
+  border: 1px solid rgba(126, 159, 198, 0.2);
+  border-radius: 4px;
+  color: #e8eff8;
+  background: #15213a;
+  outline: 0;
+  font: inherit;
+  font-weight: 400;
+}
+
+#builder .bv2-inventory-settings__field textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+#builder .bv2-inventory-settings__field input:focus,
+#builder .bv2-inventory-settings__field select:focus,
+#builder .bv2-inventory-settings__field textarea:focus {
+  border-color: #5e9fd3;
+  box-shadow: 0 0 0 3px rgba(77, 156, 215, 0.16);
+}
+
+#builder .bv2-inventory-settings__field small,
+#builder .bv2-inventory-settings__toggle small {
+  color: #7f94ae;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+#builder .bv2-inventory-settings__toggle-group {
+  display: grid;
+  gap: 6px;
+  margin-top: 11px;
+}
+
+#builder .bv2-inventory-settings__toggle {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 9px;
+  padding: 8px 9px;
+  border: 1px solid rgba(126, 159, 198, 0.12);
+  border-radius: 5px;
+  color: #b9c9dc;
+  background: rgba(16, 32, 58, 0.52);
+  cursor: pointer;
+}
+
+#builder .bv2-inventory-settings__toggle > i {
+  flex: 0 0 auto;
+  color: #86b9df;
+}
+
+#builder .bv2-inventory-settings__toggle > span {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#builder .bv2-inventory-settings__toggle strong {
+  color: #e4edf8;
+  font-size: 11px;
+}
+
+#builder .bv2-inventory-settings__toggle input {
+  flex: 0 0 auto;
+  accent-color: #4aa8df;
+}
+
+#builder .bv2-inventory-settings__action {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 9px;
+  margin-top: 11px;
+  padding: 8px 9px;
+  border: 1px solid rgba(126, 159, 198, 0.15);
+  border-radius: 5px;
+  color: #b9c9dc;
+  background: rgba(16, 32, 58, 0.52);
+  text-align: left;
+}
+
+#builder .bv2-inventory-settings__action > span {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#builder .bv2-inventory-settings__action strong {
+  color: #e4edf8;
+  font-size: 11px;
+}
+
+#builder .bv2-inventory-settings__action small {
+  color: #7f94ae;
+  font-size: 10px;
+}
+
+#builder .bv2-inventory-settings__footer-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-right: auto;
+  color: #8499b4;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+#builder .bv2-inventory-settings__footer-note > i {
+  color: #8aa8c8;
+  font-size: 11px;
+}
+
+#builder .bv2-inventory-settings__advanced-toggles {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 760px) {
+  #builder .bv2-inventory-settings-modal__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #builder .bv2-inventory-settings__section--wide {
+    grid-column: auto;
+  }
+
+  #builder .bv2-inventory-settings__fields--two,
+  #builder .bv2-inventory-settings__advanced-toggles,
+  #builder .bv2-name-editor__placeholder-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  /* The responsive base rule raises textareas to 16px on touch devices. */
+  #builder .bv2-name-editor__field .bv2-mm-field .mm-highlight {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+
+/* The shared modal stylesheet is loaded after this file and gives every body a
+   flex column layout. Keep the inventory settings surface as the wide,
+   two-column editor shown by the reference page. */
+#builder .bv2-modal.bv2-modal--inventory-settings {
+  width: min(1040px, calc(100vw - 2rem));
+}
+
+#builder .bv2-modal.bv2-modal--inventory-settings .bv2-inventory-settings-modal__body {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px;
+  flex-direction: initial;
+}
+
+@media (max-width: 760px) {
+  #builder .bv2-modal.bv2-modal--inventory-settings {
+    width: calc(100vw - 1rem);
+  }
+
+  #builder .bv2-modal.bv2-modal--inventory-settings .bv2-inventory-settings-modal__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* This control belongs to the editor stage, not to the resize handle. */
@@ -942,6 +2068,46 @@ body.bv2-right-panel-resizing * {
   display: none;
 }
 
+#builder .bv2-items-panel__categories {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 5px;
+  padding: 6px 12px;
+  overflow-x: auto;
+  background: rgba(14, 29, 48, 0.58);
+  border-bottom: 1px solid rgba(126, 159, 198, 0.18);
+  scrollbar-width: none;
+}
+
+#builder .bv2-items-panel__categories::-webkit-scrollbar {
+  display: none;
+}
+
+#builder .bv2-items-panel__category {
+  flex: 0 0 auto;
+  min-height: 24px;
+  padding: 3px 8px;
+  color: #9db0c9;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+#builder .bv2-items-panel__category:hover {
+  color: #f3f7fc;
+  background: rgba(77, 156, 215, 0.14);
+}
+
+#builder .bv2-items-panel__category--active,
+#builder .bv2-items-panel__category--active:hover {
+  color: #dff1ff;
+  background: rgba(77, 156, 215, 0.3);
+  border-color: rgba(134, 192, 238, 0.56);
+}
+
 #builder .bv2-items-panel__tab {
   display: inline-flex;
   align-items: center;
@@ -1006,6 +2172,28 @@ body.bv2-right-panel-resizing * {
   overflow: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color:
+    color-mix(in oklch, oklch(.647801 .182016 259.07265) 24%, oklch(.7107 .0351 256.79))
+    color-mix(in oklch, oklch(.229 .038 262) 78%, transparent);
+}
+
+#builder .bv2-items-panel__vgrid::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+#builder .bv2-items-panel__vgrid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#builder .bv2-items-panel__vgrid::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 999px;
+}
+
+#builder .bv2-items-panel__vgrid::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
 }
 
 #builder .bv2-items-panel__vgrid-content {
@@ -1109,6 +2297,25 @@ body.bv2-right-panel-resizing * {
 }
 
 @media (max-width: 720px) {
+  /* Keep the fixed 342px Minecraft panel usable without reviving the old
+     empty checkerboard area beneath it. */
+  #builder .inventory-builder-center-inventory.inventory.workspace-stage-area {
+    flex: 0 0 auto;
+    min-height: 0;
+    margin: 0;
+    padding: 16px;
+    overflow-x: auto;
+    overflow-y: visible;
+  }
+
+  #builder .workspace-stage-area .bv2-center {
+    flex: 0 0 auto;
+    min-width: 342px;
+    height: auto;
+    padding: 16px 0;
+    overflow: visible;
+  }
+
   #builder .sidebar.bv2-items-panel {
     flex: 0 0 auto;
     width: 100%;

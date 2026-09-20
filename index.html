@@ -12,15 +12,28 @@
   <link rel="stylesheet" href="./editor-assets/minecraft-icons.css?v=20260912-minecraft-icons-v2">
   <link rel="stylesheet" href="./editor-assets/actions-ui.css">
   <link rel="stylesheet" href="./editor-assets/mm-toolbar.css?v=20260912-bv2-mm-field-v2-sprites">
-  <link rel="stylesheet" href="./editor-assets/responsive.css">
-  <link rel="stylesheet" href="./editor-assets/items-panel.css?v=20260912-items-pane-v3-icons">
+  <link rel="stylesheet" href="./editor-assets/responsive.css?v=20260920-collapse-clipbar">
+  <link rel="stylesheet" href="./editor-assets/items-panel.css?v=20260920-reference-stage-v3">
   <link rel="stylesheet" href="./editor-assets/button-behaviour.css?v=20260912-right-panel-v18-yaml">
   <title>zMenu 菜单编辑器</title>
 </head>
 <body>
   <div id="builder"></div>
   <script>window.process = window.process || { env: { NODE_ENV: 'production' } };</script>
-  <script defer src="./editor-assets/zmenu-editor.js?v=20260912-item-stack-v7-yaml"></script>
+  <script>
+    // The editor intentionally starts clean on every visit.
+    try {
+      [
+        'zmenu-standalone-editor-v1',
+        'zmenu-item-favorites',
+        'zmenu-custom-items',
+        'zmenu-mm-custom-tags',
+        'mm_toolbar_config'
+      ].forEach(function (key) { window.localStorage.removeItem(key); });
+    } catch (error) {}
+  </script>
+  <script defer src="./editor-assets/reference-items.js?v=20260913-reference-items-v4"></script>
+  <script defer src="./editor-assets/zmenu-editor.js?v=20260920-reference-stage-v5"></script>
   <script defer src="./editor-assets/yaml-preview.js?v=20260912-yaml-preview-v2"></script>
   <script defer src="./editor-assets/actions-ui.js"></script>
   <script defer src="./editor-assets/mm-toolbar.js?v=20260912-bv2-mm-field-v2-sprites"></script>

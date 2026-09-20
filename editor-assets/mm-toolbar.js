@@ -61,37 +61,20 @@
   }
 
   function getCustomTags() {
-    try {
-      const tags = JSON.parse(localStorage.getItem(CUSTOM_TAGS_KEY) || '[]');
-      return Array.isArray(tags) ? tags : [];
-    } catch (error) {
-      return [];
-    }
+    return [];
   }
 
   function setCustomTags(tags) {
-    localStorage.setItem(CUSTOM_TAGS_KEY, JSON.stringify(tags));
+    return tags;
   }
 
   function getToolbarConfig() {
     const defaults = TOOLBAR_ITEMS.map(function (item) { return { id: item[0], visible: true }; });
-    try {
-      const stored = JSON.parse(localStorage.getItem(TOOLBAR_CONFIG_KEY) || 'null');
-      if (!Array.isArray(stored)) return defaults;
-      const allowed = new Set(TOOLBAR_ITEMS.map(function (item) { return item[0]; }));
-      const result = stored.filter(function (item) { return item && allowed.has(item.id); }).map(function (item) {
-        return { id: item.id, visible: item.visible !== false };
-      });
-      const present = new Set(result.map(function (item) { return item.id; }));
-      defaults.forEach(function (item) { if (!present.has(item.id)) result.push(item); });
-      return result.length ? result : defaults;
-    } catch (error) {
-      return defaults;
-    }
+    return defaults;
   }
 
   function saveToolbarConfig(config) {
-    localStorage.setItem(TOOLBAR_CONFIG_KEY, JSON.stringify(config));
+    return config;
   }
 
   function applyToolbarConfig(toolbar) {
@@ -349,9 +332,7 @@
   function loadSpriteItems() {
     const loader = typeof window.ZMenuEditorItems === 'function'
       ? Promise.resolve().then(function () { return window.ZMenuEditorItems(); })
-      : fetch('./new/items.txt').then(function (response) { return response.ok ? response.json() : null; }).then(function (payload) {
-        return Array.isArray(payload && payload.items) ? payload.items : [];
-      });
+      : Promise.resolve([]);
     return loader.then(function (items) {
       const unique = new Map();
       (Array.isArray(items) ? items : []).forEach(function (item) {
