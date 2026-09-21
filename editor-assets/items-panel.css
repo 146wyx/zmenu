@@ -53,28 +53,24 @@
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.9);
 }
 
-/* The divider overlays the item picker edge, like the reference builder. */
-#builder .bv2-items-resize-handle {
+/* Match the reference builder's resize handle exactly. */
+#builder .bv2-resize-handle {
+  --accent: oklch(.647801 .182016 259.07265);
+  --duration-fast: .14s;
   position: absolute;
   top: 0;
   right: -3px;
   z-index: 80;
   width: 6px;
   height: 100%;
-  min-width: 0;
   cursor: col-resize;
-  touch-action: none;
-  user-select: none;
   background: transparent;
-  border: 0;
-  transition: background 120ms ease;
+  transition: background var(--duration-fast);
 }
 
-#builder .bv2-items-resize-handle:hover,
-#builder .bv2-items-resize-handle:active,
-#builder .bv2-items-resize-handle:focus-visible,
-body.bv2-items-resizing #builder .bv2-items-resize-handle {
-  background: #45bee9;
+#builder .bv2-resize-handle:hover,
+#builder .bv2-resize-handle:active {
+  background: var(--accent);
 }
 
 #builder .inventory-builder-center {
