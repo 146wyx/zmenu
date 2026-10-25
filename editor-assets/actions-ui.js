@@ -1,6 +1,6 @@
 /**
  * zMenu 菜单编辑器 — Actions UI 增强
- * 参考 https://minecraft-inventory-builder.com/builder/inventory/5470#builder 的交互
+ * 参考 https://minecraft-inventory-builder.com/builder/inventory/5470#inventory-editor 的交互
  * 
  * 功能：
  *   1) 将 "Actions 标题 + 下拉 + 添加操作按钮" 替换为 "Actions (N) + 蓝色渐变 + ADD AN ACTION 按钮"

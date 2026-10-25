@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=1280">
   <meta name="theme-color" content="#13132a">
   <meta name="description" content="独立运行的 zMenu Minecraft 菜单编辑器。">
   <link rel="icon" href="./favicon.ico" sizes="any">
@@ -12,13 +12,12 @@
   <link rel="stylesheet" href="./editor-assets/minecraft-icons.css?v=20260912-minecraft-icons-v2">
   <link rel="stylesheet" href="./editor-assets/actions-ui.css">
   <link rel="stylesheet" href="./editor-assets/mm-toolbar.css?v=20260912-bv2-mm-field-v2-sprites">
-  <link rel="stylesheet" href="./editor-assets/responsive.css?v=20260920-collapse-clipbar">
-  <link rel="stylesheet" href="./editor-assets/items-panel.css?v=20260920-reference-stage-v4-resize-handle">
-  <link rel="stylesheet" href="./editor-assets/button-behaviour.css?v=20260912-right-panel-v18-yaml">
+  <link rel="stylesheet" href="./editor-assets/items-panel.css?v=20261025-reference-workspace-v1">
+  <link rel="stylesheet" href="./editor-assets/button-behaviour.css?v=20261025-reference-workspace-v1">
   <title>zMenu 菜单编辑器</title>
 </head>
 <body>
-  <div id="builder"></div>
+  <div id="inventory-editor"></div>
   <script>window.process = window.process || { env: { NODE_ENV: 'production' } };</script>
   <script>
     // The editor intentionally starts clean on every visit.
@@ -33,12 +32,14 @@
     } catch (error) {}
   </script>
   <script defer src="./editor-assets/reference-items.js?v=20260913-reference-items-v4"></script>
-  <script defer src="./editor-assets/zmenu-editor.js?v=20260920-reference-stage-v5"></script>
+  <link rel="stylesheet" href="./editor-assets/workspace-features.css?v=20261025-reference-workspace-v1">
+  <script defer src="./editor-assets/workspace-features.js"></script>
+  <script defer src="./editor-assets/zmenu-editor.js?v=20261025-custom-color-v1"></script>
   <script defer src="./editor-assets/yaml-preview.js?v=20260912-yaml-preview-v2"></script>
   <script defer src="./editor-assets/actions-ui.js"></script>
   <script defer src="./editor-assets/mm-toolbar.js?v=20260912-bv2-mm-field-v2-sprites"></script>
-  <script defer src="./editor-assets/mm-preview.js"></script>
-  <script defer src="./editor-assets/items-panel-resize.js?v=20260912-items-pane-v3"></script>
+  <script defer src="./editor-assets/mm-preview.js?v=20261025-stage-markup-v1"></script>
+  <script defer src="./editor-assets/items-panel-resize.js?v=20261025-items-pane-v4"></script>
   <script defer src="./editor-assets/right-panel-resize.js"></script>
 </body>
 </html>

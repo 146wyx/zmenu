@@ -2,9 +2,9 @@
 (() => {
   "use strict";
 
-  const STORAGE_KEY = "zmenu-items-panel-width-v2";
+  const STORAGE_KEY = "zmenu-items-panel-width-v3";
   const COLLAPSED_STORAGE_KEY = "zmenu-items-panel-collapsed";
-  const DEFAULT_WIDTH = 450;
+  const DEFAULT_WIDTH = 260;
   const MIN_WIDTH = 180;
   const MAX_WIDTH = 450;
   const MIN_EDITOR_WIDTH = 470;
@@ -56,14 +56,16 @@
   };
 
   const installHandle = () => {
-    const panel = document.querySelector("#builder .sidebar.bv2-items-panel");
+    const panel = document.querySelector("#inventory-editor .workspace-pane.workspace-pane-left");
     if (!panel || panel.dataset.resizeReady === "true") return;
 
     panel.classList.add("workspace-pane", "workspace-pane-left");
 
     const container = panel.parentElement;
-    const editor = panel.nextElementSibling;
-    if (!container || !editor) return;
+    const stage = panel.nextElementSibling;
+    if (!container || !stage?.matches(".workspace-stage-area")) return;
+    const collapseButton = stage.querySelector(":scope > .workspace-collapse-btn-left");
+    if (!collapseButton) return;
 
     const handle = document.createElement("div");
     handle.className = "bv2-items-resize-handle bv2-resize-handle";
@@ -76,12 +78,8 @@
     panel.append(handle);
     panel.dataset.resizeReady = "true";
 
-    const collapseButton = document.createElement("button");
-    collapseButton.type = "button";
-    collapseButton.className = "workspace-collapse-btn workspace-collapse-btn-left";
     panel.id = "zmenu-items-panel";
     collapseButton.setAttribute("aria-controls", panel.id);
-    editor.prepend(collapseButton);
 
     const setCollapsed = (collapsed, persist = true) => {
       const isCollapsed = Boolean(collapsed) && desktopMedia.matches;
@@ -91,9 +89,8 @@
       const label = isCollapsed ? "Open items panel" : "Close items panel";
       collapseButton.setAttribute("aria-label", label);
       collapseButton.title = label;
-      collapseButton.innerHTML = isCollapsed
-        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-        : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      collapseButton.querySelector("svg path")?.setAttribute("d",
+        isCollapsed ? "m9 6 6 6-6 6" : "m15 6-6 6 6 6");
       if (persist) saveCollapsed(isCollapsed);
     };
 
@@ -189,6 +186,6 @@
   };
 
   const observer = new MutationObserver(installHandle);
-  observer.observe(document.getElementById("builder"), { childList: true, subtree: true });
+  observer.observe(document.getElementById("inventory-editor"), { childList: true, subtree: true });
   installHandle();
 })();

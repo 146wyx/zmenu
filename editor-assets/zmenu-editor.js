@@ -40954,7 +40954,7 @@ ${s.comment}`:s.comment
   Ff=54,
   uT=10,
   fT=Ff*uT,
-  CO=["26.2","26.1","1.21.11","1.21.9","1.21.7","1.21.6","1.21.5","1.21.4","1.21.2","1.21","1.20.5","1.20","1.19","1.18","1.17","1.16","1.15","1.14","1.13","1.12","1.11","1.10","1.9","1.8","1.7","1.6","1.5","1.4","1.3","1.2","1.1","1.0"].map(i=>({
+  CO=["26.3","26.2","26.1","1.21.11","1.21.9","1.21.7","1.21.6","1.21.5","1.21.4","1.21.2","1.21","1.20.5","1.20","1.19","1.18","1.17","1.16","1.15","1.14","1.13","1.12","1.11","1.10","1.9","1.8","1.7","1.6","1.5","1.4","1.3","1.2","1.1","1.0"].map(i=>({
     minecraft_version:i,
     version:i
   })),
@@ -54137,7 +54137,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     m.trim()&&(M=M.filter(H=>[H.name,H.material,H.old_material,H.minecraft_id,H.css,H.material&&`minecraft:${H.material.toLowerCase()}`].some(Y=>V(Y).includes(V(m))))),
     d!==""&&(M=M.filter(H=>String(H.version?.minecraft_version??H.version?.version??"")===String(d))),
     _==="name-asc"?M=[...M].sort((H,Y)=>String(H.name).localeCompare(String(Y.name),"en")):_==="name-desc"?M=[...M].sort((H,Y)=>String(Y.name).localeCompare(String(H.name),"en")):_==="material"&&(M=[...M].sort((H,Y)=>String(H.material||"").localeCompare(String(Y.material||""))));
-    const Q=Array.from(new Map(s.map(H=>{
+    const Q=i&&i.length?i:Array.from(new Map(s.map(H=>{
       const Y=H.version||{};
       return[String(Y.minecraft_version??""),String(Y.version??Y.minecraft_version??"")]
     })).entries()).filter(([H])=>H!=="").map(([H,Y])=>({
@@ -54149,10 +54149,13 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     G=Math.max(0,Math.floor(N.scrollTop/36)-2),
     K=Math.min(C,Math.ceil((N.scrollTop+N.height)/36)+3),
     L=M.slice(G*I,K*I);
-    return R.jsxs("aside",
+    return R.jsxs("div",
     {
-      className:"sidebar bv2-items-panel",
+      className:"workspace-pane workspace-pane-left",
       children:[R.jsxs("div",
+      {
+        className:"bv2-items-panel",
+        children:[R.jsxs("div",
       {
         className:"bv2-items-panel__header",
         children:[R.jsxs("div",
@@ -54281,7 +54284,7 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           children:"+"
       })]
       }),
-      R.jsx("div",
+      !1&&R.jsx("div",
       {
         className:"bv2-items-panel__categories",
         "aria-label":"Item categories",
@@ -54346,10 +54349,12 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           })
         })
       })]
+      })]
     })
   },
   wN=({
     id:i,
+    page,
     currentItem:r,
     handleSlotClick:s,
     handleSlotDoubleClick:c,
@@ -54359,37 +54364,41 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     var _;
     const m=U.useRef(null),
     k=d==i||h.includes(i);
-    return console.log(r),
-    R.jsx("div",
+    return R.jsxs("div",
     {
-      id:`slot-${i}`,
-      className:`slot bv2-slot ${k?"slot-select bv2-slot--selected":""}`,
+      ref:m,
+      className:`bv2-slot${k?" bv2-slot--selected":""}`,
+      role:"gridcell",
+      tabIndex:0,
+      "aria-selected":k,
+      "aria-label":`${r.content?r.content.name:"Empty"} inventory slot ${i+1}, page ${page}`,
+      "data-slot":i,
+      "data-grid-group":"menu",
+      "data-grid-index":i,
+      onKeyDown:S=>{
+        if(S.key==="Enter"||S.key===" "){S.preventDefault();s(S,i);return;}
+        const offset={ArrowLeft:-1,ArrowRight:1,ArrowUp:-9,ArrowDown:9}[S.key];
+        if(offset){
+          const target=S.currentTarget.closest('[role="grid"]').querySelector(`[data-grid-index="${i+offset}"]`);
+          if(target){S.preventDefault();target.focus();}
+        }
+      },
       onClick:S=>s(S,
       i),
       onContextMenu:S=>c(S,
       i,
       !1),
-      "data-slot":i,
-      children:r.content!=null&&R.jsxs("div",
-      {
-        ref:m,
-        className:"item",
-        "data-slot":i,
-        children:[r.button.head&&((_=r.content)==null?void 0:_.material)==="PLAYER_HEAD"?R.jsx("img",
+      children:r.content!=null&&[r.button.head&&((_=r.content)==null?void 0:_.material)==="PLAYER_HEAD"?R.jsx("img",
         {
           className:"icon-minecraft",
           src:po.getHeadUrl(r.button.head.image_name),
           alt:r.button.head.name
         }):R.jsx("i",
         {
-          id:`item-slot-${r.content.id}`,
-          "data-slot":i,
           className:`icon-minecraft ${r.content.css}`
         }),
         r.button.amount>1&&R.jsx("div",
         {
-          id:`item-slot-number-${r.content.id}`,
-          "data-slot":i,
           className:"number",
           children:r.button.amount
         }),
@@ -54399,7 +54408,6 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
           button:r.button,
           itemRef:m
         })]
-      })
     })
   };
   var MT={
@@ -61704,6 +61712,8 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     onViewYaml:o,
     inventory:p,
     updateInventory:f,
+    history:history,
+    patterns:patterns,
     labelsHidden:e,
     onToggleLabels:a
   })=>{
@@ -61717,6 +61727,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     setNameDraft]=U.useState(""),
     [settingsDraft,
     setSettingsDraft]=U.useState(null),
+    [theme,setTheme]=U.useState(()=>{try{return localStorage.getItem("zmenu-theme")||"dark"}catch{return"dark"}}),
     m=U.useRef(null),
     k=_=>{
       var x;
@@ -61777,6 +61788,10 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     },
     x=String((p==null?void 0:p.name)||"菜单").replace(/&[0-9a-fk-or]/gi,"");
     U.useEffect(()=>{
+      document.documentElement.dataset.theme=theme;
+      try{localStorage.setItem("zmenu-theme",theme)}catch{}
+    },[theme]);
+    U.useEffect(()=>{
       if(!nameEditorOpen&&!settingsOpen)return;
       const onKeyDown=S=>{
         S.key==="Escape"&&(setNameEditorOpen(!1),setSettingsOpen(!1))
@@ -61795,7 +61810,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           children:[R.jsx("p",
           {
             className:"top-toolbar-title",
-            children:"项目工作区"
+            children:"Project workspace"
           }),R.jsxs("div",
           {
             className:"header-actions",
@@ -61804,6 +61819,12 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"top-profile-tools",
               children:[R.jsx($M,
               {
+              }),R.jsx("button",
+              {
+                type:"button",className:"tool-icon top-profile-icon",
+                "aria-label":"Toggle theme","data-tooltip":"Toggle theme",
+                onClick:()=>setTheme(theme==="dark"?"light":"dark"),
+                children:R.jsx("i",{className:theme==="dark"?"fa-solid fa-sun":"fa-solid fa-moon"})
               }),R.jsx("button",
               {
                 type:"button",
@@ -61824,7 +61845,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               children:[R.jsx("span",
               {
                 className:"top-project-meta-kicker",
-                children:"菜单:"
+                children:"INVENTORY:"
               }),R.jsx("strong",
               {
                 children:x
@@ -61846,7 +61867,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 children:[R.jsx("p",
                 {
                   className:"top-toolbar-title",
-                  children:"菜单名称"
+            children:"Inventory name"
                 }),R.jsx("div",
                 {
                   className:"bv2-toolbar-content",
@@ -61873,7 +61894,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 children:[R.jsx("p",
                 {
                   className:"top-toolbar-title",
-                  children:"菜单设置"
+                  children:"Inventory settings"
                 }),R.jsxs("div",
                 {
                   className:"bv2-toolbar-content",
@@ -61883,7 +61904,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                     children:[R.jsx("label",
                     {
                       htmlFor:"top-inventory-size",
-                      children:"大小"
+                      children:"SIZE"
                     }),R.jsxs("select",
                     {
                       id:"top-inventory-size",
@@ -61941,11 +61962,13 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           children:[R.jsx("p",
           {
             className:"top-toolbar-title",
-            children:"项目操作"
+            children:"Project actions"
           }),R.jsxs("div",
           {
             className:"header-actions",
             children:[R.jsx("button",
+            {type:"button",className:"tool-icon","aria-label":"Undo","data-tooltip":"Undo (Ctrl+Z)",disabled:!history.canUndo,onClick:history.undo,children:R.jsx("i",{className:"bi bi-arrow-counterclockwise"})}),R.jsx("button",
+            {type:"button",className:"tool-icon","aria-label":"Redo","data-tooltip":"Redo (Ctrl+Shift+Z)",disabled:!history.canRedo,onClick:history.redo,children:R.jsx("i",{className:"bi bi-arrow-clockwise"})}),R.jsx("button",
             {
               type:"button",
               className:"tool-icon header-theme-btn save-btn save-btn-inline",
@@ -61974,7 +61997,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               }),R.jsx("span",
               {
                 className:"btn-label",
-                children:"查看 YAML"
+                children:"View YAML"
               })]
             }),R.jsxs("button",
             {
@@ -61992,7 +62015,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               }),R.jsx("span",
               {
                 className:"btn-label",
-                children:"下载 YAML"
+                children:"Download YAML"
               })]
             }),R.jsx("input",
             {
@@ -62020,9 +62043,9 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               }),R.jsx("span",
               {
                 className:"btn-label",
-                children:"导入 YAML"
+                children:"Import YAML"
               })]
-            })]
+            }),R.jsx("button",{type:"button",className:"ghost action-with-icon",onClick:patterns.open,children:"Patterns"})]
           })]
         })]
       }),R.jsx(HM,
@@ -62043,6 +62066,226 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         onChange:updateSettings,
         onClose:()=>setSettingsOpen(!1),
         onApply:applySettings
+      })]
+    })
+  },
+  normalizeStageColor=value=>{
+    const hex=value.trim().replace(/^#/,"");
+    return /^[0-9a-f]{6}$/i.test(hex)?`#${hex.toLowerCase()}`:null
+  },
+  stageHexToHsv=hex=>{
+    const [r,g,b]=[1,3,5].map(index=>parseInt(hex.slice(index,index+2),16)/255),
+    max=Math.max(r,g,b),
+    min=Math.min(r,g,b),
+    delta=max-min;
+    let hue=0;
+    if(delta){
+      hue=max===r?(g-b)/delta:max===g?(b-r)/delta+2:(r-g)/delta+4,
+      hue=(hue*60+360)%360
+    }
+    return {h:Math.round(hue),s:max?delta/max:0,v:max}
+  },
+  stageHsvToHex=({h,s,v})=>{
+    const hue=(h%360+360)%360/60,
+    chroma=v*s,
+    secondary=chroma*(1-Math.abs(hue%2-1)),
+    offset=v-chroma,
+    channels=[[chroma,secondary,0],[secondary,chroma,0],[0,chroma,secondary],[0,secondary,chroma],[secondary,0,chroma],[chroma,0,secondary]][Math.floor(hue)];
+    return `#${channels.map(channel=>Math.round((channel+offset)*255).toString(16).padStart(2,"0")).join("")}`
+  },
+  StageColorPopup=({
+    color,
+    anchorRef,
+    onChange,
+    onClose
+  })=>{
+    const [pickerOpen,setPickerOpen]=U.useState(!1),
+    [hexDraft,setHexDraft]=U.useState(color),
+    [hsv,setHsv]=U.useState(()=>stageHexToHsv(color)),
+    popupRef=U.useRef(null);
+    U.useEffect(()=>{
+      const closeOutside=event=>{
+        !popupRef.current?.contains(event.target)&&!anchorRef.current?.contains(event.target)&&onClose()
+      },
+      closeOnEscape=event=>{
+        event.key==="Escape"&&onClose()
+      };
+      document.addEventListener("mousedown",closeOutside),
+      document.addEventListener("keydown",closeOnEscape);
+      return()=>{
+        document.removeEventListener("mousedown",closeOutside),
+        document.removeEventListener("keydown",closeOnEscape)
+      }
+    },
+    [anchorRef,onClose]);
+    const applyHsv=next=>{
+      const hex=stageHsvToHex(next);
+      setHsv(next),
+      setHexDraft(hex),
+      onChange(hex)
+    },
+    pickSquare=event=>{
+      const rect=event.currentTarget.getBoundingClientRect();
+      applyHsv({
+        ...hsv,
+        s:Math.max(0,Math.min(1,(event.clientX-rect.left)/rect.width)),
+        v:Math.max(0,Math.min(1,1-(event.clientY-rect.top)/rect.height))
+      })
+    },
+    pickHue=event=>{
+      const rect=event.currentTarget.getBoundingClientRect();
+      applyHsv({
+        ...hsv,
+        h:Math.round(Math.max(0,Math.min(1,(event.clientY-rect.top)/rect.height))*360)
+      })
+    },
+    startPick=(event,pick)=>{
+      event.preventDefault(),
+      event.currentTarget.setPointerCapture(event.pointerId),
+      pick(event)
+    },
+    movePick=(event,pick)=>{
+      event.currentTarget.hasPointerCapture(event.pointerId)&&pick(event)
+    };
+    return R.jsxs("div",
+    {
+      ref:popupRef,
+      className:`bv2-stage-color-popup${pickerOpen?" is-picker-open":""}`,
+      onMouseDown:event=>event.stopPropagation(),
+      children:[R.jsxs("div",
+      {
+        className:"bv2-stage-color-head",
+        children:[pickerOpen&&R.jsx("button",
+        {
+          type:"button",
+          className:"bv2-stage-color-icon-btn",
+          "data-tooltip":"Back to swatches",
+          "aria-label":"Back to swatches",
+          onClick:()=>setPickerOpen(!1),
+          children:R.jsx("svg",
+          {
+            viewBox:"0 0 24 24",
+            "aria-hidden":"true",
+            children:R.jsx("path",
+            {
+              d:"m15 6-6 6 6 6",
+              fill:"none",
+              stroke:"currentColor",
+              strokeWidth:"1.8",
+              strokeLinecap:"round",
+              strokeLinejoin:"round"
+            })
+          })
+        }),R.jsx("p",
+        {
+          className:"bv2-stage-color-title",
+          children:pickerOpen?"Pick a color":"Custom color"
+        }),R.jsx("button",
+        {
+          type:"button",
+          className:"bv2-stage-color-icon-btn",
+          "data-tooltip":"Close",
+          "aria-label":"Close",
+          onClick:onClose,
+          children:R.jsx("svg",
+          {
+            viewBox:"0 0 24 24",
+            "aria-hidden":"true",
+            children:R.jsx("path",
+            {
+              d:"M6 6l12 12M18 6 6 18",
+              fill:"none",
+              stroke:"currentColor",
+              strokeWidth:"2",
+              strokeLinecap:"round"
+            })
+          })
+        })]
+      }),pickerOpen?R.jsxs(R.Fragment,
+      {
+        children:[R.jsxs("div",
+        {
+          className:"bv2-color-current-row",
+          children:[R.jsx("input",
+          {
+            className:"bv2-color-hex-input",
+            spellCheck:!1,
+            value:hexDraft,
+            "aria-label":"Hex color",
+            onChange:event=>{
+              const draft=event.target.value,
+              hex=normalizeStageColor(draft);
+              setHexDraft(draft),
+              hex&&(setHsv(stageHexToHsv(hex)),onChange(hex))
+            },
+            onBlur:()=>{
+              const hex=normalizeStageColor(hexDraft);
+              setHexDraft(hex||color),
+              hex&&(setHsv(stageHexToHsv(hex)),onChange(hex))
+            }
+          }),R.jsx("span",
+          {
+            className:"bv2-color-current-swatch",
+            style:{backgroundColor:color}
+          })]
+        }),R.jsxs("div",
+        {
+          className:"bv2-color-picker-grid",
+          children:[R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-color-square",
+            "aria-label":"Pick saturation and brightness",
+            style:{"--picker-hue":`hsl(${hsv.h}, 100%, 50%)`},
+            onPointerDown:event=>startPick(event,pickSquare),
+            onPointerMove:event=>movePick(event,pickSquare),
+            children:R.jsx("span",
+            {
+              className:"bv2-color-square-cursor",
+              style:{left:`${hsv.s*100}%`,top:`${(1-hsv.v)*100}%`}
+            })
+          }),R.jsx("button",
+          {
+            type:"button",
+            className:"bv2-color-hue-rail",
+            "aria-label":"Pick hue",
+            onPointerDown:event=>startPick(event,pickHue),
+            onPointerMove:event=>movePick(event,pickHue),
+            children:R.jsx("span",
+            {
+              className:"bv2-color-hue-cursor",
+              style:{top:`${hsv.h/360*100}%`}
+            })
+          })]
+        })]
+      }):R.jsxs("div",
+      {
+        className:"bv2-stage-color-swatches",
+        children:[["#3a3f47","#2b2f36","#1f2530","#4c5564","#586a83","#1d3b52","#3f5f3a","#6d4b3f"].map(hex=>R.jsx("button",
+        {
+          type:"button",
+          className:`bv2-stage-color-swatch${color===hex?" active":""}`,
+          "data-tooltip":hex,
+          "aria-label":`Set color ${hex}`,
+          style:{backgroundColor:hex},
+          onClick:()=>{
+            setHexDraft(hex),
+            onChange(hex)
+          }
+        },
+        hex)),R.jsx("button",
+        {
+          type:"button",
+          className:"bv2-stage-color-swatch bv2-stage-color-swatch--add",
+          "data-tooltip":"Pick a custom color",
+          "aria-label":"Pick a custom color",
+          onClick:()=>{
+            setHexDraft(color),
+            setHsv(stageHexToHsv(color)),
+            setPickerOpen(!0)
+          },
+          children:"+"
+        })]
       })]
     })
   },
@@ -62069,11 +62312,18 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     pageEnd=pageOffset+P.length,
     selectedPageSlots=k.filter(L=>L>=pageOffset&&L<pageEnd).map(L=>L-pageOffset),
     currentPageSlot=s.currentSlot>=pageOffset&&s.currentSlot<pageEnd?s.currentSlot-pageOffset:-1,
-    j=i.name?Gk.sanitize(Fk.processMinecraftColorCodes(i.name)):"菜单",
+    j=U.useMemo(()=>{
+      const title=document.createElement("template");
+      title.innerHTML=Gk.sanitize(Fk.processMinecraftColorCodes(i.name||"菜单"));
+      title.content.querySelectorAll("span").forEach(L=>L.classList.add("mm-component"));
+      return title.content.children.length?title.innerHTML:`<span class="mm-component">${title.innerHTML}</span>`
+    },
+    [i.name]),
     B=L=>s.slots.find(G=>G.button.slot==L&&G.button.page==_),
     [stageBackground,setStageBackground]=U.useState("transparent"),
-    [stageColor,setStageColor]=U.useState("#39434a"),
-    stageColorInput=U.useRef(null),
+    [stageColor,setStageColor]=U.useState("#3a3f47"),
+    [stageColorOpen,setStageColorOpen]=U.useState(!1),
+    stageColorButton=U.useRef(null),
     previousPage=()=>{
       _>1&&S(_-1)
     },
@@ -62082,42 +62332,57 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     },
     openStageColor=()=>{
       setStageBackground("custom"),
-      stageColorInput.current&&stageColorInput.current.click()
+      setStageColorOpen(open=>!open)
     };
     return R.jsxs("div",
-    {
-      className:"inventory-builder-center",
-      children:[R.jsx("div",
       {
-        className:`inventory-builder-center-inventory inventory workspace-stage-area workspace-stage-area--${stageBackground}`,
+        className:`workspace-stage-area${stageBackground==="custom"?" bv2-stage--solid":stageBackground==="minecraft"?" bv2-stage--image":""}`,
         style:stageBackground==="custom"?{
-          "--bv2-stage-custom-color":stageColor
+          "--bv2-stage-bg":stageColor
+        }:stageBackground==="minecraft"?{
+          backgroundImage:'url("./images/minecraft_workspace_bg-eOzaNtb6.png")'
         }:void 0,
-        children:[R.jsxs("div",
+        children:[R.jsx("button",
+        {
+          type:"button",
+          className:"workspace-collapse-btn workspace-collapse-btn-left",
+          title:"Close items panel",
+          children:R.jsx("svg",
+          {
+            viewBox:"0 0 24 24",
+            "aria-hidden":"true",
+            children:R.jsx("path",
+            {
+              d:"m15 6-6 6 6 6",
+              fill:"none",
+              stroke:"currentColor",
+              strokeWidth:"1.8",
+              strokeLinecap:"round",
+              strokeLinejoin:"round"
+            })
+          })
+        }),R.jsxs("div",
         {
           className:"bv2-center",
           children:[R.jsxs("div",
           {
-            className:"inventory-content bv2-inventory",
+            className:"bv2-inventory",
             children:[R.jsx("div",
             {
-              className:"inventory-content-header bv2-inventory__header",
-              children:R.jsx("span",
-              {
-                className:"inventory-name",
-                id:"inventory-display-name",
-                dangerouslySetInnerHTML:{
-                  __html:j
-                }
-              })
+              className:"bv2-inventory__header",
+              dangerouslySetInnerHTML:{
+                __html:j
+              }
             }),R.jsx("div",
             {
-              className:"slotSpace bv2-inventory__slots bv2-inventory__slots--menu",
-              id:"slots",
+              className:"bv2-inventory__slots bv2-inventory__slots--menu",
+              role:"grid",
+              "aria-label":`Inventory page ${_}`,
               children:P.map((L,
               G)=>R.jsx(wN,
               {
                 id:G,
+                page:_,
                 currentItem:B(G),
                 selectSlots:selectedPageSlots,
                 currentSelectSlot:currentPageSlot,
@@ -62127,8 +62392,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               G))
             }),R.jsx("div",
             {
-              className:"bv2-inventory__separator",
-              "aria-hidden":"true"
+              className:"bv2-inventory__separator"
             }),R.jsx("div",
             {
               className:"bv2-inventory__label",
@@ -62136,38 +62400,47 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             }),R.jsx("div",
             {
               className:"bv2-inventory__slots bv2-inventory__slots--player",
+              role:"grid",
+              "aria-label":"Player inventory",
               children:Array.from({
                 length:27
               },
               (L,
               G)=>R.jsx("div",
               {
-                className:"bv2-slot bv2-slot--player bv2-slot--disabled",
-                "aria-hidden":"true"
+                className:"bv2-slot bv2-slot--disabled"
               },
               G))
             }),R.jsx("div",
             {
-              className:"bv2-inventory__slots bv2-inventory__slots--hotbar",
+              className:"bv2-inventory__slots bv2-inventory__hotbar",
+              role:"grid",
+              "aria-label":"Player hotbar",
               children:Array.from({
                 length:9
               },
               (L,
               G)=>R.jsx("div",
               {
-                className:"bv2-slot bv2-slot--hotbar bv2-slot--disabled",
-                "aria-hidden":"true"
+                className:"bv2-slot bv2-slot--disabled"
               },
               G))
             })]
           }),R.jsxs("div",
           {
             className:"bv2-player-inv-hint",
-            children:[R.jsx("i",
+            children:[R.jsx("svg",
             {
-              className:"bi bi-info-circle",
-              "aria-hidden":"true"
-            }),"Player inventory is available with ",R.jsx("span",
+              width:"14",
+              height:"14",
+              viewBox:"0 0 24 24",
+              fill:"none",
+              stroke:"currentColor",
+              strokeWidth:"2",
+              strokeLinecap:"round",
+              strokeLinejoin:"round",
+              children:[R.jsx("circle",{cx:"12",cy:"12",r:"10"}),R.jsx("path",{d:"M12 16v-4"}),R.jsx("path",{d:"M12 8h.01"})]
+            }),"Player inventory is available with ",R.jsx("strong",
             {
               children:"zMenu+"
             })]
@@ -62176,33 +62449,42 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             className:"bv2-page-controls",
             children:[R.jsx("button",
             {
-              type:"button",
               className:"bv2-page-controls__btn",
-              title:"Previous page",
-              "aria-label":"Previous page",
               disabled:_<=1,
+              "aria-label":"Previous inventory page",
               onClick:previousPage,
-              children:R.jsx("i",
+              children:R.jsx("svg",
               {
-                className:"bi bi-chevron-left",
-                "aria-hidden":"true"
+                width:"16",
+                height:"16",
+                viewBox:"0 0 24 24",
+                fill:"none",
+                stroke:"currentColor",
+                strokeWidth:"2.5",
+                strokeLinecap:"round",
+                children:R.jsx("path",{d:"M15 18l-6-6 6-6"})
               })
-            }),R.jsxs("span",
+            }),R.jsx("span",
             {
               className:"bv2-page-controls__label",
-              children:["Page ",_," / ",x]
+              "aria-live":"polite",
+              children:`Page ${_} / ${x}`
             }),R.jsx("button",
             {
-              type:"button",
               className:"bv2-page-controls__btn",
-              title:"Next page",
-              "aria-label":"Next page",
               disabled:_>=x,
+              "aria-label":"Next inventory page",
               onClick:nextPage,
-              children:R.jsx("i",
+              children:R.jsx("svg",
               {
-                className:"bi bi-chevron-right",
-                "aria-hidden":"true"
+                width:"16",
+                height:"16",
+                viewBox:"0 0 24 24",
+                fill:"none",
+                stroke:"currentColor",
+                strokeWidth:"2.5",
+                strokeLinecap:"round",
+                children:R.jsx("path",{d:"M9 18l6-6-6-6"})
               })
             })]
           })]
@@ -62213,66 +62495,61 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           {
             type:"button",
             className:`bv2-stage-bg-btn${stageBackground==="transparent"?" bv2-stage-bg-btn--active":""}`,
-            title:"Transparent background",
+            "data-tooltip":"Transparent background",
             "aria-label":"Transparent background",
             onClick:()=>setStageBackground("transparent"),
-            children:R.jsx("i",
+            children:R.jsx("svg",
             {
-              className:"bi bi-grid-3x3-gap",
-              "aria-hidden":"true"
+              viewBox:"0 0 24 24",
+              children:[R.jsx("rect",{x:"4",y:"4",width:"16",height:"16",rx:"2",fill:"none",stroke:"currentColor",strokeWidth:"1.8"}),R.jsx("path",{d:"M4 12h16M12 4v16",fill:"none",stroke:"currentColor",strokeWidth:"1.8"})]
             })
           }),R.jsx("button",
           {
             type:"button",
+            ref:stageColorButton,
             className:`bv2-stage-bg-btn${stageBackground==="custom"?" bv2-stage-bg-btn--active":""}`,
-            title:"Custom color",
+            "data-tooltip":"Custom color",
             "aria-label":"Custom color",
             onClick:openStageColor,
-            children:R.jsx("i",
+            children:R.jsx("svg",
             {
-              className:"bi bi-palette",
-              "aria-hidden":"true"
+              viewBox:"0 0 24 24",
+              children:R.jsx("rect",{x:"4",y:"4",width:"16",height:"16",rx:"2",fill:stageColor,stroke:"currentColor",strokeWidth:"1.8"})
             })
           }),R.jsx("button",
           {
             type:"button",
             className:`bv2-stage-bg-btn${stageBackground==="minecraft"?" bv2-stage-bg-btn--active":""}`,
-            title:"Minecraft background",
+            "data-tooltip":"Minecraft background",
             "aria-label":"Minecraft background",
             onClick:()=>setStageBackground("minecraft"),
-            children:R.jsx("i",
+            children:R.jsx("svg",
             {
-              className:"bi bi-image",
-              "aria-hidden":"true"
+              viewBox:"0 0 24 24",
+              children:[R.jsx("rect",{x:"3.5",y:"4",width:"17",height:"16",rx:"2",fill:"none",stroke:"currentColor",strokeWidth:"1.8"}),R.jsx("circle",{cx:"8.2",cy:"9.2",r:"1.5",fill:"none",stroke:"currentColor",strokeWidth:"1.8"}),R.jsx("path",{d:"m5.8 17 4.2-4.2 2.9 2.9 2.2-2.2 3.1 3.5",fill:"none",stroke:"currentColor",strokeWidth:"1.8",strokeLinecap:"round",strokeLinejoin:"round"})]
             })
-          }),R.jsx("input",
-          {
-            ref:stageColorInput,
-            type:"color",
-            className:"bv2-stage-bg-color-input",
-            value:stageColor,
-            tabIndex:-1,
-            "aria-hidden":"true",
-            onChange:L=>{
-              setStageColor(L.target.value),
-              setStageBackground("custom")
-            }
           })]
         }),R.jsx("button",
         {
           type:"button",
           className:`topbar-labels-toggle${W?" active":""}`,
-          title:W?"显示工具栏标题":"隐藏工具栏标题",
-          "aria-label":W?"显示工具栏标题":"隐藏工具栏标题",
+          title:W?"Show toolbar labels":"Hide toolbar labels",
           onClick:Z,
           children:R.jsx("i",
           {
-            className:W?"bi bi-chevron-down":"bi bi-chevron-up",
-            "aria-hidden":"true"
+            className:W?"fa-solid fa-chevron-down":"fa-solid fa-chevron-up"
           })
+        }),stageColorOpen&&R.jsx(StageColorPopup,
+        {
+          color:stageColor,
+          anchorRef:stageColorButton,
+          onChange:color=>{
+            setStageColor(color),
+            setStageBackground("custom")
+          },
+          onClose:()=>setStageColorOpen(!1)
         })]
-      })]
-    })
+      })
   },
   SR=({
     options:i,
@@ -63586,7 +63863,8 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     buttonTypes:r,
     updateButton:s,
     selectedSlots:c,
-    actionTypes:d
+    actionTypes:d,
+    patterns:patterns
   })=>{
     const h=c.length>0?c:[i.currentSlot].filter(L=>L>=0);
     let m=i.currentSlot>=0?i.slots[i.currentSlot]:null;
@@ -63599,6 +63877,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     ],
     clickKeys=["LEFT","RIGHT","SHIFT_LEFT","SHIFT_RIGHT","MIDDLE","DROP","CONTROL_DROP"],
     [activeTab,setActiveTab]=U.useState("general"),
+    [patternChoice,setPatternChoice]=U.useState(""),
     [buttonPanelCollapsed,setButtonPanelCollapsed]=U.useState(!1),
     [typePickerOpen,setTypePickerOpen]=U.useState(!1),
     [typePickerQuery,setTypePickerQuery]=U.useState(""),
@@ -64001,28 +64280,21 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           }),R.jsxs("select",
           {
             id:"bv2-pattern-choice",
-            value:"",
-            onChange:()=>{},
+            value:patternChoice,
+            onChange:event=>setPatternChoice(event.target.value),
             children:[R.jsx("option",
             {
               value:"",
               children:"Choose a pattern..."
-            }),R.jsx("option",
-            {
-              value:"sample",
-              children:"New button pattern - my_button_pattern"
-            }),R.jsx("option",
-            {
-              value:"external",
-              children:"External / manual reference"
-            })]
+            }),...patterns.patterns.map(pattern=>R.jsx("option",{value:pattern.id,children:pattern.name+" - "+pattern.fileName},pattern.id))]
           })]
         }),R.jsx("button",
         {
           type:"button",
           className:"bv2-btn bv2-pattern-source-card__use",
-          disabled:!0,
-          title:"Patterns are not available in the standalone editor",
+          disabled:!patternChoice,
+          onClick:()=>patterns.apply(patternChoice),
+          title:"Use pattern",
           children:[R.jsx("i",
           {
             className:"bi bi-link-45deg"
@@ -65368,7 +65640,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     }):R.jsx("div",
     {
       className:"bv2-button-editor bv2-button-editor--empty",
-      children:"请选择一个物品"
+      children:[R.jsx("div",{className:"bv2-config-section__title",children:"BUTTON CONFIGURATION"}),R.jsx("div",{className:"bv2-config-section__empty",children:"Select a slot to configure"})]
     });
     return buttonPanelCollapsed?R.jsx("div",
     {
@@ -66585,7 +66857,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     }):R.jsx("div",
     {
       className:"bv2-config-section bv2-item-stack__empty bv2-item-stack__empty--centered",
-      children:"Select an inventory slot to configure its Item Stack."
+      children:R.jsx("div",{className:"bv2-config-section__empty",children:"Select a slot to configure"})
     });
     return itemPanelCollapsed?R.jsx("div",
     {
@@ -66664,7 +66936,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     B]=U.useState(1),
     [L,
     G]=U.useState({
-      currentSlot:0,
+      currentSlot:-1,
       slots:Array.from({
         length:Kf*CR
       },
@@ -66711,11 +66983,23 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     });
     const[labelsHidden,setLabelsHidden]=U.useState(()=>{
       try{
-        return window.localStorage.getItem("bv2-labels-hidden")!=="0"
+        return window.localStorage.getItem("bv2-labels-hidden")==="1"
       }
       catch{
-        return!0
+        return!1
       }
+    });
+    const history=window.ZMenuWorkspace.useHistory(U,s,L.slots,state=>{
+      c(state.inventory); G(value=>({...value,slots:state.slots})); T(!0); h(null); P([]);
+    });
+    const patterns=window.ZMenuWorkspace.usePatterns(U,()=>{
+      const index=L.currentSlot; return index>=0?L.slots[index]:null;
+    },slot=>{
+      const targets=O.length?O:[L.currentSlot].filter(index=>index>=0);
+      if(!targets.length)return;
+      G(value=>({...value,slots:value.slots.map((old,index)=>targets.includes(index)?{
+        ...old,content:JSON.parse(JSON.stringify(slot.content)),button:{...JSON.parse(JSON.stringify(slot.button)),slot:old.button.slot,page:old.button.page,name:old.button.name}
+      }:old)})); T(!0);
     });
     U.useEffect(()=>{
       const ee=setInterval(()=>{
@@ -66883,6 +67167,9 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       const re=ee.target,
       pe=re instanceof Element&&(re.matches("input, textarea, select, [contenteditable='true']")||re.closest("[contenteditable='true']")),
       ge=ee.ctrlKey||ee.metaKey;
+      if(!pe&&ge&&["z","y"].includes(ee.key.toLowerCase())){
+        ee.preventDefault(); ee.key.toLowerCase()==="y"||ee.shiftKey?history.redo():history.undo(); return;
+      }
       if(!pe&&ge&&I(ee,["c","C"],67)&&hasActionSlot()){
         ee.preventDefault(),
         copySlots();
@@ -66936,7 +67223,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     d,
     L,
     O,
-    clipboardSlots]),
+    clipboardSlots,history]),
     J=(ee,
     re)=>{
       const pe=(j-1)*Kf;
@@ -66999,24 +67286,11 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       if(ee.preventDefault(),
       d==null)return;
       let re=Le(ee);
-      if(d.target!==re){
-        let pe=re.id;
-        if(pe==null)return;
-        if(pe.startsWith("item")&&!pe.startsWith("item-slot"))se();
-        else if(pe.startsWith("slot")){
-          let ge=re.getAttribute("data-slot");
-          Je(parseInt(ge)+(j-1)*Kf,
-          d.item,
-          m),
-          se()
-        }
-        else if(pe.startsWith("item-slot")){
-          let Me=re.parentElement.parentElement.getAttribute("data-slot");
-          ve(ee,
-          parseInt(Me)+(j-1)*Kf)
-        }
-        else se()
-      }
+      if(d.target===re)return;
+      const pe=re&&re.closest('[data-grid-group="menu"][data-grid-index]'),
+      ge=pe?Number(pe.dataset.gridIndex)+(j-1)*Kf:-1;
+      if(!Number.isInteger(ge)||!L.slots[ge]){se();return;}
+      L.slots[ge].content!=null?ve(ee,ge):(Je(ge,d.item,m),se())
     },
     [d,
     L,
@@ -67024,11 +67298,11 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     Ie=U.useCallback(ee=>{
       if(ee.preventDefault(),
       d==null)return;
-      let re=Le(ee),
-      pe=re.id;
-      if(pe!=null&&(pe.startsWith("slot")||pe.startsWith("item-slot"))){
-        let ge=parseInt(re.getAttribute("data-slot"))+(j-1)*Kf,
-        Me=L.slots[ge].button.amount+1;
+      const re=Le(ee),
+      pe=re&&re.closest('[data-grid-group="menu"][data-grid-index]'),
+      ge=pe?Number(pe.dataset.gridIndex)+(j-1)*Kf:-1;
+      if(Number.isInteger(ge)&&L.slots[ge]){
+        const Me=(L.slots[ge].content?L.slots[ge].button.amount:0)+1;
         if(Me>64)return;
         Je(ge,
         d.item,
@@ -67043,10 +67317,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     Le=ee=>{
       let re=document.elementsFromPoint(ee.clientX,
       ee.clientY);
-      return re.find(pe=>{
-        const ge=typeof pe.id==="string"?pe.id:"";
-        return ge.startsWith("item-slot")||ge.startsWith("slot")||ge.startsWith("item")
-      })||re[0]||null
+      return re.find(pe=>pe.matches('[data-grid-group="menu"][data-grid-index], .bv2-items-panel__item'))||re[0]||null
     },
     ze=()=>{
       d!=null&&(d.countElement.innerText=`${m}`)
@@ -67203,25 +67474,10 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     F=()=>{
       if(!x)return;
       T(!1);
-      const ee=(re,
-      pe)=>{
-        const ge=document.getElementById("saving-text");
-        ge&&(ge.classList.add(re),
-        ge.classList.remove(pe))
-      };
-      ee("animate-in",
-      "animate-out"),
-      setTimeout(()=>{
-        const re=()=>{
-          ee("animate-out",
-          "animate-in")
-        };
-        po.saveEditorState({
-          inventory:s,
-          slots:L.slots
-        }).then(re).catch(re)
-      },
-      350)
+      po.saveEditorState({
+        inventory:s,
+        slots:L.slots
+      })
     },
     Y=()=>{
       po.saveEditorState({
@@ -67357,29 +67613,13 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       !0,
       null)]
     });
-    return R.jsxs("div",
+    return R.jsx("main",
     {
-      className:"inventory-builder",
-      children:[R.jsxs("div",
+      className:"app-shell bv2-editor",
+      children:R.jsx("section",
       {
-        id:"saving-text",
-        className:"text-animation",
-        children:[R.jsx("div",
-        {
-          className:"me-2",
-          children:"正在保存"
-        }),
-        R.jsx("div",
-        {
-          className:"spinner-border spinner-border-sm",
-          role:"status",
-          children:R.jsx("span",
-          {
-            className:"visually-hidden"
-          })
-        })]
-      }),
-      R.jsx(GM,
+        className:"panel",
+        children:[R.jsx(GM,
       {
         needToUpdate:x,
         saveData:F,
@@ -67388,16 +67628,15 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         onViewYaml:Q,
         inventory:s,
         updateInventory:X,
+        history:history,
+        patterns:patterns,
         labelsHidden:labelsHidden,
         onToggleLabels:toggleTopbarLabels
       }),
       R.jsxs("div",
       {
-        className:"d-flex",
-        children:[R.jsxs("div",
-        {
-          className:"d-flex",
-          children:[R.jsx(_N,
+        className:"workspace",
+        children:[R.jsx(_N,
           {
             versions:r.versions,
             onItemClick:me
@@ -67418,17 +67657,15 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             maxPage:CR,
             labelsHidden:labelsHidden,
             onToggleLabels:toggleTopbarLabels
-          })]
-        }),
-        R.jsx("div",
-        {
-          className:"resizer-x"
-        }),
+          }),
         R.jsxs("div",
         {
-          className:"configurations bv2-right-panel",
-          children:[clipBar,
-          R.jsxs("div",
+          className:"workspace-pane workspace-pane-right",
+          children:[R.jsxs("div",
+          {
+            className:"configurations bv2-right-panel",
+            children:[clipBar,
+            R.jsxs("div",
           {
             className:"bv2-right-panel__cols",
             children:[R.jsx(pB,
@@ -67447,12 +67684,15 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               updateButton:Ve,
               selectedSlots:O,
               buttonTypes:r.buttonTypes,
+              patterns:patterns,
               actionTypes:_actionTypes
             },
             "configuration-button")]
           })]
+          })]
         })]
-      })]
+      }),patterns.modal]
+    })
     })
   };
   window.ZMenuEditorItems=()=>dT(),
@@ -67471,7 +67711,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
   s)=>{
     console[i==="error"?"error":"info"](`${r}: ${s}`)
   },
-  Fm.createRoot(document.getElementById("builder")).render(R.jsx(hB,
+  Fm.createRoot(document.getElementById("inventory-editor")).render(R.jsx(hB,
   {
   }))
 })();

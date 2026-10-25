@@ -1,4 +1,4 @@
-/* MiniMessage preview layer for the inventory-content tooltip. */
+/* MiniMessage preview layer for inventory slot tooltips. */
 (function () {
   'use strict';
 
@@ -87,9 +87,7 @@
   }
 
   function tooltipBelongsToSelectedSlot(tooltip) {
-    const item = tooltip.closest('.item');
-    const selected = item && item.closest('.slot.slot-select');
-    return Boolean(selected);
+    return Boolean(tooltip.closest('.bv2-slot--selected'));
   }
 
   function upgradeTooltip(tooltip) {
@@ -133,7 +131,7 @@
   });
 
   function start() {
-    const slots = document.querySelector('#slots') || document.body;
+    const slots = document.querySelector('.bv2-inventory__slots--menu') || document.body;
     observer.observe(slots, { childList: true, subtree: true });
     document.addEventListener('input', function (event) {
       if (event.target.matches && event.target.matches('.mm-textarea, .zmm-textarea, [name="display_name"], [name="lore"]')) {

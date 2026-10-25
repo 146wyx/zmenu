@@ -7,7 +7,7 @@
   const desktopMedia = window.matchMedia("(min-width: 721px)");
 
   const installResizeHandle = () => {
-    const panel = document.querySelector("#builder .configurations");
+    const panel = document.querySelector("#inventory-editor .configurations");
     const columns = panel?.querySelector(":scope > .bv2-right-panel__cols") || panel;
     const handle = columns?.querySelector(":scope > .bv2-right-panel__resize");
     const itemColumn = columns?.querySelector(":scope > .configurations-itemstack");
@@ -54,7 +54,7 @@
     });
   };
 
-  const builder = document.getElementById("builder");
+  const builder = document.getElementById("inventory-editor");
   if (!builder) return;
 
   new MutationObserver(installResizeHandle).observe(builder, {

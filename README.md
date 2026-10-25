@@ -4,15 +4,17 @@
 
 ## 功能
 
-- 内置 1783 个英文 Minecraft 物品和对应图标。
-- 支持 32 个 Minecraft 版本筛选，从 1.0 到 26.2。
+- 内置 1907 个 Minecraft 物品目录条目和对应图标映射。
+- 支持 33 个 Minecraft 版本筛选，从 1.0 到 26.3。
 - 支持拖动添加物品、跟随鼠标的物品预览、搜索和滚动浏览。
 - 支持调整物品面板和右侧配置面板大小，并可折叠物品面板。
 - 支持 Button 的 Requirements、Actions、Advanced 和 General 配置。
 - 支持 Item Stack、Components、Display Name、Lore 和 MiniMessage 预览。
 - 支持 MiniMessage 加粗、颜色、渐变、悬停、点击事件、Sprites 等编辑工具。
 - 支持导入 YAML、导出 zMenu YAML，以及查看和复制 YAML 预览。
-- 支持桌面端、窄屏和触摸操作。
+- 按 Minecraft Inventory Builder 的桌面三栏工作区布局运行。
+- 支持撤销/重做（Ctrl+Z、Ctrl+Shift+Z 或 Ctrl+Y）、深浅主题切换。
+- 支持本地 Patterns 保存、物品/按钮编辑、变量替换、应用到所选槽位和独立 YAML 下载。
 
 ## 项目结构
 
@@ -29,7 +31,6 @@
 │   ├── button-behaviour.css           # Button 配置面板样式
 │   ├── actions-ui.css                 # Actions 界面样式
 │   ├── mm-toolbar.css                 # MiniMessage 工具栏样式
-│   ├── responsive.css                 # 响应式样式
 │   ├── mm-toolbar.js                  # MiniMessage 工具栏逻辑
 │   ├── mm-preview.js                  # MiniMessage 预览逻辑
 │   ├── yaml-preview.js                # YAML 预览和复制逻辑
