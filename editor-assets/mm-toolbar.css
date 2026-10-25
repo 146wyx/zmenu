@@ -15,7 +15,6 @@
   font-weight: 900;
   line-height: 1;
   text-align: center;
-  -webkit-font-smoothing: antialiased;
 }
 
 .fa-solid::before { content: var(--fa); }
@@ -24,7 +23,11 @@
 .fa-text-height { --fa: "\f034"; }
 .fa-strikethrough { --fa: "\f0cc"; }
 .fa-underline { --fa: "\f0cd"; }
+.fa-eye { --fa: "\f06e"; }
 .fa-eye-slash { --fa: "\f070"; }
+.fa-puzzle-piece { --fa: "\f12e"; }
+.fa-times { --fa: "\f00d"; }
+.fa-copy { --fa: "\f0c5"; }
 .fa-flag { --fa: "\f024"; }
 .fa-star { --fa: "\f005"; }
 .fa-link { --fa: "\f0c1"; }

@@ -4,7 +4,6 @@
 
   const MIN_SPLIT = 20;
   const MAX_SPLIT = 80;
-  const desktopMedia = window.matchMedia("(min-width: 721px)");
 
   const installResizeHandle = () => {
     const panel = document.querySelector("#inventory-editor .configurations");
@@ -40,7 +39,7 @@
     };
 
     handle.addEventListener("mousedown", event => {
-      if (!desktopMedia.matches || event.button !== 0) return;
+      if (event.button !== 0) return;
       event.preventDefault();
       resizing = true;
       document.body.classList.add("bv2-right-panel-resizing");
@@ -49,9 +48,6 @@
       document.addEventListener("mouseup", finishResize);
     });
 
-    desktopMedia.addEventListener("change", event => {
-      if (!event.matches) finishResize();
-    });
   };
 
   const builder = document.getElementById("inventory-editor");

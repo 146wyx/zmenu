@@ -39,11 +39,7 @@
 │   └── right-panel-resize.js          # 右侧面板拖动调整
 ├── images/
 │   └── sprites.webp                   # Minecraft 物品精灵图
-├── favicon.ico                        # 网站图标
-├── apple-touch-icon.png               # Apple 设备图标
-├── android-chrome-192x192.png         # Android 图标
-├── android-chrome-512x512.png         # Android 图标
-└── site.webmanifest                   # PWA 清单
+└── favicon.ico                        # 网站图标
 ```
 
 ## 本地运行

@@ -7,8 +7,6 @@
   const DEFAULT_WIDTH = 260;
   const MIN_WIDTH = 180;
   const MAX_WIDTH = 450;
-  const MIN_EDITOR_WIDTH = 470;
-  const desktopMedia = window.matchMedia("(min-width: 721px)");
 
   const readSavedWidth = () => {
     try {
@@ -43,13 +41,10 @@
     }
   };
 
-  const clampWidth = (width, container) => {
-    const available = container.getBoundingClientRect().width - MIN_EDITOR_WIDTH;
-    return Math.round(Math.max(MIN_WIDTH, Math.min(width, MAX_WIDTH, available)));
-  };
+  const clampWidth = width => Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, width));
 
-  const applyWidth = (panel, container, width) => {
-    const nextWidth = clampWidth(width, container);
+  const applyWidth = (panel, width) => {
+    const nextWidth = clampWidth(width);
     panel.style.flexBasis = `${nextWidth}px`;
     panel.style.width = `${nextWidth}px`;
     return nextWidth;
@@ -68,7 +63,7 @@
     if (!collapseButton) return;
 
     const handle = document.createElement("div");
-    handle.className = "bv2-items-resize-handle bv2-resize-handle";
+    handle.className = "bv2-resize-handle";
     handle.setAttribute("role", "separator");
     handle.setAttribute("aria-label", "Resize item panel");
     handle.setAttribute("aria-orientation", "vertical");
@@ -82,8 +77,9 @@
     collapseButton.setAttribute("aria-controls", panel.id);
 
     const setCollapsed = (collapsed, persist = true) => {
-      const isCollapsed = Boolean(collapsed) && desktopMedia.matches;
+      const isCollapsed = Boolean(collapsed);
       container.classList.toggle("bv2-items-panel-collapsed", isCollapsed);
+      handle.hidden = isCollapsed;
       collapseButton.classList.toggle("is-collapsed", isCollapsed);
       collapseButton.setAttribute("aria-expanded", String(!isCollapsed));
       const label = isCollapsed ? "Open items panel" : "Close items panel";
@@ -94,42 +90,40 @@
       if (persist) saveCollapsed(isCollapsed);
     };
 
-    if (desktopMedia.matches) {
-      applyWidth(panel, container, readSavedWidth() ?? DEFAULT_WIDTH);
-      // The editor is rendered dynamically. Re-apply after its flex layout
-      // settles so the first measurement cannot clamp the panel to 180px.
-      window.requestAnimationFrame(() => {
-        if (desktopMedia.matches) {
-          applyWidth(panel, container, readSavedWidth() ?? DEFAULT_WIDTH);
-        }
-      });
-    }
+    applyWidth(panel, readSavedWidth() ?? DEFAULT_WIDTH);
     setCollapsed(readCollapsed(), false);
 
-    let pointerId = null;
+    let resizing = false;
     let startX = 0;
     let startWidth = 0;
 
+    const moveDrag = event => {
+      if (!resizing) return;
+      applyWidth(panel, startWidth + event.clientX - startX);
+    };
+
     const finishDrag = () => {
-      if (pointerId === null) return;
-      try {
-        handle.releasePointerCapture(pointerId);
-      } catch {
-        // Pointer capture may already be released by the browser.
-      }
-      pointerId = null;
-      document.body.classList.remove("bv2-items-resizing");
+      if (!resizing) return;
+      resizing = false;
+      document.removeEventListener("mousemove", moveDrag);
+      document.removeEventListener("mouseup", finishDrag);
+      window.removeEventListener("blur", finishDrag);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
       saveWidth(Math.round(panel.getBoundingClientRect().width));
     };
 
-    handle.addEventListener("pointerdown", event => {
-      if (!desktopMedia.matches || event.button !== 0) return;
+    handle.addEventListener("mousedown", event => {
+      if (event.button !== 0) return;
       event.preventDefault();
-      pointerId = event.pointerId;
+      resizing = true;
       startX = event.clientX;
       startWidth = panel.getBoundingClientRect().width;
-      handle.setPointerCapture(pointerId);
-      document.body.classList.add("bv2-items-resizing");
+      document.body.style.cursor = "col-resize";
+      document.body.style.userSelect = "none";
+      document.addEventListener("mousemove", moveDrag);
+      document.addEventListener("mouseup", finishDrag);
+      window.addEventListener("blur", finishDrag);
     });
 
     collapseButton.addEventListener("click", event => {
@@ -137,51 +131,21 @@
       setCollapsed(!container.classList.contains("bv2-items-panel-collapsed"));
     });
 
-    const moveDrag = event => {
-      if (pointerId === null) return;
-      if (event.type.startsWith("pointer") && event.pointerId !== pointerId) return;
-      applyWidth(panel, container, startWidth + event.clientX - startX);
-    };
-
-    handle.addEventListener("pointermove", moveDrag);
-    handle.addEventListener("pointerup", finishDrag);
-    handle.addEventListener("pointercancel", finishDrag);
-    window.addEventListener("pointermove", moveDrag);
-    window.addEventListener("pointerup", finishDrag);
-    window.addEventListener("pointercancel", finishDrag);
-    window.addEventListener("mousemove", moveDrag);
-    window.addEventListener("mouseup", finishDrag);
-
     handle.addEventListener("keydown", event => {
-      if (!desktopMedia.matches) return;
       const step = event.shiftKey ? 36 : 18;
       const width = panel.getBoundingClientRect().width;
       if (event.key === "ArrowLeft") {
         event.preventDefault();
-        saveWidth(applyWidth(panel, container, width - step));
+        saveWidth(applyWidth(panel, width - step));
       }
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        saveWidth(applyWidth(panel, container, width + step));
-      }
-    });
-
-    desktopMedia.addEventListener("change", event => {
-      if (event.matches) {
-        applyWidth(panel, container, readSavedWidth() ?? DEFAULT_WIDTH);
-        setCollapsed(readCollapsed(), false);
-      } else {
-        panel.style.removeProperty("flex-basis");
-        panel.style.removeProperty("width");
-        setCollapsed(false, false);
-        finishDrag();
+        saveWidth(applyWidth(panel, width + step));
       }
     });
 
     window.addEventListener("resize", () => {
-      if (desktopMedia.matches) {
-        applyWidth(panel, container, panel.getBoundingClientRect().width);
-      }
+      applyWidth(panel, panel.getBoundingClientRect().width);
     });
   };
 

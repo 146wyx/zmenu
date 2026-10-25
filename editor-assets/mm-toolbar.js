@@ -575,7 +575,7 @@
     input.addEventListener('input', function () { update(input.value); });
     input.addEventListener('scroll', function () { highlightLayer.scrollTop = input.scrollTop; highlightLayer.scrollLeft = input.scrollLeft; });
     input.addEventListener('keydown', function (event) {
-      const modifier = event.ctrlKey || event.metaKey;
+      const modifier = event.ctrlKey;
       if (!modifier) return;
       const key = event.key.toLowerCase();
       const shortcut = { b: ['bold', 'text'], i: ['italic', 'text'], u: ['underlined', 'text'], s: ['strikethrough', 'text'], g: ['gradient:#288fc3:#10ea64', 'text'], r: ['rainbow', 'text'], h: ["hover:show_text:'Tooltip here'", 'Hover me'], k: ["click:open_url:'https://example.com'", 'Click me'] };

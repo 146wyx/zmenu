@@ -56774,24 +56774,16 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       return r.brand+"/"+r.version
     }).join(" "):navigator.userAgent
   }
-  function px(){
-    return!/^((?!chrome|android).)*safari/i.test(p_())
-  }
   function Gf(i,
-  r,
-  s){
-    r===void 0&&(r=!1),
-    s===void 0&&(s=!1);
+  r){
+    r===void 0&&(r=!1);
     var c=i.getBoundingClientRect(),
     d=1,
     h=1;
     r&&ws(i)&&(d=i.offsetWidth>0&&Hf(c.width)/i.offsetWidth||1,
     h=i.offsetHeight>0&&Hf(c.height)/i.offsetHeight||1);
-    var m=iu(i)?Ki(i):window,
-    k=m.visualViewport,
-    _=!px()&&s,
-    S=(c.left+(_&&k?k.offsetLeft:0))/d,
-    x=(c.top+(_&&k?k.offsetTop:0))/h,
+    var S=c.left/d,
+    x=c.top/h,
     T=c.width/d,
     O=c.height/h;
     return{
@@ -57226,8 +57218,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
   function y_(i){
     return Gf(ic(i)).left+b_(i).scrollLeft
   }
-  function nA(i,
-  r){
+  function nA(i){
     var s=Ki(i),
     c=ic(i),
     d=s.visualViewport,
@@ -57237,10 +57228,9 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     _=0;
     if(d){
       h=d.width,
-      m=d.height;
-      var S=px();
-      (S||!S&&r==="fixed")&&(k=d.offsetLeft,
-      _=d.offsetTop)
+      m=d.height,
+      k=d.offsetLeft,
+      _=d.offsetTop
     }
     return{
       width:h,
@@ -57308,11 +57298,9 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       bottom:i.y+i.height
     })
   }
-  function aA(i,
-  r){
+  function aA(i){
     var s=Gf(i,
-    !1,
-    r==="fixed");
+    !1);
     return s.top=s.top+i.clientTop,
     s.left=s.left+i.clientLeft,
     s.bottom=s.top+i.clientHeight,
@@ -57324,11 +57312,8 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     s
   }
   function Sx(i,
-  r,
-  s){
-    return r===fx?k_(nA(i,
-    s)):iu(r)?aA(r,
-    s):k_(rA(ic(i)))
+  r){
+    return r===fx?k_(nA(i)):iu(r)?aA(r):k_(rA(ic(i)))
   }
   function iA(i){
     var r=fp(eb(i)),
@@ -57342,8 +57327,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
   }
   function oA(i,
   r,
-  s,
-  c){
+  s){
     var d=r==="clippingParents"?iA(i):[].concat(r),
     h=[].concat(d,
     [s]),
@@ -57351,8 +57335,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     k=h.reduce(function(_,
     S){
       var x=Sx(i,
-      S,
-      c);
+      S);
       return _.top=ou(x.top,
       _.top),
       _.right=Zg(x.right,
@@ -57364,8 +57347,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       _
     },
     Sx(i,
-    m,
-    c));
+    m));
     return k.width=k.right-k.left,
     k.height=k.bottom-k.top,
     k.x=k.left,
@@ -57426,8 +57408,6 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     var s=r,
     c=s.placement,
     d=c===void 0?i.placement:c,
-    h=s.strategy,
-    m=h===void 0?i.strategy:h,
     k=s.boundary,
     _=k===void 0?DL:k,
     S=s.rootBoundary,
@@ -57445,8 +57425,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     V=i.elements[j?Z:O],
     I=oA(iu(V)?V:V.contextElement||ic(i.elements.popper),
     _,
-    x,
-    m),
+    x),
     se=Gf(i.elements.reference),
     te=Cx({
       reference:se,
@@ -57909,8 +57888,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     d=ws(r)&&SA(r),
     h=ic(r),
     m=Gf(i,
-    d,
-    s),
+    d),
     k={
       scrollLeft:0,
       scrollTop:0
@@ -58463,15 +58441,10 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         }
         _(Z)
       });
-      let G=[];
-      return"ontouchstart"in T.documentElement&&(G=[].slice.call(T.body.children).map(Z=>nc(Z,
-      "mousemove",
-      Px))),
       ()=>{
         j==null||j(),
         B(),
-        L(),
-        G.forEach(Z=>Z())
+        L()
       }
     },
     [i,
@@ -61985,13 +61958,14 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             {
               type:"button",
               className:"ghost action-with-icon",
+              title:"View YAML",
               onClick:o,
               children:[R.jsx("span",
               {
                 className:"btn-icon",
                 children:R.jsx("i",
                 {
-                  className:"bi bi-file-earmark-code",
+                  className:"fa-solid fa-eye",
                   "aria-hidden":"true"
                 })
               }),R.jsx("span",
@@ -62045,7 +62019,26 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"btn-label",
                 children:"Import YAML"
               })]
-            }),R.jsx("button",{type:"button",className:"ghost action-with-icon",onClick:patterns.open,children:"Patterns"})]
+            }),R.jsxs("button",
+            {
+              type:"button",
+              className:"ghost action-with-icon",
+              title:"Create and manage reusable zMenu button patterns",
+              onClick:patterns.open,
+              children:[R.jsx("span",
+              {
+                className:"btn-icon",
+                children:R.jsx("i",
+                {
+                  className:"fa-solid fa-puzzle-piece",
+                  "aria-hidden":"true"
+                })
+              }),R.jsx("span",
+              {
+                className:"btn-label",
+                children:"Patterns"
+              })]
+            })]
           })]
         })]
       }),R.jsx(HM,
@@ -67166,7 +67159,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       ee=ee||window.event;
       const re=ee.target,
       pe=re instanceof Element&&(re.matches("input, textarea, select, [contenteditable='true']")||re.closest("[contenteditable='true']")),
-      ge=ee.ctrlKey||ee.metaKey;
+      ge=ee.ctrlKey;
       if(!pe&&ge&&["z","y"].includes(ee.key.toLowerCase())){
         ee.preventDefault(); ee.key.toLowerCase()==="y"||ee.shiftKey?history.redo():history.undo(); return;
       }
