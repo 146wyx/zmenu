@@ -1,3 +1,7 @@
+if (Get-Command node -ErrorAction SilentlyContinue) {
+    node "$PSScriptRoot\server.cjs"
+    exit
+}
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add('http://localhost:8765/')
 $listener.Start()

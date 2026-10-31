@@ -60888,10 +60888,10 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       className:"action",
       children:i?R.jsx("i",
       {
-        className:"bi bi-lock"
+        className:"fa-solid fa-lock"
       }):R.jsx("i",
       {
-        className:"bi bi-unlock"
+        className:"fa-solid fa-lock-open"
       })
     })
   },
@@ -60919,7 +60919,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         {
           children:[R.jsx("i",
           {
-            className:"bi bi-floppy me-1"
+            className:"fa-solid fa-floppy-disk me-1"
           }),
           "保存当前菜单。"]
         }),
@@ -60927,7 +60927,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         {
           children:[R.jsx("i",
           {
-            className:"bi bi-cloud-download me-1"
+            className:"fa-solid fa-download me-1"
           }),
           "将当前菜单导出为 YML 配置文件。"]
         }),
@@ -60935,7 +60935,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         {
           children:[R.jsx("i",
           {
-            className:"bi bi-lock me-1"
+            className:"fa-solid fa-lock me-1"
           }),
           "锁定或解锁页面滚动。"]
         }),
@@ -60943,7 +60943,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         {
           children:[R.jsx("i",
           {
-            className:"bi bi-info-lg me-1"
+            className:"fa-solid fa-circle-info me-1"
           }),
           "查看编辑器的操作说明。"]
         })]
@@ -61183,7 +61183,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             onClick:c,
             children:R.jsx("i",
             {
-              className:"bi bi-x-lg",
+              className:"fas fa-times",
               "aria-hidden":"true"
             })
           })]
@@ -61314,11 +61314,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             children:[R.jsxs("span",
             {
               id:"bv2-inventory-settings-title",
-              children:[R.jsx("i",
-              {
-                className:"bi bi-gear-fill",
-                "aria-hidden":"true"
-              })," 菜单设置"]
+              children:"菜单设置"
             }),R.jsx("small",
             {
               children:"配置这个菜单和编辑器预览。"
@@ -61331,7 +61327,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             onClick:c,
             children:R.jsx("i",
             {
-              className:"bi bi-x-lg",
+              className:"fas fa-times",
               "aria-hidden":"true"
             })
           })]
@@ -61346,7 +61342,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-inventory-settings__section-head",
               children:[R.jsx("i",
               {
-                className:"bi bi-file-earmark-text",
+                className:"fa-solid fa-sliders",
                 "aria-hidden":"true"
               }),R.jsxs("div",
               {
@@ -61380,7 +61376,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-inventory-settings__toggle",
               children:[R.jsx("i",
               {
-                className:"bi bi-check2-circle",
+                className:"fa-solid fa-power-off",
                 "aria-hidden":"true"
               }),R.jsx("span",
               {
@@ -61407,7 +61403,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-inventory-settings__section-head",
               children:[R.jsx("i",
               {
-                className:"bi bi-percent",
+                className:"fa-solid fa-eye",
                 "aria-hidden":"true"
               }),R.jsxs("div",
               {
@@ -61427,7 +61423,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-inventory-settings__toggle",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-braces",
+                  className:"fa-solid fa-percent",
                   "aria-hidden":"true"
                 }),R.jsx("span",
                 {
@@ -61450,7 +61446,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-inventory-settings__toggle",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-database",
+                  className:"fa-solid fa-database",
                   "aria-hidden":"true"
                 }),R.jsx("span",
                 {
@@ -61474,7 +61470,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-inventory-settings__action",
               children:[R.jsx("i",
               {
-                className:"bi bi-code-square",
+                className:"fa-solid fa-code",
                 "aria-hidden":"true"
               }),R.jsx("span",
               {
@@ -61487,7 +61483,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 })]
               }),R.jsx("i",
               {
-                className:"bi bi-pencil",
+                className:"fa-solid fa-pen",
                 "aria-hidden":"true"
               })]
             })]
@@ -61499,7 +61495,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-inventory-settings__section-head",
               children:[R.jsx("i",
               {
-                className:"bi bi-sliders",
+                className:"fa-solid fa-gears",
                 "aria-hidden":"true"
               }),R.jsxs("div",
               {
@@ -61544,7 +61540,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-inventory-settings__toggle",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-broom",
+                  className:"fa-solid fa-broom",
                   "aria-hidden":"true"
                 }),R.jsx("span",
                 {
@@ -61567,7 +61563,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-inventory-settings__toggle",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-hand-index",
+                  className:"fa-solid fa-hand",
                   "aria-hidden":"true"
                 }),R.jsx("span",
                 {
@@ -61590,7 +61586,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-inventory-settings__toggle",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-mouse2",
+                  className:"fa-solid fa-arrow-pointer",
                   "aria-hidden":"true"
                 }),R.jsx("span",
                 {
@@ -61631,7 +61627,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-inventory-settings__action",
               children:[R.jsx("i",
               {
-                className:"bi bi-braces",
+                className:"fa-solid fa-code",
                 "aria-hidden":"true"
               }),R.jsx("span",
               {
@@ -61644,7 +61640,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 })]
               }),R.jsx("i",
               {
-                className:"bi bi-box-arrow-up-right",
+                className:"fa-solid fa-arrow-up-right-from-square",
                 "aria-hidden":"true"
               })]
             })]
@@ -61657,7 +61653,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             className:"bv2-inventory-settings__footer-note",
             children:[R.jsx("i",
             {
-              className:"bi bi-info-circle-fill",
+              className:"fa-solid fa-circle-info",
               "aria-hidden":"true"
             })," 更改会随菜单一起保存。"]
           }),R.jsx("button",
@@ -61790,27 +61786,19 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             children:[R.jsxs("div",
             {
               className:"top-profile-tools",
-              children:[R.jsx($M,
-              {
-              }),R.jsx("button",
-              {
-                type:"button",className:"tool-icon top-profile-icon",
-                "aria-label":"Toggle theme","data-tooltip":"Toggle theme",
-                onClick:()=>setTheme(theme==="dark"?"light":"dark"),
-                children:R.jsx("i",{className:theme==="dark"?"fa-solid fa-sun":"fa-solid fa-moon"})
-              }),R.jsx("button",
-              {
-                type:"button",
-                className:"tool-icon top-profile-icon",
-                "data-tooltip":"操作说明",
-                "aria-label":"操作说明",
-                onClick:()=>h(!0),
-                children:R.jsx("i",
-                {
-                  className:"bi bi-info-lg",
-                  "aria-hidden":"true"
+              children:[
+                R.jsx("a", { className:"tool-icon top-profile-icon", href:"https://minecraft-inventory-builder.com/builder", target:"_blank", "data-tooltip":"Home", "aria-label":"Home", children:R.jsx("i", { className:"fa-solid fa-house" }) }),
+                R.jsx("a", { className:"tool-icon top-profile-icon", href:"https://minecraft-inventory-builder.com/profile", target:"_blank", "data-tooltip":"Profile", "aria-label":"Profile", children:R.jsx("i", { className:"fa-solid fa-user" }) }),
+                R.jsx("a", { className:"tool-icon top-profile-icon", href:"https://minecraft-inventory-builder.com/pricing", target:"_blank", "data-tooltip":"Pricing", "aria-label":"Pricing", children:R.jsx("i", { className:"fa-solid fa-gem" }) }),
+                R.jsx("a", { className:"tool-icon top-profile-icon", href:"https://minecraft-inventory-builder.com/docs", target:"_blank", rel:"noopener noreferrer", "data-tooltip":"Documentation", "aria-label":"Documentation", children:R.jsx("i", { className:"fa-solid fa-book" }) }),
+                R.jsx("button", { type:"button", className:"tool-icon top-profile-icon", "data-tooltip":"Keyboard shortcuts (?)", "aria-label":"Keyboard shortcuts", onClick:()=>h(!0), children:R.jsx("i", { className:"fa-solid fa-keyboard" }) }),
+                R.jsx("button", {
+                  type:"button", className:"tool-icon top-profile-icon",
+                  "aria-label":"Toggle theme", "data-tooltip":theme==="dark"?"Switch to light theme":"Switch to dark theme",
+                  onClick:()=>setTheme(theme==="dark"?"light":"dark"),
+                  children:R.jsx("i", { className:theme==="dark"?"fa-solid fa-sun":"fa-solid fa-moon" })
                 })
-              })]
+              ]
             }),R.jsxs("div",
             {
               className:"top-project-meta",
@@ -61856,7 +61844,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                       children:x
                     }),R.jsx("i",
                     {
-                      className:"bi bi-pencil",
+                      className:"fa-solid fa-pen",
                       "aria-hidden":"true"
                     })]
                   })
@@ -61912,19 +61900,23 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                         children:"54"
                       })]
                     })]
-                  }),R.jsx("button",
+                  }),R.jsx("div",
                   {
-                    type:"button",
-                    className:"tool-icon bv2-topbar__settings",
-                    "data-tooltip":"打开菜单设置",
-                    "aria-label":"打开菜单设置",
-                    onClick:openSettings,
-                    children:R.jsx("i",
+                    className:"bv2-topbar__settings",
+                    children:R.jsx("button",
                     {
-                      className:"bi bi-gear-fill",
-                      "aria-hidden":"true"
+                      type:"button",
+                      className:"tool-icon",
+                      "data-tooltip":"打开菜单设置",
+                      "aria-label":"打开菜单设置",
+                      onClick:openSettings,
+                      children:R.jsx("i",
+                      {
+                        className:"fa-solid fa-gear",
+                        "aria-hidden":"true"
+                      })
                     })
-                  })]
+                  })]  
                 })]
               })]
             })
@@ -61939,106 +61931,92 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           }),R.jsxs("div",
           {
             className:"header-actions",
-            children:[R.jsx("button",
-            {type:"button",className:"tool-icon","aria-label":"Undo","data-tooltip":"Undo (Ctrl+Z)",disabled:!history.canUndo,onClick:history.undo,children:R.jsx("i",{className:"bi bi-arrow-counterclockwise"})}),R.jsx("button",
-            {type:"button",className:"tool-icon","aria-label":"Redo","data-tooltip":"Redo (Ctrl+Shift+Z)",disabled:!history.canRedo,onClick:history.redo,children:R.jsx("i",{className:"bi bi-arrow-clockwise"})}),R.jsx("button",
-            {
-              type:"button",
-              className:"tool-icon header-theme-btn save-btn save-btn-inline",
-              disabled:!i,
-              "data-tooltip":i?"保存":"没有待保存的更改",
-              "aria-label":"保存",
-              onClick:r,
-              children:R.jsx("i",
-              {
-                className:"bi bi-floppy-fill",
-                "aria-hidden":"true"
+            children:[
+              R.jsxs("div", {
+                className:"bv2-history-group",
+                children:[
+                  R.jsx("button", { type:"button", className:"tool-icon", "aria-label":"Undo", "data-tooltip":"Undo (Ctrl+Z)", disabled:!history.canUndo, onClick:history.undo, children:R.jsx("i", { className:"fa-solid fa-rotate-left" }) }),
+                  R.jsx("button", { type:"button", className:"tool-icon", "aria-label":"Redo", "data-tooltip":"Redo (Ctrl+Shift+Z)", disabled:!history.canRedo, onClick:history.redo, children:R.jsx("i", { className:"fa-solid fa-rotate-right" }) })
+                ]
+              }),
+              R.jsx("div", {
+                className:"save-btn-wrap",
+                children:R.jsx("button", {
+                  type:"button",
+                  className:"ghost header-theme-btn save-btn save-btn-inline",
+                  disabled:!i,
+                  "data-tooltip":i?"Save":"Saved",
+                  "aria-label":"Save",
+                  onClick:r,
+                  children:R.jsx("i", { className:"fa-solid fa-floppy-disk", "aria-hidden":"true" })
+                })
+              }),
+              R.jsxs("button", {
+                type:"button",
+                className:"ghost action-with-icon",
+                title:"View YAML",
+                onClick:o,
+                children:[
+                  R.jsx("span", { className:"btn-icon", children:R.jsx("i", { className:"fa-solid fa-eye", "aria-hidden":"true" }) }),
+                  R.jsx("span", { className:"btn-label", children:"View YAML" })
+                ]
+              }),
+              R.jsxs("button", {
+                type:"button",
+                className:"primary action-with-icon",
+                onClick:s,
+                children:[
+                  R.jsx("span", { className:"btn-icon", children:R.jsx("i", { className:"fa-solid fa-download", "aria-hidden":"true" }) }),
+                  R.jsx("span", { className:"btn-label", children:"Download YAML" })
+                ]
+              }),
+              R.jsx("input", {
+                ref:m,
+                type:"file",
+                accept:".yml,.yaml,text/yaml,application/x-yaml",
+                hidden:!0,
+                onChange:k
+              }),
+              R.jsxs("button", {
+                type:"button",
+                className:"ghost action-with-icon",
+                onClick:()=>{ var S; return (S=m.current)==null?void 0:S.click(); },
+                children:[
+                  R.jsx("span", { className:"btn-icon", children:R.jsx("i", { className:"fa-solid fa-file-import", "aria-hidden":"true" }) }),
+                  R.jsx("span", { className:"btn-label", children:"Import YAML" })
+                ]
+              }),
+              R.jsxs("button", {
+                type:"button",
+                className:"ghost action-with-icon",
+                title:"Create and manage reusable zMenu button patterns",
+                onClick:patterns.open,
+                children:[
+                  R.jsx("span", { className:"btn-icon", children:R.jsx("i", { className:"fa-solid fa-puzzle-piece", "aria-hidden":"true" }) }),
+                  R.jsx("span", { className:"btn-label", children:"Patterns" })
+                ]
+              }),
+              R.jsxs("span", {
+                className:"bv2-sync-group",
+                children:[
+                  R.jsxs("button", {
+                    type:"button",
+                    className:"ghost action-with-icon",
+                    title:"Sync to your Minecraft server",
+                    children:[
+                      R.jsx("span", { className:"btn-icon", children:R.jsx("i", { className:"fa-solid fa-tower-broadcast", "aria-hidden":"true" }) }),
+                      R.jsx("span", { className:"btn-label", children:"Sync to Server" })
+                    ]
+                  }),
+                  R.jsx("button", {
+                    type:"button",
+                    className:"ghost bv2-sync-gear",
+                    title:"Sync settings (servers, destination, confirmation)",
+                    children:R.jsx("i", { className:"fa-solid fa-gear", "aria-hidden":"true" })
+                  })
+                ]
               })
-            }),R.jsxs("button",
-            {
-              type:"button",
-              className:"ghost action-with-icon",
-              title:"View YAML",
-              onClick:o,
-              children:[R.jsx("span",
-              {
-                className:"btn-icon",
-                children:R.jsx("i",
-                {
-                  className:"fa-solid fa-eye",
-                  "aria-hidden":"true"
-                })
-              }),R.jsx("span",
-              {
-                className:"btn-label",
-                children:"View YAML"
-              })]
-            }),R.jsxs("button",
-            {
-              type:"button",
-              className:"primary action-with-icon",
-              onClick:s,
-              children:[R.jsx("span",
-              {
-                className:"btn-icon",
-                children:R.jsx("i",
-                {
-                  className:"bi bi-cloud-download",
-                  "aria-hidden":"true"
-                })
-              }),R.jsx("span",
-              {
-                className:"btn-label",
-                children:"Download YAML"
-              })]
-            }),R.jsx("input",
-            {
-              ref:m,
-              type:"file",
-              accept:".yml,.yaml,text/yaml,application/x-yaml",
-              hidden:!0,
-              onChange:k
-            }),R.jsxs("button",
-            {
-              type:"button",
-              className:"ghost action-with-icon",
-              onClick:()=>{
-                var S;
-                return(S=m.current)==null?void 0:S.click()
-              },
-              children:[R.jsx("span",
-              {
-                className:"btn-icon",
-                children:R.jsx("i",
-                {
-                  className:"bi bi-file-earmark-arrow-up",
-                  "aria-hidden":"true"
-                })
-              }),R.jsx("span",
-              {
-                className:"btn-label",
-                children:"Import YAML"
-              })]
-            }),R.jsxs("button",
-            {
-              type:"button",
-              className:"ghost action-with-icon",
-              title:"Create and manage reusable zMenu button patterns",
-              onClick:patterns.open,
-              children:[R.jsx("span",
-              {
-                className:"btn-icon",
-                children:R.jsx("i",
-                {
-                  className:"fa-solid fa-puzzle-piece",
-                  "aria-hidden":"true"
-                })
-              }),R.jsx("span",
-              {
-                className:"btn-label",
-                children:"Patterns"
-              })]
-            })]
+            ]
           })]
         })]
       }),R.jsx(HM,
@@ -62652,21 +62630,21 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     doc:m
   })=>R.jsx("label",
   {
-    className:"button-behaviour-toggle",
+    className:"bv2-toggle",
     children:[R.jsx("i",
     {
-      className:`button-behaviour-toggle__icon ${h}`,
+      className:`bv2-toggle__icon ${h}`,
       "aria-hidden":"true"
     }),R.jsxs("span",
     {
-      className:"button-behaviour-toggle__text",
+      className:"bv2-toggle__text",
       children:[R.jsx("span",
       {
-        className:"button-behaviour-toggle__label",
+        className:"bv2-toggle__label",
         children:c
       }),R.jsx("span",
       {
-        className:"button-behaviour-toggle__desc",
+        className:"bv2-toggle__desc",
         children:d
       })]
     }),R.jsx("a",
@@ -62674,18 +62652,18 @@ Valid keys: `+JSON.stringify(Object.keys(X),
       href:m,
       target:"_blank",
       rel:"noopener noreferrer",
-      className:"button-behaviour-docs-link",
-      title:`打开文档：${c}`,
-      "aria-label":`打开文档：${c}`,
+      className:"bv2-docs-link",
+      title:`Open documentation: ${c}`,
+      "aria-label":`Open documentation: ${c}`,
       onClick:L=>L.stopPropagation(),
       children:R.jsx("i",
       {
-        className:"bi bi-box-arrow-up-right",
+        className:"fa-solid fa-arrow-up-right-from-square",
         "aria-hidden":"true"
       })
     }),R.jsxs("span",
     {
-      className:"button-behaviour-switch",
+      className:"bv2-toggle__switch",
       children:[R.jsx("input",
       {
         type:"checkbox",
@@ -62694,7 +62672,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         checked:i.button?.[s]??!1
       }),R.jsx("span",
       {
-        className:"button-behaviour-track",
+        className:"bv2-toggle__track",
         "aria-hidden":"true"
       })]
     })]
@@ -62709,7 +62687,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     name:"is_permanent",
     label:"Is Permanent",
     description:"Keep this item on every page",
-    icon:"bi bi-pin-angle-fill",
+    icon:"fas fa-thumbtack",
     doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#is-permanent"
   }),
   KM=({
@@ -62722,7 +62700,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     name:"close_inventory",
     label:"Close Inventory",
     description:"Close the menu when clicked",
-    icon:"bi bi-door-open-fill",
+    icon:"fas fa-door-open",
     doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#close-inventory"
   }),
   QM=({
@@ -62735,7 +62713,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     name:"refresh_on_click",
     label:"Refresh on Click",
     description:"Refresh this button after a click",
-    icon:"bi bi-arrow-repeat",
+    icon:"fas fa-rotate",
     doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#refresh-on-click"
   }),
   XM=({
@@ -62748,7 +62726,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     name:"update_on_click",
     label:"Update on Click",
     description:"Update the inventory after a click",
-    icon:"bi bi-arrow-clockwise",
+    icon:"fas fa-arrows-rotate",
     doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#update-on-click"
   }),
   JM=({
@@ -62761,7 +62739,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     name:"update",
     label:"Auto Update",
     description:"Refresh this button on a timer",
-    icon:"bi bi-clock-history",
+    icon:"fas fa-clock-rotate-left",
     doc:"https://docs.groupez.dev/zmenu/configurations/buttons/button#update"
   }),
   ZM=({
@@ -62785,7 +62763,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         children:["(",
         R.jsx("i",
         {
-          className:"bi bi-question-lg"
+          className:"fa-solid fa-question"
         }),
         ")"]
       })]
@@ -62954,7 +62932,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           children:["(",
           R.jsx("i",
           {
-            className:"bi bi-question-lg"
+            className:"fa-solid fa-question"
           }),
           ")"]
         })]
@@ -62990,7 +62968,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           children:["(",
           R.jsx("i",
           {
-            className:"bi bi-question-lg"
+            className:"fa-solid fa-question"
           }),
           ")"]
         })]
@@ -63026,7 +63004,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           children:["(",
           R.jsx("i",
           {
-            className:"bi bi-question-lg"
+            className:"fa-solid fa-question"
           }),
           ")"]
         })]
@@ -63653,7 +63631,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             "aria-label":"Open documentation: Actions",
             children:R.jsx("i",
             {
-              className:"bi bi-box-arrow-up-right",
+              className:"fa-solid fa-arrow-up-right-from-square",
               "aria-hidden":!0
             })
           })]
@@ -63668,7 +63646,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           onClick:()=>setPickerOpen(!0),
           children:[R.jsx("i",
           {
-            className:"bi bi-plus-lg",
+            className:"fas fa-plus",
             "aria-hidden":!0
           })," Add"]
         })]
@@ -63697,7 +63675,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               onClick:()=>setPickerOpen(!1),
               children:R.jsx("i",
               {
-                className:"bi bi-x-lg"
+                className:"fas fa-times"
               })
             })]
           }),R.jsx("div",
@@ -63759,7 +63737,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             }:void 0,
             children:[o==="Actions"&&R.jsx("i",
             {
-              className:"bi bi-grip-vertical bv2-action-item__handle",
+              className:"fa-solid fa-grip-vertical bv2-action-item__handle",
               title:"Drag to reorder"
             }),o==="Actions"?R.jsx("span",
             {
@@ -63794,7 +63772,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               "aria-label":`Open documentation: ${(actionCatalogItem(te.type)||{}).label||actionDisplayName(te.type)}`,
               children:R.jsx("i",
               {
-                className:"bi bi-box-arrow-up-right",
+                className:"fa-solid fa-arrow-up-right-from-square",
                 "aria-hidden":!0
               })
             }),R.jsx("button",
@@ -63809,7 +63787,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               }),
               children:o==="Actions"?R.jsx("i",
               {
-                className:"bi bi-sliders2",
+                className:"fa-solid fa-sliders",
                 "aria-hidden":!0
               }):R.jsx("span",
               {
@@ -63824,7 +63802,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               onClick:()=>k(me),
               children:o==="Actions"?R.jsx("i",
               {
-                className:"bi bi-x-lg",
+                className:"fas fa-times",
                 "aria-hidden":!0
               }):R.jsx("span",
               {
@@ -64125,7 +64103,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         onClick:Z=>Z.stopPropagation(),
         children:R.jsx("i",
         {
-          className:"bi bi-box-arrow-up-right"
+          className:"fa-solid fa-arrow-up-right-from-square"
         })
       })]
     }),
@@ -64173,7 +64151,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             onClick:I=>I.stopPropagation(),
             children:R.jsx("i",
             {
-              className:"bi bi-box-arrow-up-right"
+              className:"fa-solid fa-arrow-up-right-from-square"
             })
           })]
         }),Z&&R.jsx("span",
@@ -64207,7 +64185,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           className:"bv2-pattern-source-card__icon",
           children:R.jsx("i",
           {
-            className:"bi bi-puzzle-fill"
+            className:"fa-solid fa-puzzle-piece"
           })
         }),R.jsxs("div",
         {
@@ -64237,21 +64215,21 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           className:"bv2-pattern-source-card__impact-item",
           children:[R.jsx("i",
           {
-            className:"bi bi-lock-fill"
+            className:"fa-solid fa-lock"
           }),"Item locked"]
         }),R.jsxs("span",
         {
           className:"bv2-pattern-source-card__impact-item",
           children:[R.jsx("i",
           {
-            className:"bi bi-lightning-charge-fill"
+            className:"fa-solid fa-bolt"
           }),"Actions inherited"]
         }),R.jsxs("span",
         {
           className:"bv2-pattern-source-card__impact-item",
           children:[R.jsx("i",
           {
-            className:"bi bi-sliders2"
+            className:"fa-solid fa-sliders"
           }),"Variables editable"]
         })]
       }),R.jsxs("div",
@@ -64290,7 +64268,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           title:"Use pattern",
           children:[R.jsx("i",
           {
-            className:"bi bi-link-45deg"
+            className:"fa-solid fa-link"
           })," Use pattern"]
         })]
       }),R.jsxs("div",
@@ -64298,7 +64276,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         className:"bv2-pattern-source-card__hint",
         children:[R.jsx("i",
         {
-          className:"bi bi-info-circle-fill"
+          className:"fa-solid fa-circle-info"
         }),"Pattern mode opens a full-width variable editor. The change can be undone with Ctrl+Z."]
       })]
     }),
@@ -64467,7 +64445,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           onClick:Z,
           children:[R.jsx("i",
           {
-              className:"bi bi-plus-lg"
+              className:"fas fa-plus"
             })," Add"]
           })]
         }),Array.isArray(L)&&L.length>0?L.map((I,se)=>{
@@ -64810,14 +64788,14 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           name:"comment",
           rows:2,
           value:m.button.comment??"",
-          placeholder:"In a few words, what does this button do?",
+          placeholder:"In a few words, what does this button do? exported as a YAML comment.",
           onChange:k
         }),R.jsx("small",
         {
           children:["Exported as a ",R.jsx("code",
           {
             children:"#"
-          })," comment above this button."]
+          })," comment above this button (when comments are enabled)."]
         })]
       }),R.jsx("div",
       {
@@ -64877,7 +64855,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             "aria-hidden":!0,
             children:[R.jsx("i",
             {
-              className:"bi bi-box"
+              className:"fas fa-cube"
             }),Z.plugin!=null&&Z.plugin.icon_url&&R.jsx("img",
             {
               src:Z.plugin.icon_url,
@@ -64906,7 +64884,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-button-type-card__selected",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-check2"
+                  className:"fas fa-check"
                 })," Selected"]
               })]
             }),R.jsx("span",
@@ -64921,35 +64899,35 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 title:"Configuration fields",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-sliders"
+                  className:"fa-solid fa-sliders"
                 })," ",se," ",se===1?"option":"options"]
               }),te>0&&R.jsxs("span",
               {
                 title:"Available placeholders",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-code"
+                  className:"fa-solid fa-code"
                 })," ",te," placeholders"]
               }),Z.supportsFallback!==!1&&R.jsxs("span",
               {
                 title:"Supports an else button",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-diagram-3"
+                  className:"fas fa-code-branch"
                 })," Fallback"]
               }),me>1&&R.jsxs("span",
               {
                 title:"Preview states",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-eye"
+                  className:"fas fa-eye"
                 })," ",me," states"]
               }),Z.documentation_url&&R.jsxs("span",
               {
                 title:"Documentation is available",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-book"
+                  className:"fas fa-book-open"
                 })," Docs"]
               })]
             })]
@@ -64959,7 +64937,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             "aria-hidden":!0,
             children:[I?"Current type":"Choose"," ",R.jsx("i",
             {
-              className:"bi bi-arrow-right"
+              className:"fas fa-arrow-right"
             })]
           })]
         },`type-card-${Z.id}`)
@@ -64968,7 +64946,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         className:"bv2-button-type-picker__empty",
         children:[R.jsx("i",
         {
-          className:"bi bi-search"
+          className:"fas fa-magnifying-glass"
         }),R.jsx("strong",
         {
           children:"No matching button types"
@@ -64996,7 +64974,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             className:"bv2-button-plugin-browser__search",
             children:[R.jsx("i",
             {
-              className:"bi bi-search",
+              className:"fas fa-magnifying-glass",
               "aria-hidden":!0
             }),R.jsx("input",
             {
@@ -65012,7 +64990,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               onClick:()=>setTypePickerPluginQuery(""),
               children:R.jsx("i",
               {
-                className:"bi bi-x"
+                className:"fas fa-times"
               })
             })]
           }),R.jsx("div",
@@ -65030,7 +65008,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 "aria-hidden":!0,
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-box"
+                  className:"fas fa-cube"
                 }),V.icon&&R.jsx("img",
                 {
                   src:V.icon,
@@ -65050,7 +65028,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 })]
               }),R.jsx("i",
               {
-                className:"bi bi-chevron-right",
+                className:"fas fa-chevron-right",
                 "aria-hidden":!0
               })]
             },V.name)):R.jsxs("div",
@@ -65058,7 +65036,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               className:"bv2-button-plugin-browser__no-plugin",
               children:[R.jsx("i",
               {
-                className:"bi bi-search"
+                className:"fas fa-magnifying-glass"
               }),R.jsx("strong",
               {
                 children:"No plugins found"
@@ -65077,7 +65055,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               "aria-hidden":!0,
               children:[R.jsx("i",
               {
-                className:"bi bi-box"
+                className:"fas fa-cube"
               }),activePlugin.icon&&R.jsx("img",
               {
                 src:activePlugin.icon,
@@ -65105,7 +65083,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             className:"bv2-button-plugin-browser__empty",
             children:[R.jsx("i",
             {
-              className:"bi bi-box"
+              className:"fas fa-cube"
             }),R.jsx("strong",
             {
               children:"No button types for this plugin"
@@ -65144,7 +65122,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               "aria-label":"Close button type picker",
               children:R.jsx("i",
               {
-                className:"bi bi-x-lg"
+                className:"fas fa-times"
               })
             })]
           }),R.jsxs("div",
@@ -65158,7 +65136,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 className:"bv2-button-type-picker__search",
                 children:[R.jsx("i",
                 {
-                  className:"bi bi-search",
+                  className:"fas fa-magnifying-glass",
                   "aria-hidden":!0
                 }),R.jsx("input",
                 {
@@ -65175,7 +65153,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                   "aria-label":"Clear search",
                   children:R.jsx("i",
                   {
-                    className:"bi bi-x"
+                    className:"fas fa-times"
                   })
                 })]
               }),R.jsxs("div",
@@ -65191,7 +65169,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                   onClick:()=>setTypePickerMode("all"),
                   children:[R.jsx("i",
                   {
-                    className:"bi bi-grid"
+                    className:"fas fa-border-all"
                   })," All"]
                 }),R.jsxs("button",
                 {
@@ -65205,7 +65183,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                   },
                   children:[R.jsx("i",
                   {
-                    className:"bi bi-layers"
+                    className:"fas fa-layer-group"
                   })," By plugin"]
                 })]
               }),R.jsxs("label",
@@ -65464,7 +65442,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 "aria-label":"Open documentation: Error item",
                 children:R.jsx("i",
                 {
-                  className:"bi bi-box-arrow-up-right"
+                  className:"fa-solid fa-arrow-up-right-from-square"
                 })
               })]
             }),field("error_item_material","Material","text","BARRIER"),field("error_item_name","Name"),field("error_item_lore","Lore","textarea"),R.jsx("small",
@@ -65555,7 +65533,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                   onClick:()=>openGroupEditor(null),
                   children:[R.jsx("i",
                   {
-                    className:"bi bi-plus-lg"
+                    className:"fas fa-plus"
                   })," Add group"]
                 })]
               }),clickGroups.length>0?clickGroups.map((L,G)=>R.jsxs("div",
@@ -65647,7 +65625,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         "aria-label":"Expand Button",
         children:[R.jsx("i",
         {
-          className:"bi bi-chevron-right",
+          className:"fas fa-chevron-right",
           "aria-hidden":"true"
         }),R.jsx("span",
         {
@@ -65657,6 +65635,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     }):R.jsxs("div",
     {
       className:"bv2-right-panel__col configurations-button",
+      style:{flex:"55 1 0px"},
       children:[R.jsxs("div",
       {
         className:"bv2-right-panel__col-header",
@@ -65671,10 +65650,20 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           onClick:()=>setButtonPanelCollapsed(!0),
           title:"Collapse",
           "aria-label":"Collapse Button",
-          children:R.jsx("i",
+          children:R.jsx("svg",
           {
-            className:"bi bi-x-lg",
-            "aria-hidden":"true"
+            width:"12",
+            height:"12",
+            viewBox:"0 0 24 24",
+            fill:"none",
+            stroke:"currentColor",
+            strokeWidth:"2",
+            strokeLinecap:"round",
+            strokeLinejoin:"round",
+            children:R.jsx("path",
+            {
+              d:"M18 6 6 18M6 6l12 12"
+            })
           })
         })]
       }),R.jsx("div",
@@ -65704,7 +65693,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         "aria-label":"Open documentation: Display Name",
         children:R.jsx("i",
         {
-          className:"bi bi-box-arrow-up-right",
+          className:"fa-solid fa-arrow-up-right-from-square",
           "aria-hidden":"true"
         })
       })]
@@ -65743,7 +65732,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         "aria-label":"Open documentation: Lore",
         children:R.jsx("i",
         {
-          className:"bi bi-box-arrow-up-right",
+          className:"fa-solid fa-arrow-up-right-from-square",
           "aria-hidden":"true"
         })
       })]
@@ -65782,7 +65771,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         "aria-label":"Open documentation: Amount",
         children:R.jsx("i",
         {
-          className:"bi bi-box-arrow-up-right",
+          className:"fa-solid fa-arrow-up-right-from-square",
           "aria-hidden":"true"
         })
       })]
@@ -65811,7 +65800,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         className:"bv2-toggle",
         children:[R.jsx("i",
         {
-          className:"bi bi-magic bv2-toggle__icon",
+          className:"bv2-toggle__icon fas fa-wand-magic-sparkles",
           "aria-hidden":"true"
         }),R.jsxs("span",
         {
@@ -65836,7 +65825,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           onClick:s=>s.stopPropagation(),
           children:R.jsx("i",
           {
-            className:"bi bi-box-arrow-up-right",
+            className:"fa-solid fa-arrow-up-right-from-square",
             "aria-hidden":"true"
           })
         }),R.jsxs("span",
@@ -65878,7 +65867,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         "aria-label":"Open documentation: Model ID",
         children:R.jsx("i",
         {
-          className:"bi bi-box-arrow-up-right",
+          className:"fa-solid fa-arrow-up-right-from-square",
           "aria-hidden":"true"
         })
       })]
@@ -66080,7 +66069,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
               children:["(",
               R.jsx("i",
               {
-                className:"bi bi-question-lg"
+                className:"fa-solid fa-question"
               }),
               ")"]
             })]
@@ -66278,7 +66267,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         onClick:event=>event.stopPropagation(),
         children:R.jsx("i",
         {
-          className:"bi bi-box-arrow-up-right",
+          className:"fa-solid fa-arrow-up-right-from-square",
           "aria-hidden":"true"
         })
       })]
@@ -66346,7 +66335,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
             onClick:()=>updateEntry(index,"",void 0),
             children:R.jsx("i",
             {
-              className:"bi bi-x-lg",
+              className:"fas fa-times",
               "aria-hidden":"true"
             })
           })]
@@ -66359,7 +66348,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         onClick:addEntry,
         children:[R.jsx("i",
         {
-          className:"bi bi-plus-lg",
+          className:"fas fa-plus",
           "aria-hidden":"true"
         })," Add entry"]
       })]
@@ -66416,7 +66405,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
                 onClick:()=>onChange(rows.filter((rowValue,rowIndex)=>rowIndex!==index)),
                 children:R.jsx("i",
                 {
-                  className:"bi bi-x-lg",
+                  className:"fas fa-times",
                   "aria-hidden":"true"
                 })
               })]
@@ -66438,7 +66427,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           onClick:()=>onChange([...(Array.isArray(current)?current:[]),{}]),
           children:[R.jsx("i",
           {
-            className:"bi bi-plus-lg",
+            className:"fas fa-plus",
             "aria-hidden":"true"
           })," Add ",String(field.itemLabel||"entry").toLowerCase()]
         }),field.help&&R.jsx("small",
@@ -66742,7 +66731,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           className:"bv2-toggle",
           children:[R.jsx("i",
           {
-            className:"bi bi-pin-angle-fill bv2-toggle__icon",
+            className:"bv2-toggle__icon fas fa-thumbtack",
             "aria-hidden":"true"
           }),R.jsxs("span",
           {
@@ -66864,7 +66853,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
         "aria-label":"Expand Item Stack",
         children:[R.jsx("i",
         {
-          className:"bi bi-chevron-right",
+          className:"fas fa-chevron-right",
           "aria-hidden":"true"
         }),R.jsx("span",
         {
@@ -66874,6 +66863,7 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     }):R.jsxs("div",
     {
       className:"bv2-right-panel__col configurations-itemstack",
+      style:{flex:"45 1 0px"},
       children:[R.jsxs("div",
       {
         className:"bv2-right-panel__col-header",
@@ -66888,10 +66878,20 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           onClick:()=>setItemPanelCollapsed(!0),
           title:"Collapse",
           "aria-label":"Collapse Item Stack",
-          children:R.jsx("i",
+          children:R.jsx("svg",
           {
-            className:"bi bi-x-lg",
-            "aria-hidden":"true"
+            width:"12",
+            height:"12",
+            viewBox:"0 0 24 24",
+            fill:"none",
+            stroke:"currentColor",
+            strokeWidth:"2",
+            strokeLinecap:"round",
+            strokeLinejoin:"round",
+            children:R.jsx("path",
+            {
+              d:"M18 6 6 18M6 6l12 12"
+            })
           })
         })]
       }),R.jsx("div",
@@ -67541,27 +67541,20 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     pe,
     ge,
     Me=!1,
-    ft=null)=>R.jsx("button",
+    tooltip=null,
+    ariaLabel=null)=>R.jsx("button",
     {
       type:"button",
       className:`bv2-clip-bar__btn${Me?" bv2-clip-bar__btn--danger":""}`,
-      title:re,
-      "aria-label":re,
-      "data-tooltip":re,
+      title:tooltip||re,
+      "aria-label":ariaLabel||tooltip||re,
+      "data-tooltip":tooltip||re,
       disabled:ge,
       onClick:pe,
-      children:R.jsxs("span",
+      children:R.jsx("i",
       {
-        className:"bv2-clip-bar__btn-content",
-        children:[R.jsx("i",
-        {
-          className:ee,
-          "aria-hidden":"true"
-        }),
-        ft!=null&&R.jsx("span",
-        {
-          children:ft
-        })]
+        className:ee,
+        "aria-hidden":"true"
       })
     },
     re),
@@ -67569,42 +67562,47 @@ Valid keys: `+JSON.stringify(Object.keys(X),
     {
       className:"bv2-clip-bar",
       role:"toolbar",
-      "aria-label":"Slot tools",
-      children:[clipButton("bi bi-copy",
+      "aria-label":"Button clipboard",
+      children:[clipButton("fa-solid fa-copy",
       "Copy",
       copySlots,
       !hasActionSlots,
       !1,
-      null),
-      clipButton("bi bi-scissors",
+      "Copy (Ctrl+C)",
+      "Copy button"),
+      clipButton("fa-solid fa-scissors",
       "Cut",
       cutSlots,
       !hasActionSlots,
       !1,
-      null),
-      clipButton("bi bi-clipboard",
+      "Cut (Ctrl+X)",
+      "Cut button"),
+      clipButton("fa-solid fa-paste",
       "Paste",
       pasteSlots,
       clipboardSlots.length===0||L.currentSlot<0,
       !1,
-      null),
-      clipButton("bi bi-files",
+      "Paste (Ctrl+V)",
+      "Paste button"),
+      clipButton("fa-solid fa-clone",
       "Duplicate",
       duplicateSlots,
       !hasActionSlots,
       !1,
-      null),
+      "Duplicate (Ctrl+D)",
+      "Duplicate button"),
       R.jsx("span",
       {
         className:"bv2-clip-bar__sep",
         "aria-hidden":"true"
       }),
-      clipButton("bi bi-eraser",
+      clipButton("fa-solid fa-eraser",
       "Reset slot (Del)",
       resetSlots,
       !hasActionSlots,
       !0,
-      null)]
+      "Reset slot (Del)",
+      "Clear slot - reset item, button and else chain")]
     });
     return R.jsx("main",
     {
@@ -67657,7 +67655,26 @@ Valid keys: `+JSON.stringify(Object.keys(X),
           children:[R.jsxs("div",
           {
             className:"configurations bv2-right-panel",
-            children:[clipBar,
+            children:[hasActionSlots&&clipBar,
+            hasActionSlots&&R.jsxs("div",
+            {
+              className:"bv2-else-topbar",
+              children:[
+                R.jsx("button",
+                {
+                  type:"button",
+                  className:"bv2-tab bv2-else-topbar__chip bv2-tab--active",
+                  children:"Button 1"
+                }),
+                R.jsxs("button",
+                {
+                  type:"button",
+                  className:"bv2-tab bv2-else-topbar__add",
+                  title:"Add an else button",
+                  children:[R.jsx("i", { className:"fas fa-plus", "aria-hidden":"true" }), " Add else"]
+                })
+              ]
+            }),
             R.jsxs("div",
           {
             className:"bv2-right-panel__cols",

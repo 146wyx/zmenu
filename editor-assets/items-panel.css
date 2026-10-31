@@ -164,7 +164,7 @@ html[data-theme="light"] #inventory-editor {
 
 #inventory-editor .top-controls-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(max-content, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 6px;
   align-items: stretch;
   min-width: 0;
@@ -201,7 +201,8 @@ html[data-theme="light"] #inventory-editor {
 
 #inventory-editor .top-controls-left {
   justify-self: start;
-  width: min(355px, 100%);
+  width: fit-content;
+  max-width: 100%;
 }
 
 #inventory-editor .top-controls-center {
@@ -228,8 +229,8 @@ html[data-theme="light"] #inventory-editor {
 
 #inventory-editor .top-controls-right {
   justify-self: end;
-  width: auto;
-  max-width: min(640px, 100%);
+  width: fit-content;
+  max-width: 100%;
 }
 
 #inventory-editor .top-toolbar-title {
@@ -2775,4 +2776,151 @@ body.bv2-right-panel-resizing * {
   font-size: 11px;
   line-height: 17px;
   resize: vertical;
+}
+
+#inventory-editor .bv2-history-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+#inventory-editor .bv2-history-group .tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  min-width: 31px;
+  min-height: 31px;
+  padding: 0;
+  border-radius: 4px;
+  background: rgba(43, 56, 76, 0.5);
+  border: 1px solid rgba(52, 66, 89, 0.7);
+  color: #cbd5e1;
+}
+#inventory-editor .bv2-history-group .tool-icon:disabled {
+  opacity: 0.4;
+  cursor: default;
+  color: rgb(101, 117, 139);
+}
+#inventory-editor .save-btn-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+#inventory-editor .save-btn.save-btn-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  min-width: 31px;
+  min-height: 31px;
+  padding: 0;
+  border-radius: 4px;
+  background: rgba(43, 56, 76, 0.5);
+  border: 1px solid rgba(52, 66, 89, 0.7);
+  color: rgb(101, 117, 139);
+}
+#inventory-editor .save-btn.save-btn-inline:not(:disabled) {
+  color: #e4edf8;
+  border-color: #38bdf8;
+  cursor: pointer;
+}
+#inventory-editor .save-btn.save-btn-inline:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+#inventory-editor .bv2-sync-group {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+}
+#inventory-editor .bv2-sync-gear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  min-width: 31px;
+  height: 29px;
+  border-radius: 4px;
+  background: rgba(43, 56, 76, 0.5);
+  border: 1px solid rgba(52, 66, 89, 0.7);
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+#inventory-editor .bv2-sync-gear:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #fff;
+}
+#inventory-editor .bv2-sync-gear i {
+  font-size: 0.8rem;
+}
+#inventory-editor .bv2-topbar__settings {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+#inventory-editor .bv2-topbar__settings .tool-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 31px;
+  height: 31px;
+  min-width: 31px;
+  min-height: 31px;
+  padding: 0;
+  border-radius: 4px;
+  background: rgba(43, 56, 76, 0.5);
+  border: 1px solid rgba(52, 66, 89, 0.7);
+  color: #cbd5e1;
+  cursor: pointer;
+}
+#inventory-editor .bv2-topbar__settings .tool-icon:hover {
+  color: #fff;
+  border-color: #38bdf8;
+  background: rgba(56, 189, 248, 0.15);
+}
+
+
+#inventory-editor .bv2-else-topbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(20, 24, 33, 0.72);
+  overflow-x: auto;
+}
+#inventory-editor .bv2-else-topbar .bv2-tab {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+#inventory-editor .bv2-else-topbar__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+#inventory-editor .bv2-else-topbar__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  font-size: 10px;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+#inventory-editor .bv2-else-topbar__remove:hover {
+  color: #ef4444;
+  background: rgba(255, 255, 255, 0.1);
+}
+#inventory-editor .bv2-else-topbar__add {
+  color: #38bdf8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }

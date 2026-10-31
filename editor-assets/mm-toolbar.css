@@ -7,7 +7,7 @@
   src: url("./fa-solid-900-0QAG2U4F.woff2") format("woff2");
 }
 
-.fa-solid {
+.fa-solid, .fas {
   display: inline-block;
   width: 1.25em;
   font-family: "Font Awesome 7 Free";
@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-.fa-solid::before { content: var(--fa); }
+.fa-solid::before, .fas::before { content: var(--fa); }
 .fa-bold { --fa: "\f032"; }
 .fa-italic { --fa: "\f033"; }
 .fa-text-height { --fa: "\f034"; }
@@ -45,6 +45,57 @@
 .fa-toggle-on { --fa: "\f205"; }
 .fa-toggle-off { --fa: "\f204"; }
 .fa-grip-vertical { --fa: "\f58e"; }
+.fa-house { --fa: "\f015"; }
+.fa-gem { --fa: "\f3a5"; }
+.fa-book { --fa: "\f02d"; }
+.fa-keyboard { --fa: "\f11c"; }
+.fa-sun { --fa: "\f185"; }
+.fa-moon { --fa: "\f186"; }
+.fa-pen { --fa: "\f304"; }
+.fa-rotate-left { --fa: "\f2ea"; }
+.fa-rotate-right { --fa: "\f2f9"; }
+.fa-floppy-disk { --fa: "\f0c7"; }
+.fa-download { --fa: "\f019"; }
+.fa-file-import { --fa: "\f56f"; }
+.fa-tower-broadcast { --fa: "\f519"; }
+.fa-scissors { --fa: "\f0c4"; }
+.fa-paste { --fa: "\f0ea"; }
+.fa-clone { --fa: "\f24d"; }
+.fa-eraser { --fa: "\f12d"; }
+.fa-xmark { --fa: "\f00d"; }
+.fa-thumbtack { --fa: "\f08d"; }
+.fa-door-open { --fa: "\f52b"; }
+.fa-rotate { --fa: "\f2f1"; }
+.fa-arrows-rotate { --fa: "\f021"; }
+.fa-clock-rotate-left { --fa: "\f1da"; }
+.fa-arrow-up-right-from-square { --fa: "\f08e"; }
+.fa-plus { --fa: "\002b"; }
+.fa-magnifying-glass { --fa: "\f002"; }
+.fa-border-all { --fa: "\f84c"; }
+.fa-layer-group { --fa: "\f5fd"; }
+.fa-check { --fa: "\f00c"; }
+.fa-code-branch { --fa: "\f126"; }
+.fa-book-open { --fa: "\f518"; }
+.fa-code { --fa: "\f121"; }
+.fa-chevron-right { --fa: "\f054"; }
+.fa-chevron-left { --fa: "\f053"; }
+.fa-chevron-up { --fa: "\f077"; }
+.fa-chevron-down { --fa: "\f078"; }
+.fa-bolt { --fa: "\f0e7"; }
+.fa-power-off { --fa: "\f011"; }
+.fa-file-signature { --fa: "\f573"; }
+.fa-circle-info { --fa: "\f05a"; }
+.fa-hand { --fa: "\f256"; }
+.fa-arrow-pointer { --fa: "\f245"; }
+.fa-broom { --fa: "\f51a"; }
+.fa-percent { --fa: "\0025"; }
+.fa-database { --fa: "\f1c0"; }
+.fa-gears, .fa-cogs { --fa: "\f085"; }
+.fa-question, .fa-circle-question { --fa: "\f059"; }
+.fa-lock { --fa: "\f023"; }
+.fa-lock-open, .fa-unlock { --fa: "\f09c"; }
+.fa-file-lines { --fa: "\f15c"; }
+
 
 .zmm-source-field { display: none !important; }
 
